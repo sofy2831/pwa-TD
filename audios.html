@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement Audio d'urgence</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #audioControls {
+            display: none;
+            margin-top: 20px;
+        }
+        #progressContainer {
+            width: 80%;
+            background-color: #ccc;
+            margin: 20px auto;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+        }
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background-color: #007BFF;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio d'urgence</h1>
+    <button id="startRecordingBtn">Marche</button>
+    <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
+    <div id="audioControls">
+        <audio id="audioPlayer" controls></audio>
+        <br>
+        <button id="pauseRecordingBtn">Pause</button>
+        <button id="stopRecordingBtn">Arrêt</button>
+    </div>
+    <button onclick="window.history.back()">Fermer</button>
+    
+    <script>
+        let mediaRecorder;
+        let audioStream;
+        let chunks = [];
+        let isPaused = false;
+        let recordingTime = 0;
+        let progressInterval;
+
+        document.getElementById('startRecordingBtn').addEventListener('click', startRecording);
+        document.getElementById('pauseRecordingBtn').addEventListener('click', togglePause);
+        document.getElementById('stopRecordingBtn').addEventListener('click', stopRecording);
+
+        async function startRecording() {
+            try {
+                audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(audioStream);
+                mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+                mediaRecorder.onstop = saveAudio;
+
+                mediaRecorder.start();
+                document.getElementById('startRecordingBtn').style.display = 'none';
+                document.getElementById('audioControls').style.display = 'block';
+                document.getElementById('progressContainer').style.display = 'block';
+
+                recordingTime = 0;
+                progressInterval = setInterval(updateProgressBar, 100);
+            } catch (error) {
+                alert("Erreur d'accès au micro : " + error.message);
+            }
+        }
+
+        function updateProgressBar() {
+            recordingTime += 0.1; 
+            let progressBar = document.getElementById('progressBar');
+            let progress = Math.min((recordingTime / 60) * 100, 100);
+            progressBar.style.width = progress + '%';
+        }
+
+        function togglePause() {
+            if (!mediaRecorder) return;
+            if (isPaused) {
+                mediaRecorder.resume();
+                document.getElementById('pauseRecordingBtn').textContent = 'Pause';
+                progressInterval = setInterval(updateProgressBar, 100);
+            } else {
+                mediaRecorder.pause();
+                document.getElementById('pauseRecordingBtn').textContent = 'Reprendre';
+                clearInterval(progressInterval);
+            }
+            isPaused = !isPaused;
+        }
+
+        function stopRecording() {
+            if (!mediaRecorder) return;
+            mediaRecorder.stop();
+            audioStream.getTracks().forEach(track => track.stop());
+            clearInterval(progressInterval);
+        }
+
+        async function saveAudio() {
+            const blob = new Blob(chunks, { type: 'audio/wav' });
+            const audioURL = URL.createObjectURL(blob);
+            document.getElementById('audioPlayer').src = audioURL;
+
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('progressBar').style.width = '0%';
+
+            // 🔹 Générez un nom de fichier unique
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            const fileName = `audio_urgence_${timestamp}.wav`;
+
+            // 🔹 Envoi vers Dropbox
+            await uploadAudioToDropbox(blob, fileName);
+        }
+
+        async function uploadAudioToDropbox(blob, fileName) {
+            const ACCESS_TOKEN = 'sl.u.AFileMU6MtfVdwYu5_fhb5LDwIIM22YIOAgGDax3eaSd-FPm2kEl_GuorDjMVFPHv9SPSk-u7B5URMMklkcy-Dwgl246o4V4s-ASrcf1KnqZhAVgdtUM2JG6YUfkmtrtjrTp76QtBElSHObqJZ1Gz1bUpl7dQKkDm626Y8fSVveDou6bl6o4IwbtUE5e5GahqDVSMVMiB2xb01opL6KPSR9DlloxQwJ7W4Vqm65MfOI6CjHO3txXpcxe254Nyz88g-OKdNbyT97fVpTe6e8wniwzeCXUyuQvWwB5Xv-E0xspY_QRchVrJ_7MTvfFNSrYGo8R0JBJKIJZFPKp254G0Wxqv_G8rdgdmzuK8R192tAOscJHRPRq-BwtwK2wZgxNVz6pLhMJLbl4UyFH8Jo6dXpS5UAbsHTzeeoXhqYhy86e_ycnUVtH82HYYa3xEG7APLSmOoI4rZU-_zPe1bXAzNeObGUTLRTIWne3uj9XMwsbzEyTZKwkyXZeuOjyZO1qP80BNX9ua8cKeqRvgmOcExy9VW0gK3nKMxVnAqzF0rjM9Z9OtCXsdk5BIE1rxwCHWFdXUIu_DDxWFhj5jUYmLSDbAAxeOTKUkSD3LjM2FVUXcM299PPlode0-pb-P3tKy_E2JcCCyNsQEQ6JM3tqegOgC_amdB0pedj6oWLLaPZFhFwLNSrKL6_4uv6M3z6IIsptviC_xz8pc8BBLRqUvjPW50bVzEgpAsAuSCVbWjndLSUK8xQdqPqTT_mmHHpDw8URF6FAQJz9hWVDeO0sWUvMV07_NZtps114XisN2EbE__YOb07Jza3-FmMaqIjiSQsBB8YjOJN0w3rGqZWp3q-80nvxAGU9s0V_z7xpnjm7rbanHZnx7XK9uasdA5TUE_J3hP2jP4Ixk1TyE1kwMc1GYyvW1H5XLfRZefQ68fSf6ACVXRUYax81u41mM6fi6mXzty7EPEsxneXFQ0G0bIRgF1uHUCLZm-k2MSCJdXUehmoWqhbr8ahZzD6kicbSya0Jv_wixC_U4rr6VoNUOpfIlSdw78QeKjzhxNL2rd7Pjr1qbSHqjJQmi9KZngzdDCBlK_zUNZbgtlWd7JGWPopj0BwF6Txim9WP6spjDnsXP0aeckg4uXOzDFag6-7sdjo_GgC8nLCjLmNU-j8xhM4nahEDjquWadoSNjseN37tc9TcMuLAimNNDtFvSumVZcSvJg-xIZ0-Zya12r0vCsb7OzD44EQ0Ey-feoPHb7E_QVfE_aiLvzOF4yK7umyHOmg'; // ⚠️ À sécuriser côté serveur !
+            const url = 'https://content.dropboxapi.com/2/files/upload';
+            const headers = {
+                'Authorization': `Bearer ${ACCESS_TOKEN}`,
+                'Content-Type': 'application/octet-stream',
+                'Dropbox-API-Arg': JSON.stringify({
+                    path: `/ToxDetect backup/${fileName}`, // Sauvegarde dans un dossier "backup"
+                    mode: 'add',
+                    autorename: true,
+                    mute: false
+                })
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: blob
+                });
+
+                if (response.ok) {
+                    alert(`Audio enregistré sous "${fileName}" dans votre Dropbox !`);
+                } else {
+                    const errorText = await response.text();
+                    console.error("Erreur Dropbox :", errorText);
+                    alert('Erreur lors de l’enregistrement de l’audio.');
+                }
+            } catch (error) {
+                console.error("Erreur de connexion à Dropbox :", error);
+                alert('Erreur lors de l’accès à Dropbox.');
+            }
+        }
+    </script>
+</body>
+</html>

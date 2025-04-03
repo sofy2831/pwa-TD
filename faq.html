@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      text-align: center;
+    }
+    header {
+      background-color: #007BFF;
+      color: white;
+      padding: 15px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .faq-item {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .faq-item h3 {
+      color: #007BFF;
+      cursor: pointer;
+    }
+    .faq-item p {
+      display: none;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .back-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <script>
+    function toggleAnswer(id) {
+      var answer = document.getElementById(id);
+      answer.style.display = (answer.style.display === "none" || answer.style.display === "") ? "block" : "none";
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>FAQ - Foire Aux Questions</h1>
+  </header>
+  <div class="container">
+    <div class="faq-item">
+      <h3 onclick="toggleAnswer('q1')">Comment passer à la version Premium ?</h3>
+      <p id="q1">Vous pouvez souscrire à la version Premium via la page des paramètres en cliquant sur "Passer à la version Premium".</p>
+    </div>
+    <div class="faq-item">
+      <h3 onclick="toggleAnswer('q2')">Quels sont les moyens de paiement acceptés ?</h3>
+      <p id="q2">Le paiement est sécurisé et traité via PayPal, ce qui vous permet d'utiliser votre compte PayPal ou une carte bancaire sans créer de compte.</p>
+    </div>
+    <div class="faq-item">
+      <h3 onclick="toggleAnswer('q3')">Comment contacter le support client ?</h3>
+      <p id="q3">Vous pouvez nous contacter par e-mail pour toute question ou assistance. <a href="mailto:toxdetect@gmail.com">toxdetect@gmail.com</a>.</p>
+    </div>
+    <a href="parametres.html" class="back-btn">Retour aux paramètres</a>
+  </div>
+</body>
+</html>

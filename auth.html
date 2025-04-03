@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification Dropbox</title>
+    <script>
+        function getDropboxAccessToken() {
+            const hash = window.location.hash.substring(1);
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get("access_token");
+
+            if (accessToken) {
+                localStorage.setItem("dropbox_token", accessToken);
+                alert("Connexion réussie ! Redirection...");
+                window.location.href = "journal.html"; // Retour à la page principale
+            } else {
+                alert("Erreur d'authentification");
+
+                 }
+        }
+
+        window.onload = getDropboxAccessToken;
+    </script>
+</head>
+<body>
+    <h2>Authentification en cours...</h2>
+    
+
+</body>
+</html>
