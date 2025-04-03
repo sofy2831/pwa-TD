@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Identifier les comportements toxiques</title>
 
-     <style>
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007BFF">
+    <link rel="icon" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-512x512.png">
 
-
-         body {
+    <style>
+        body {
             font-family: Arial, sans-serif;
             text-align: center;
             display: flex;
@@ -22,7 +25,6 @@
         h2 {
             font-size: 70px;
             color: #007BFF;
-            text-transform: Arial, sans-serif;
             font-weight: bold;
             letter-spacing: 2px;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
@@ -46,43 +48,32 @@
         button:hover {
             background-color: #0056b3;
         }
-         /* Bouton rond bleu */
-    .settings-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      width: 30px;
-      height: 30px;
-      background-color: white;
-      border: 2px solid #007BFF;
-      color: #007BFF;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
+        /* Bouton rond bleu */
+        .settings-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border: 2px solid #007BFF;
+            color: #007BFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+        }
     </style>
 </head>
 
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-            .then(reg => console.log('Service Worker enregistré !', reg))
-            .catch(err => console.error('Erreur Service Worker :', err));
-    }
-</script>
-
 <body>
     <header>
-        
-        <!-- Bouton rond bleu pour accéder aux paramètres -->
+        <!-- Bouton des paramètres -->
         <a href="parametres.html" class="settings-btn">⚙</a>
-      </header>  
-     
+    </header>  
 
     <h2>ToxDetect</h2>  
     <h1>Identifier les comportements toxiques</h1>
@@ -92,9 +83,22 @@
         <button onclick="location.href='infos.html'">Infos</button>
         <button onclick="location.href='urgences.html'">Urgences</button>
     </div>
+
+    <!-- Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker enregistré !'))
+                    .catch(err => console.error('Erreur Service Worker :', err));
+            });
+        }
+    </script>
+
     <script src="index.js"></script>
 </body>
 </html>
+
 
 
 
