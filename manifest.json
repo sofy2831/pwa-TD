@@ -1,6 +1,7 @@
 {
   "name": "ToxDetect",
   "short_name": "ToxDetect",
+  "description": "Une application pour identifier les comportements toxiques dans les relations.",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
