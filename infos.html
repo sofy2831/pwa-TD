@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations utiles</title>
+    <style>
+        /* Réinitialisation des marges et paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Corps de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Classe pour les encadrés blancs */
+        .box {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Boutons */
+        button {
+            margin-top: 20px;
+            width: 200px;
+            height: 45px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        /* Liens */
+        .link {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        /* Conteneur pour les éléments */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 20px auto;
+        }
+
+        /* Suppression des puces de la liste */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Informations utiles</h1>
+
+    <div class="box">
+        <h3>Numéros d'urgence</h3>
+        <ul>
+            <li>Police : 17</li>
+            <li>Samu : 15</li>
+            <li>Sourds, malentendants, aphasiques (SMS) : 114</li>
+            <li>Centres d'écoute : 3919</li>
+            <li>Signaler en ligne : <a href="https://www.service-public.fr/cmi" class="link" target="_blank">Service Public</a></li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h3>Organisations de soutien</h3>
+        <ul>
+            <li><a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_nationales1" class="link" target="_blank">Associations proches de chez vous et/ou nationales</a></li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h3>Articles recommandés sur les relations toxiques :</h3>
+        <ul>
+            <li><a href="https://claire-grand-psy.e-monsite.com/pages/le-pervers-narcissique-et-la-manipulation-mentale.html" class="link" target="_blank">Le pervers narcissique et la manipulation mentale</a></li>
+            <li><a href="https://www.psychologue.net/articles/vous-pouvez-identifier-un-psychopathe-a-la-facon-dont-ils-parlent" class="link" target="_blank">Identifier un psychopathe à la façon dont ils parlent</a></li>
+            <li><a href="https://www.nathedition.com/product-page/l-empreinte-de-la-peur" class="link" target="_blank">Le récit d’une relation toxique et de la lutte pour retrouver la liberté.</a></li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <p id="conseil"><h3>Cliquez sur le bouton pour obtenir un conseil.</h3></p>
+        <button id="btn-conseil">Afficher un conseil</button>
+    </div>
+
+    <button onclick="location.href='index.html'">Retour à l'accueil</button>
+
+    <script src="infos.js"></script>
+</body>
+</html>

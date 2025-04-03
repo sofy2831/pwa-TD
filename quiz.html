@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .question {
+            margin: 15px 0;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .eleve {
+            color: red;
+        }
+        .modere {
+            color: rgb(240, 124, 17);
+        }
+        .faible {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Evaluer votre relation</h1>
+
+    <form id="quizForm">
+        <div class="question">
+            <p>1. Avez-vous l'impression que l'on impose des décisions à votre place, dictant vos actions et relations sans tenir compte de vos propres envies ou besoins ?</p>
+            <label><input type="radio" name="q1" value="yes"> Oui</label>
+            <label><input type="radio" name="q1" value="no"> Non</label>
+        </div>
+        <div class="question">
+            <p>2. Avez-vous constaté un manque de respect à travers des insultes, des humiliations ou des critiques constantes, particulièrement en public ?</p>
+            <label><input type="radio" name="q2" value="yes"> Oui</label>
+            <label><input type="radio" name="q2" value="no"> Non</label>
+        </div>
+        <div class="question">
+            <p>3. Vous sentez-vous manipulé(e) émotionnellement, par exemple par des menaces ou des culpabilités, pour faire ce que l'autre attend de vous ?</p>
+            <label><input type="radio" name="q3" value="yes"> Oui</label>
+            <label><input type="radio" name="q3" value="no"> Non</label>
+        </div>
+        <div class="question">
+            <p>4. Avez-vous remarqué des tentatives de vous éloigner de vos proches, que ce soit amis, famille ou collègues, réduisant ainsi vos interactions sociales ?</p>
+            <label><input type="radio" name="q4" value="yes"> Oui</label>
+            <label><input type="radio" name="q4" value="no"> Non</label>
+        </div>
+        <div class="question">
+            <p>5. Ressentez-vous une pression continue pour répondre aux attentes de l'autre, même si cela vous cause du stress ou vous met mal à l'aise ?</p>
+            <label><input type="radio" name="q5" value="yes"> Oui</label>
+            <label><input type="radio" name="q5" value="no"> Non</label>
+        </div>
+        <div class="question">
+            <p>6. Êtes-vous régulièrement accusé(e) de choses sans fondement, dans un climat de jalousie excessive ou de méfiance injustifiée ?</p>
+            <label><input type="radio" name="q6" value="yes"> Oui</label>
+            <label><input type="radio" name="q6" value="no"> Non</label>
+        </div>
+        <div class="question">
+            <p>7. Vous sentez-vous souvent contraint(e) de demander l'approbation de l'autre avant de prendre des décisions importantes, limitant ainsi votre liberté de choix ?</p>
+            <label><input type="radio" name="q7" value="yes"> Oui</label>
+            <label><input type="radio" name="q7" value="no"> Non</label>
+        </div>
+
+        <button type="button" onclick="submitQuiz()">Soumettre le quiz</button>
+    </form>
+    
+    <div id="result"></div>
+
+    <script src="quiz.js"></script>
+
+    <button onclick="location.href='index.html'">Retour à l'accueil</button>
+</body>
+</html>

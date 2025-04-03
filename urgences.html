@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgence : Alertez immédiatement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        textarea {
+            height: 100px;
+            resize: none; /* Empêche le redimensionnement */
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s ease-in-out;
+        }
+        .blue-button {
+            background-color: #007BFF;
+            color: white;
+        }
+        .blue-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .red-button {
+            background-color: #FF0000;
+            color: white;
+        }
+        .red-button:hover {
+            background-color: #CC0000;
+            transform: scale(1.05);
+        }
+        .selected-contacts {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            min-height: 30px;
+        }
+        .message-alert {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9f7ff;
+            border: 1px solid #b8d8f2;
+            color: #333;
+            border-radius: 5px;
+        }
+        #customMessage {
+            width: 80%;            /* Largeur du champ de texte (80% de la page) */
+            max-width: 300px;      /* Largeur maximale pour éviter qu'il ne prenne trop de place */
+            min-height: 50px;      /* Hauteur minimale pour permettre à l'utilisateur de voir plus de texte */
+            height: auto;          /* La hauteur s'adapte au contenu */
+            padding: 10px;         /* Un peu de padding pour un confort d'écriture */
+            border: 1px solid #ccc; /* Bordure discrète */
+            border-radius: 5px;    /* Coins arrondis pour l'apparence */
+            resize: vertical;      /* L'utilisateur peut redimensionner verticalement, mais pas horizontalement */
+        }
+        .alert-message {
+            font-size: 16px;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Urgence : Alertez immédiatement</h1>
+
+        <div class="section">
+            <p class="alert-message">⚠️ En cas de danger, appuyez sur ALERTE pour informer vos proches, ou sur URGENCE pour alerter les secours. Agissez vite !</p>
+            
+            <label for="contacts">Sélectionnez un contact :</label>
+            <select id="contacts" onchange="addContact()">
+                <option value="">--Choisir--</option>
+                <option value="+33612345678">Contact 1</option>
+                <option value="+33687654321">Contact 2</option>
+                <option value="+33611223344">Contact 3</option>
+            </select>
+            <div class="selected-contacts" id="selectedContacts"></div>
+<br>
+            <label for="predefinedMessage">Message pré-enregistré :</label>
+            <select id="predefinedMessage" onchange="checkOtherOption()">
+                <option value="J’ai besoin d’aide, prévenir les autorités.">J’ai besoin d’aide, prévenir les autorités.</option>
+                <option value="Je suis en danger, j’ai besoin d’aide immédiatement.">Je suis en danger, j’ai besoin d’aide immédiatement.</option>
+                <option value="Je me sens menacé(e), aidez-moi">Je me sens menacé(e), aidez-moi</option>
+                <option value="other">Autre</option>
+            </select>
+            <textarea id="customMessage" style="display:none;" placeholder="Écrivez votre message ici..."></textarea>
+            <div class="message-alert" id="selectedMessage"></div>
+        </div>
+
+        <div class="button-container">
+            <button class="blue-button" onclick="sendAlert()">Alerte</button>
+            <button class="red-button" onclick="sendEmergency()">Urgences</button>
+            <button class="blue-button" onclick="window.location.href='index.html';">Retour à l'accueil</button>
+        </div>
+    </div>
+
+    <script src="urgences.js"></script>
+</body>
+</html>
