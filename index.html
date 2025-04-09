@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Identifier les comportements toxiques</title>
+    <title>ToxDetect — Identifier les comportements toxiques</title>
 
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
@@ -15,44 +15,24 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin: 0;
+            padding: 0;
+            background: #f7faff;
+            color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
         }
-        h2 {
-            font-size: 70px;
-            color: #007BFF;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            margin-bottom: 10px;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        button {
-            width: 150px;
-            height: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        /* Bouton rond bleu */
-        .settings-btn {
+
+        header {
             position: absolute;
             top: 10px;
             right: 15px;
+        }
+
+        .settings-btn {
             width: 30px;
             height: 30px;
             background-color: white;
@@ -66,23 +46,135 @@
             font-weight: bold;
             text-decoration: none;
         }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 50px;
+            color: #007BFF;
+            margin: 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome {
+            font-size: 16px;
+            color: #555;
+            margin: 10px 0 30px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        button, .premium-link {
+            width: 200px;
+            height: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover, .premium-link:hover {
+            background-color: #0056b3;
+        }
+
+        .premium-link {
+            margin-top: 10px;
+            background-color: #28a745;
+        }
+
+        .premium-link:hover {
+            background-color: #218838;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .alert {
+            background-color: #ffdf00;
+            color: #333;
+            font-weight: bold;
+            padding: 10px;
+            margin: 20px;
+            border-radius: 5px;
+        }
+
+        /* Bannière d'essai */
+#trial-banner {
+    background-color: #ffdf00;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    display: none; /* Initialement cachée */
+    max-width: 90%; /* S'adapte à la largeur de l'écran */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Pour les écrans plus petits comme les téléphones */
+@media (max-width: 600px) {
+    #trial-banner {
+        font-size: 12px; /* Réduit la taille du texte pour les petits écrans */
+        padding: 8px;
+    }
+    .container {
+        margin-bottom: 10px; /* Ajuste l'espacement pour une meilleure vue mobile */
+    }
+}
+
     </style>
 </head>
 
 <body>
     <header>
-        <!-- Bouton des paramètres -->
         <a href="parametres.html" class="settings-btn">⚙</a>
-    </header>  
+    </header>
 
-    <h2>ToxDetect</h2>  
+    <h2>ToxDetect</h2>
     <h1>Identifier les comportements toxiques</h1>
+    <p class="welcome">Commencez votre parcours pour mieux comprendre les relations humaines.</p>
+
     <div class="container">
         <button onclick="location.href='quiz.html'">Quiz</button>
-        <button onclick="location.href='journal.html'">Journal</button>
         <button onclick="location.href='infos.html'">Infos</button>
-        <button onclick="location.href='urgences.html'">Urgences</button>
+        <button onclick="location.href='journal.html'">Journal</button>
     </div>
+
+    <div id="trial-banner" class="alert" style="display: none;"></div>
+
+    <a href="abon.html" class="premium-link">✨ Accès Illimité</a>
 
     <!-- Service Worker -->
     <script>
@@ -97,18 +189,8 @@
 
     <script src="index.js"></script>
 </body>
-    <!-- Google AdSense Test Banner -->
-<div style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #fff; z-index: 999;">
-    <ins class="adsbygoogle"
-         style="display:inline-block;width:320px;height:50px"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" 
-         data-ad-slot="XXXXXXXXXX"></ins>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</div>
 </html>
+
 
 
 
