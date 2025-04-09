@@ -1,193 +1,163 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToxDetect — Identifier les comportements toxiques</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ToxDetect — Identifier les comportements toxiques</title>
 
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#007BFF">
-    <link rel="icon" sizes="192x192" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" href="icons/icon-512x512.png">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#007BFF">
+  <link rel="icon" sizes="192x192" href="icons/icon-192x192.png">
+  <link rel="apple-touch-icon" href="icons/icon-512x512.png">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background: #f7faff;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        header {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-        }
-
-        .settings-btn {
-            width: 30px;
-            height: 30px;
-            background-color: white;
-            border: 2px solid #007BFF;
-            color: #007BFF;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        h1 {
-            font-size: 23px;
-            margin-bottom: 5px;
-        }
-
-        h2 {
-            font-size: 50px;
-            color: #007BFF;
-            margin: 0;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .welcome {
-            font-size: 16px;
-            color: #555;
-            margin: 10px 0 30px;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        button, .premium-link {
-            width: 200px;
-            height: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 8px;
-            transition: background-color 0.3s, transform 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        button:hover, .premium-link:hover {
-            background-color: #0056b3;
-        }
-
-        .premium-link {
-            margin-top: 10px;
-            background-color: #28a745;
-        }
-
-        .premium-link:hover {
-            background-color: #218838;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .back-btn:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-        .alert {
-            background-color: #ffdf00;
-            color: #333;
-            font-weight: bold;
-            padding: 10px;
-            margin: 20px;
-            border-radius: 5px;
-        }
-
-        /* Bannière d'essai */
-#trial-banner {
-    background-color: #ffdf00;
-    color: #333;
-    font-weight: bold;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px;
-    font-size: 14px;
-    text-align: center;
-    display: none; /* Initialement cachée */
-    max-width: 90%; /* S'adapte à la largeur de l'écran */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Pour les écrans plus petits comme les téléphones */
-@media (max-width: 600px) {
-    #trial-banner {
-        font-size: 12px; /* Réduit la taille du texte pour les petits écrans */
-        padding: 8px;
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 5px;
+      padding: 0 10px;
+      background-color: #f7faff;
+      color: #333;
     }
+
+    header {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+    }
+
+    .settings-btn {
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border: 2px solid #007BFF;
+      color: #007BFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    h2 {
+      font-size: 50px;
+      color: #007BFF;
+      margin: 10px 0 5px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 23px;
+      margin: 0 0 10px;
+      color: #333;
+    }
+
+    .welcome {
+      font-size: 15px;
+      color: #555;
+      margin: 0 0 20px;
+    }
+
     .container {
-        margin-bottom: 10px; /* Ajuste l'espacement pour une meilleure vue mobile */
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
     }
-}
 
-    </style>
+    button, .premium-link {
+      width: 200px;
+      height: 44px;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 6px;
+      transition: background-color 0.3s, transform 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button:hover, .premium-link:hover {
+      background-color: #0056b3;
+    }
+
+    .premium-link {
+      background-color: #28a745;
+    }
+
+    .premium-link:hover {
+      background-color: #218838;
+    }
+
+    .alert {
+      background-color: #ffdf00;
+      color: #333;
+      font-weight: bold;
+      padding: 8px;
+      margin: 20px auto;
+      border-radius: 5px;
+      font-size: 14px;
+      max-width: 90%;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .alert {
+        font-size: 12px;
+        padding: 6px;
+      }
+
+      button, .premium-link {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <a href="parametres.html" class="settings-btn">⚙</a>
-    </header>
+  <header>
+    <a href="parametres.html" class="settings-btn">⚙</a>
+  </header>
 
-    <h2>ToxDetect</h2>
-    <h1>Identifier les comportements toxiques</h1>
-    <p class="welcome">Commencez votre parcours pour mieux comprendre les relations humaines.</p>
+  <h2>ToxDetect</h2>
+  <h1>Identifier les comportements toxiques</h1>
+  <p class="welcome">Commencez votre parcours pour mieux comprendre les relations humaines.</p>
 
-    <div class="container">
-        <button onclick="location.href='quiz.html'">Quiz</button>
-        <button onclick="location.href='infos.html'">Infos</button>
-        <button onclick="location.href='journal.html'">Journal</button>
-    </div>
+  <div class="container">
+    <button onclick="location.href='quiz.html'">Quiz</button>
+    <button onclick="location.href='infos.html'">Infos</button>
+    <button onclick="location.href='journal.html'">Journal</button>
+  </div>
 
-    <div id="trial-banner" class="alert" style="display: none;"></div>
+  <div id="trial-banner" class="alert"></div>
 
-    <a href="abon.html" class="premium-link">✨ Accès Illimité</a>
+  <a href="abon.html" class="premium-link">✨ Accès Illimité</a>
 
-    <!-- Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(reg => console.log('Service Worker enregistré !'))
-                    .catch(err => console.error('Erreur Service Worker :', err));
-            });
-        }
-    </script>
-
-    <script src="index.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker enregistré !'))
+          .catch(err => console.error('Erreur Service Worker :', err));
+      });
+    }
+  </script>
+  <script src="index.js"></script>
 </body>
 </html>
 
