@@ -1,120 +1,120 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 10px;
-            padding: 0 10px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 5px;
+      padding: 0 10px;
+    }
 
-        h1 {
-            font-size: 23px;
-            color: #333;
-            margin-bottom: 20px;
-        }
+    h1 {
+      font-size: 23px;
+      color: #333;
+      margin-bottom: 15px;
+    }
 
-        .question {
-            margin: 20px 0; /* espace régulier entre les questions */
-        }
+    .question {
+      margin: 12px 0; /* réduit l'espace vertical entre les questions */
+    }
 
-        .question p {
-            margin-bottom: 8px; /* espace entre la question et les boutons */
-            font-size: 16px;
-            line-height: 1.4;
-        }
+    .question p {
+      margin-bottom: 6px; /* réduit l'espace entre le texte et les boutons */
+      font-size: 15.5px;
+      line-height: 1.35;
+    }
 
-        .question label {
-            margin: 0 10px;
-            font-size: 15px;
-            display: inline-block;
-        }
+    .question label {
+      margin: 0 8px;
+      font-size: 15px;
+      display: inline-block;
+    }
 
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
+    button {
+      margin-top: 16px;
+      padding: 8px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-        #result {
-            margin-top: 25px;
-            font-weight: bold;
-            font-size: 18px;
-        }
+    #result {
+      margin-top: 18px;
+      font-weight: bold;
+      font-size: 17px;
+    }
 
-        .eleve {
-            color: red;
-        }
+    .eleve {
+      color: red;
+    }
 
-        .modere {
-            color: rgb(240, 124, 17);
-        }
+    .modere {
+      color: rgb(240, 124, 17);
+    }
 
-        .faible {
-            color: green;
-        }
-    </style>
+    .faible {
+      color: green;
+    }
+  </style>
 </head>
 <body>
-    <h1>Évaluer votre relation</h1>
+  <h1>Évaluer votre relation</h1>
 
-    <form id="quizForm">
-        <div class="question">
-            <p>1. Avez-vous l'impression que l'on impose des décisions à votre place, dictant vos actions et relations sans tenir compte de vos propres envies ou besoins ?</p>
-            <label><input type="radio" name="q1" value="yes"> Oui</label>
-            <label><input type="radio" name="q1" value="no"> Non</label>
-        </div>
-        <div class="question">
-            <p>2. Avez-vous constaté un manque de respect à travers des insultes, des humiliations ou des critiques constantes, particulièrement en public ?</p>
-            <label><input type="radio" name="q2" value="yes"> Oui</label>
-            <label><input type="radio" name="q2" value="no"> Non</label>
-        </div>
-        <div class="question">
-            <p>3. Vous sentez-vous manipulé(e) émotionnellement, par exemple par des menaces ou des culpabilités, pour faire ce que l'autre attend de vous ?</p>
-            <label><input type="radio" name="q3" value="yes"> Oui</label>
-            <label><input type="radio" name="q3" value="no"> Non</label>
-        </div>
-        <div class="question">
-            <p>4. Avez-vous remarqué des tentatives de vous éloigner de vos proches, que ce soit amis, famille ou collègues, réduisant ainsi vos interactions sociales ?</p>
-            <label><input type="radio" name="q4" value="yes"> Oui</label>
-            <label><input type="radio" name="q4" value="no"> Non</label>
-        </div>
-        <div class="question">
-            <p>5. Ressentez-vous une pression continue pour répondre aux attentes de l'autre, même si cela vous cause du stress ou vous met mal à l'aise ?</p>
-            <label><input type="radio" name="q5" value="yes"> Oui</label>
-            <label><input type="radio" name="q5" value="no"> Non</label>
-        </div>
-        <div class="question">
-            <p>6. Êtes-vous régulièrement accusé(e) de choses sans fondement, dans un climat de jalousie excessive ou de méfiance injustifiée ?</p>
-            <label><input type="radio" name="q6" value="yes"> Oui</label>
-            <label><input type="radio" name="q6" value="no"> Non</label>
-        </div>
-        <div class="question">
-            <p>7. Vous sentez-vous souvent contraint(e) de demander l'approbation de l'autre avant de prendre des décisions importantes, limitant ainsi votre liberté de choix ?</p>
-            <label><input type="radio" name="q7" value="yes"> Oui</label>
-            <label><input type="radio" name="q7" value="no"> Non</label>
-        </div>
+  <form id="quizForm">
+    <div class="question">
+      <p>1. Avez-vous l'impression que l'on impose des décisions à votre place, dictant vos actions et relations sans tenir compte de vos propres envies ou besoins ?</p>
+      <label><input type="radio" name="q1" value="yes"> Oui</label>
+      <label><input type="radio" name="q1" value="no"> Non</label>
+    </div>
+    <div class="question">
+      <p>2. Avez-vous constaté un manque de respect à travers des insultes, des humiliations ou des critiques constantes, particulièrement en public ?</p>
+      <label><input type="radio" name="q2" value="yes"> Oui</label>
+      <label><input type="radio" name="q2" value="no"> Non</label>
+    </div>
+    <div class="question">
+      <p>3. Vous sentez-vous manipulé(e) émotionnellement, par exemple par des menaces ou des culpabilités, pour faire ce que l'autre attend de vous ?</p>
+      <label><input type="radio" name="q3" value="yes"> Oui</label>
+      <label><input type="radio" name="q3" value="no"> Non</label>
+    </div>
+    <div class="question">
+      <p>4. Avez-vous remarqué des tentatives de vous éloigner de vos proches, que ce soit amis, famille ou collègues, réduisant ainsi vos interactions sociales ?</p>
+      <label><input type="radio" name="q4" value="yes"> Oui</label>
+      <label><input type="radio" name="q4" value="no"> Non</label>
+    </div>
+    <div class="question">
+      <p>5. Ressentez-vous une pression continue pour répondre aux attentes de l'autre, même si cela vous cause du stress ou vous met mal à l'aise ?</p>
+      <label><input type="radio" name="q5" value="yes"> Oui</label>
+      <label><input type="radio" name="q5" value="no"> Non</label>
+    </div>
+    <div class="question">
+      <p>6. Êtes-vous régulièrement accusé(e) de choses sans fondement, dans un climat de jalousie excessive ou de méfiance injustifiée ?</p>
+      <label><input type="radio" name="q6" value="yes"> Oui</label>
+      <label><input type="radio" name="q6" value="no"> Non</label>
+    </div>
+    <div class="question">
+      <p>7. Vous sentez-vous souvent contraint(e) de demander l'approbation de l'autre avant de prendre des décisions importantes, limitant ainsi votre liberté de choix ?</p>
+      <label><input type="radio" name="q7" value="yes"> Oui</label>
+      <label><input type="radio" name="q7" value="no"> Non</label>
+    </div>
 
-        <button type="button" onclick="submitQuiz()">Soumettre le quiz</button>
-    </form>
+    <button type="button" onclick="submitQuiz()">Soumettre le quiz</button>
+  </form>
 
-    <div id="result"></div>
+  <div id="result"></div>
 
-    <button onclick="location.href='index.html'">Retour à l'accueil</button>
+  <button onclick="location.href='index.html'">Retour à l'accueil</button>
 
-    <script src="quiz.js"></script>
+  <script src="quiz.js"></script>
 </body>
 </html>
