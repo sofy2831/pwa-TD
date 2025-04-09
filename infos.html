@@ -14,17 +14,24 @@
 
         /* Corps de la page */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            background-color: #f7faff;
             color: #333;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             height: 100vh;
             margin: 0;
             padding: 20px;
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 32px;
+            color: #007BFF;
+            margin-bottom: 20px;
         }
 
         /* Classe pour les encadrés blancs */
@@ -36,6 +43,13 @@
             border-radius: 5px;
             margin-top: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style des sous-titres */
+        h3 {
+            font-size: 20px;
+            color: #007BFF;
+            margin-bottom: 10px;
         }
 
         /* Boutons */
@@ -87,6 +101,23 @@
             padding: 0;
         }
 
+        /* Bouton Retour à l'accueil */
+        .back-btn {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
     </style>
 </head>
 <body>
@@ -124,7 +155,7 @@
         <button id="btn-conseil">Afficher un conseil</button>
     </div>
 
-    <button onclick="location.href='index.html'">Retour à l'accueil</button>
+    <a href="index.html" class="back-btn">Retour à l'accueil</a>
 
     <script src="infos.js"></script>
 </body>
