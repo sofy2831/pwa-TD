@@ -8,27 +8,34 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 5px;
+            margin: 10px;
+            padding: 0 10px;
         }
+
         h1 {
-            font-family: 'Arial', sans-serif;
             font-size: 23px;
             color: #333;
+            margin-bottom: 20px;
         }
+
         .question {
-            margin-bottom: 5px; /* Réduit l’espace sous la question */
+            margin: 20px 0; /* espace régulier entre les questions */
         }
+
         .question p {
-    margin-bottom: 5px;
-}
+            margin-bottom: 8px; /* espace entre la question et les boutons */
+            font-size: 16px;
+            line-height: 1.4;
+        }
 
         .question label {
-    margin-right: 10px; /* Espace entre les deux labels Oui / Non */
-    display: inline-block;
-}
+            margin: 0 10px;
+            font-size: 15px;
+            display: inline-block;
+        }
 
         button {
-            margin-top: 10px;
+            margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
@@ -37,27 +44,32 @@
             border: none;
             border-radius: 5px;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         #result {
-            margin-top: 20px;
+            margin-top: 25px;
             font-weight: bold;
             font-size: 18px;
         }
+
         .eleve {
             color: red;
         }
+
         .modere {
             color: rgb(240, 124, 17);
         }
+
         .faible {
             color: green;
         }
     </style>
 </head>
 <body>
-    <h1>Evaluer votre relation</h1>
+    <h1>Évaluer votre relation</h1>
 
     <form id="quizForm">
         <div class="question">
@@ -98,11 +110,11 @@
 
         <button type="button" onclick="submitQuiz()">Soumettre le quiz</button>
     </form>
-    
+
     <div id="result"></div>
 
-    <script src="quiz.js"></script>
-
     <button onclick="location.href='index.html'">Retour à l'accueil</button>
+
+    <script src="quiz.js"></script>
 </body>
 </html>
