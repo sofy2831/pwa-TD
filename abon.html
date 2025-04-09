@@ -2,45 +2,99 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accès illimité</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f9;
+      font-family: Arial, sans-serif;
+      background-color: #f7faff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
       text-align: center;
     }
-    .container {
-      padding: 20px;
+
+    header {
+      position: absolute;
+      top: 10px;
+      right: 15px;
     }
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: white;
+
+    .settings-btn {
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border: 2px solid #007BFF;
+      color: #007BFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
       text-decoration: none;
-      border-radius: 5px;
-      margin-top: 20px;
     }
-    .button:hover {
-      opacity: 0.9;
+
+    .container {
+      max-width: 600px;
+      padding: 40px 20px;
+      margin-top: 80px;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #007BFF;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 20px 0;
+      color: #444;
+    }
+
+    .paypal-button {
+      margin: 20px 0;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #0056FF;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #0056FF;
     }
   </style>
 </head>
 <body>
+
+  
   <div class="container">
-    <h1>Passer à la Version Premium</h1>
-    <p>Profitez d'une expérience sans publicités en souscrivant à notre abonnement Premium.</p>
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-      <input type="hidden" name="cmd" value="_s-xclick" />
-      <input type="hidden" name="hosted_button_id" value="LQ4HT5A2CZUS8" />
-      <input type="hidden" name="currency_code" value="EUR" />
-      <input type="image" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_subscribe_LG.gif" border="0" name="submit" title="PayPal, votre réflexe sécurité pour payer en ligne." alt="Souscrire" />
-    </form>
-    <br>
-    <a href="parametres.html" class="button">Retour à l'accueil</a>
+    <h1>✨ Accès illimité</h1>
+    <p>Merci de soutenir l'application — un achat unique de **3,99 €** pour continuer à l'utiliser sans aucune limite.</p>
+
+
+    <div class="paypal-button">
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick" />
+        <input type="hidden" name="hosted_button_id" value="LQ4HT5A2CZUS8" />
+        <input type="hidden" name="currency_code" value="EUR" />
+        <input type="image" src="https://www.paypalobjects.com/fr_FR/i/btn/btn_subscribe_LG.gif" border="0" name="submit" title="PayPal - Le moyen simple et sécurisé de payer en ligne." alt="Souscrire avec PayPal" />
+      </form>
+    </div>
+
+    <a href="index.html" class="back-btn">← Retour à l'accueil</a>
   </div>
+
 </body>
 </html>
