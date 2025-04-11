@@ -1,165 +1,194 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informations utiles</title>
-    <style>
-        /* Réinitialisation des marges et paddings */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informations utiles</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7faff;
+      color: #333;
+      text-align: center;
+      margin: 5px;
+      padding: 0 10px;
+    }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7faff;
-            color: #333;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
+    h1 {
+      font-size: 23px;
+      color: #007BFF;
+      margin: 15px 0 10px;
+    }
 
-        h1 {
-            font-size: 23px;
-            color: #333;
-            margin-bottom: 15px;
-        }
+    .box {
+      background-color: #fff;
+      padding: 15px 20px;
+      margin: 12px auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+      text-align: left;
+    }
 
-        .box {
-            width: 100%;
-            max-width: 600px;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+    h3 {
+      font-size: 17px;
+      color: #007BFF;
+      margin-bottom: 10px;
+    }
 
-        h3 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 15px;
-        }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
 
-        button {
-            margin-top: 16px;
-            width: 200px;
-            height: 45px;
-            font-size: 15px;
-            cursor: pointer;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+    li {
+      font-size: 14px;
+      margin: 6px 0;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    .link {
+      color: #007BFF;
+      text-decoration: none;
+    }
 
-        button:focus {
-            outline: none;
-        }
+    .link:hover {
+      text-decoration: underline;
+    }
 
-        .link {
-            color: #007BFF;
-            text-decoration: none;
-            font-size: 15px;
-        }
+    #conseil {
+      color: #0056b3;
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 15px;
+      text-align: center;
+    }
 
-        .link:hover {
-            text-decoration: underline;
-        }
+    button {
+      width: 200px;
+      height: 44px;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 6px;
+      transition: background-color 0.3s, transform 0.2s;
+      margin-top: 12px;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            max-width: 1000px;
-            margin: 20px auto;
-        }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    .back-btn {
+      display: inline-block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.2s;
+    }
 
-        .back-btn {
-            margin-top: 30px;
-            padding: 12px 24px;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.2s;
-        }
+    .back-btn:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
 
-        .back-btn:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 20px;
+        margin-top: 10px;
+      }
 
-        /* Style pour le conseil */
-        #conseil {
-            color: #0056b3; /* Bleu foncé */
-            font-weight: bold;
-            margin-top: 15px;
-            font-size: 16px;
-        }
-    </style>
+      h3 {
+        font-size: 16px;
+      }
+
+      li {
+        font-size: 13px;
+      }
+
+      .box {
+        padding: 12px 15px;
+      }
+
+      button, .back-btn {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Informations utiles</h1>
 
-    <div class="box">
-        <h3>Numéros d'urgence</h3>
-        <ul>
-            <li>Police : 17</li>
-            <li>Samu : 15</li>
-            <li>Sourds, malentendants, aphasiques (SMS) : 114</li>
-            <li>Centres d'écoute : 3919</li>
-            <li>Signaler en ligne : <a href="https://www.service-public.fr/cmi" class="link" target="_blank">Service Public</a></li>
-        </ul>
-    </div>
+  <h1>Informations utiles</h1>
 
-    <div class="box">
-        <h3>Organisations proche de chez vous</h3>
-        <ul>
-            <li><a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_pres_de_chez_vous" class="link" target="_blank">Associations proches de chez vous</a></li>
-        </ul>
+  <div class="box">
+    <h3>Numéros d'urgence</h3>
+    <ul>
+      <li>Police : 17</li>
+      <li>Samu : 15</li>
+      <li>Sourds, malentendants, aphasiques (SMS) : 114</li>
+      <li>Centres d'écoute : 3919</li>
+      <li>Signaler en ligne : 
+        <a href="https://www.service-public.fr/cmi" class="link" target="_blank">Service Public</a>
+      </li>
+    </ul>
+  </div>
 
-        <h3>Organisations nationales</h3>
-        <ul>   
-            <li><a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_nationales0" class="link" target="_blank">Associations nationales</a></li>
-        </ul>
-    </div>
+  <div class="box">
+    <h3>Organisations proches de chez vous</h3>
+    <ul>
+      <li>
+        <a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_pres_de_chez_vous" class="link" target="_blank">
+          Associations proches de chez vous
+        </a>
+      </li>
+    </ul>
 
-    <div class="box">
-        <h3>Articles recommandés sur les relations toxiques :</h3>
-        <ul>
-            <li><a href="https://claire-grand-psy.e-monsite.com/pages/le-pervers-narcissique-et-la-manipulation-mentale.html" class="link" target="_blank">Le pervers narcissique et la manipulation mentale</a></li>
-            <li><a href="https://www.psychologue.net/articles/vous-pouvez-identifier-un-psychopathe-a-la-facon-dont-ils-parlent" class="link" target="_blank">Identifier un psychopathe à la façon dont ils parlent</a></li>
-            <li><a href="https://www.nathedition.com/product-page/l-empreinte-de-la-peur" class="link" target="_blank">Le récit d’une relation toxique et de la lutte pour retrouver la liberté.</a></li>
-        </ul>
-    </div>
+    <h3>Organisations nationales</h3>
+    <ul>
+      <li>
+        <a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_nationales0" class="link" target="_blank">
+          Associations nationales
+        </a>
+      </li>
+    </ul>
+  </div>
 
-    <div class="box">
-        <h3>Cliquez sur le bouton pour obtenir un conseil.</h3>
-        <p id="conseil"> </p>
-        <button id="btn-conseil">Afficher un conseil</button>
-    </div>
+  <div class="box">
+    <h3>Articles recommandés</h3>
+    <ul>
+      <li>
+        <a href="https://claire-grand-psy.e-monsite.com/pages/le-pervers-narcissique-et-la-manipulation-mentale.html" class="link" target="_blank">
+          Le pervers narcissique et la manipulation mentale
+        </a>
+      </li>
+      <li>
+        <a href="https://www.psychologue.net/articles/vous-pouvez-identifier-un-psychopathe-a-la-facon-dont-ils-parlent" class="link" target="_blank">
+          Identifier un psychopathe à la façon dont ils parlent
+        </a>
+      </li>
+      <li>
+        <a href="https://www.nathedition.com/product-page/l-empreinte-de-la-peur" class="link" target="_blank">
+          Récit d’une relation toxique
+        </a>
+      </li>
+    </ul>
+  </div>
 
-    <a href="index.html" class="back-btn">Retour à l'accueil</a>
+  <div class="box">
+    <h3>Un conseil pour vous</h3>
+    <p id="conseil"></p>
+    <button id="btn-conseil">Afficher un conseil</button>
+  </div>
 
-    <script src="infos.js"></script>
+  <a href="index.html" class="back-btn">Retour à l'accueil</a>
+
+  <script src="infos.js"></script>
 </body>
 </html>
