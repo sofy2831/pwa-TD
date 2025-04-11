@@ -12,7 +12,6 @@
             box-sizing: border-box;
         }
 
-        /* Corps de la page */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f7faff;
@@ -27,14 +26,12 @@
             padding: 20px;
         }
 
-        /* Titre principal */
         h1 {
-            font-size: 32px;
-            color: #007BFF;
-            margin-bottom: 20px;
+            font-size: 23px;
+            color: #333;
+            margin-bottom: 15px;
         }
 
-        /* Classe pour les encadrés blancs */
         .box {
             width: 100%;
             max-width: 600px;
@@ -45,19 +42,17 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Style des sous-titres */
         h3 {
-            font-size: 20px;
+            font-size: 18px;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        /* Boutons */
         button {
-            margin-top: 20px;
+            margin-top: 16px;
             width: 200px;
             height: 45px;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             border: none;
             background-color: #007BFF;
@@ -74,18 +69,16 @@
             outline: none;
         }
 
-        /* Liens */
         .link {
             color: #007BFF;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .link:hover {
             text-decoration: underline;
         }
 
-        /* Conteneur pour les éléments */
         .container {
             display: flex;
             flex-direction: column;
@@ -95,19 +88,17 @@
             margin: 20px auto;
         }
 
-        /* Suppression des puces de la liste */
         ul {
             list-style-type: none;
             padding: 0;
         }
 
-        /* Bouton Retour à l'accueil */
         .back-btn {
             margin-top: 30px;
             padding: 12px 24px;
             background-color: #007BFF;
             color: white;
-            border-radius: 8px;
+            border-radius: 5px;
             text-decoration: none;
             transition: background-color 0.3s, transform 0.2s;
         }
@@ -117,6 +108,13 @@
             transform: scale(1.05);
         }
 
+        /* Style pour le conseil */
+        #conseil {
+            color: #0056b3; /* Bleu foncé */
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -134,9 +132,14 @@
     </div>
 
     <div class="box">
-        <h3>Organisations de soutien</h3>
+        <h3>Organisations proche de chez vous</h3>
         <ul>
-            <li><a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_nationales1" class="link" target="_blank">Associations proches de chez vous et/ou nationales</a></li>
+            <li><a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_pres_de_chez_vous" class="link" target="_blank">Associations proches de chez vous</a></li>
+        </ul>
+
+        <h3>Organisations nationales</h3>
+        <ul>   
+            <li><a href="https://arretonslesviolences.gouv.fr/associations-de-lutte-contre-les-violences-sexistes-et-sexuelles#les_associations_nationales0" class="link" target="_blank">Associations nationales</a></li>
         </ul>
     </div>
 
@@ -150,7 +153,8 @@
     </div>
 
     <div class="box">
-        <p id="conseil"><h3>Cliquez sur le bouton pour obtenir un conseil.</h3></p>
+        <h3>Cliquez sur le bouton pour obtenir un conseil.</h3>
+        <p id="conseil"> </p>
         <button id="btn-conseil">Afficher un conseil</button>
     </div>
 
