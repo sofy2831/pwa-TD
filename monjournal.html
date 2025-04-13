@@ -78,7 +78,7 @@
         }
 
         .media-btn {
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -90,7 +90,7 @@
         }
 
         .media-btn:hover {
-            background-color: #45a049;
+            background-color: #007bff;
         }
 
         #generateButton {
@@ -122,7 +122,7 @@
         }
 
         #backButton:hover {
-            background-color: #bbb;
+            background-color: #007bff;
         }
     </style>
 </head>
@@ -160,10 +160,6 @@
 <h2>Synthèse d’analyse</h2>
 
 <p>Avant de générer votre document, prenez un instant pour structurer les faits.</p>
-<p>Décrivez les faits dans l'ordre chronologique (du plus ancien au plus récent).<br>
-   Soyez précis : incluez des dates, lieux et personnes impliquées.<br>
-   Restez factuel : évitez les interprétations et concentrez-vous sur les événements.<br>
-   Mentionnez les preuves (documents, SMS, mail, écrits, témoignages, etc.).</p>
 
 <button id="generateButton">Générer un document Word</button>
  <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
@@ -175,14 +171,16 @@
                     children: [
                         new Paragraph({ children: [new TextRun("Bienvenue sur ToxDetect. Nous sommes là pour vous aider à structurer les faits")] }),
                         new Paragraph({ children: [new TextRun("Décrivez les faits dans l'ordre chronologique (du plus ancien au plus récent).")] }),
-                        new Paragraph({ children: [new TextRun("Soyez précis : Commencez toujours par la date : Décrivez les faits, lieux et personnes impliquées.......n'oubliez pas de numéroter vos pièces (Pièce n°...)")] }),
-                        new Paragraph({ children: [new TextRun("Restez factuel : évitez les interprétations et concentrez-vous sur les événements.")] }),
-                        new Paragraph({ children: [new TextRun("Signature :")] }),
-                        new Paragraph({ children: [new TextRun("Mentionnez les preuves (documents, SMS, mail, écrits, témoignages, etc.). Rappelez les pièces 1,2,3 etc... :")] }),
+                        new Paragraph({ children: [new TextRun("Soyez précis : Commencez toujours par la date, puis décrivez les faits, les lieux et les personnes impliquées.")] }),
+                        new Paragraph({ children: [new TextRun("Numérotez vos pièces justificatives : (ex. : Pièce n°1, Pièce n°2, etc.).")] }),
+                        new Paragraph({ children: [new TextRun("Restez factuel : évitez les interprétations personnelles et concentrez-vous sur les événements.")] }),
+                        new Paragraph({ children: [new TextRun("Mentionnez les preuves (documents, SMS, mail, écrits, témoignages, etc.), en rappelant à chaque fois les pièces correspondantes (Pièces n°1, n°2, etc.")] }),
+                        new Paragraph({ children: [new TextRun("N’oubliez pas de signer votre déclaration.")] }),
+                        
                     ],
                 }],
             });
-
+       
             Packer.toBlob(doc).then((blob) => {
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
