@@ -1,293 +1,251 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Journal de bord</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Journal de bord</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        h1 {
-            text-align: center;
-            color: black;
-            font-size: 23px;
-            margin-top: 20px;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            width: 80%;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
+    h1, h2 {
+      text-align: center;
+      color: black;
+      margin: 20px 0 10px;
+    }
 
-        textarea {
-            width: 100%;
-            height: 200px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            resize: none;
-        }
+    .container, .file-upload {
+      width: 90%;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
 
-        #save-journal {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-top: 10px;
-            width: 100%;
-        }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      resize: none;
+    }
 
-        #save-journal:hover {
-            background-color: #007bff;
-        }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
 
-        .file-upload {
-            margin-top: 20px;
-        }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-        input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-        }
+    .media-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 800px;
+    }
 
-        #selectedFiles {
-            margin-top: 10px;
-            font-size: 14px;
-        }
+    @media(min-width: 600px) {
+      .media-container {
+        flex-direction: row;
+        justify-content: space-between;
+      }
 
-        .media-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-        }
+      .media-container button {
+        width: 48%;
+      }
+    }
 
-        .media-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            width: 45%;
-            text-align: center;
-        }
-
-        .media-btn:hover {
-            background-color: #007bff;
-        }
-
-        #generateButton {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        #generateButton:hover {
-            background-color: #007bff;
-        }
-
-        #backButton {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        #backButton:hover {
-            background-color: #007bff;
-        }
-    </style>
+    #selectedFiles {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Mon Journal de bord</h1>
+  <h1>Mon Journal de bord</h1>
 
-<div class="container">
+  <div class="container">
     <textarea id="journalEntry" placeholder="Écrivez votre journal ici..."></textarea>
     <button id="save-journal">Enregistrer mon journal</button>
-</div>
+    <button onclick="startDropboxOAuth()">Accéder à mes fichiers Dropbox</button>
+  </div>
 
-<h2>Fichiers à télécharger</h2>
-
-<div class="file-upload">
+  <h2>Fichiers à télécharger</h2>
+  <div class="file-upload">
     <label for="fileUpload">Téléverser des fichiers :</label>
-    <input type="file" id="fileUpload" accept="image/*,application/pdf" multiple onchange="displaySelectedFiles()">
+    <input type="file" id="fileUpload" accept="image/*,application/pdf" multiple onchange="displaySelectedFiles()" />
     <p id="selectedFiles"></p>
     <button id="save-file">Enregistrer mon fichier</button>
-</div>
+  </div>
 
-<div class="media-container">
-    <div>
-        <button class="media-btn" onclick="window.location.href='videos.html'">
-            Vidéo
-        </button>
-    </div>
-    <div>
-        <button class="media-btn" onclick="window.location.href='audios.html'">
-             Audio
-        </button>
-    </div>
-</div>
+  <div class="media-container">
+    <button onclick="window.location.href='videos.html'">Vidéo</button>
+    <button onclick="window.location.href='audios.html'">Audio</button>
+  </div>
 
-<h2>Synthèse d’analyse</h2>
+  <h2>Synthèse d’analyse</h2>
+  <p style="text-align: center;">Avant de générer votre document, prenez un instant pour structurer les faits.</p>
+  <div class="container">
+    <button id="generateButton">Générer un document Word</button>
+    <button id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
+  </div>
 
-<p>Avant de générer votre document, prenez un instant pour structurer les faits.</p>
-
-<button id="generateButton">Générer un document Word</button>
- <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
-    <script>
-        document.getElementById("generateButton").addEventListener("click", function() {
-            const { Document, Packer, Paragraph, TextRun } = window.docx;
-            const doc = new Document({
-                sections: [{
-                    children: [
-                        new Paragraph({ children: [new TextRun("Bienvenue sur ToxDetect. Nous sommes là pour vous aider à structurer les faits")] }),
-                        new Paragraph({ children: [new TextRun("Décrivez les faits dans l'ordre chronologique (du plus ancien au plus récent).")] }),
-                        new Paragraph({ children: [new TextRun("Soyez précis : Commencez toujours par la date, puis décrivez les faits, les lieux et les personnes impliquées.")] }),
-                        new Paragraph({ children: [new TextRun("Numérotez vos pièces justificatives : (ex. : Pièce n°1, Pièce n°2, etc.).")] }),
-                        new Paragraph({ children: [new TextRun("Restez factuel : évitez les interprétations personnelles et concentrez-vous sur les événements.")] }),
-                        new Paragraph({ children: [new TextRun("Mentionnez les preuves (documents, SMS, mail, écrits, témoignages, etc.), en rappelant à chaque fois les pièces correspondantes (Pièces n°1, n°2, etc.")] }),
-                        new Paragraph({ children: [new TextRun("N’oubliez pas de signer votre déclaration.")] }),
-                        
-                    ],
-                }],
-            });
-       
-            Packer.toBlob(doc).then((blob) => {
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "rapport.docx";
-                link.click();
-            });
-        });
-    </script>
-
-
-    
-<br>
-<button id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
-
-<script>
-async function saveJournalToDropbox() {
-    const token = localStorage.getItem("dropbox_token");
-    const journalText = document.getElementById("journalEntry").value;
-    if (!journalText.trim()) {
-        alert("Votre journal est vide. Veuillez écrire quelque chose avant d'enregistrer.");
-        return;
+  <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
+  <script>
+    function displaySelectedFiles() {
+      const input = document.getElementById("fileUpload");
+      const output = document.getElementById("selectedFiles");
+      const files = Array.from(input.files).map(file => file.name).join(", ");
+      output.textContent = files || "Aucun fichier sélectionné.";
     }
 
-    const date = new Date();
-    const timestamp = date.toISOString().replace(/[:.]/g, "-");
-    const fileName = `Journal_${timestamp}.txt`;
-    const fileContent = new Blob([journalText], { type: "text/plain" });
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(fileContent);
-    reader.onload = async function() {
-        const fileData = reader.result;
-        try {
-            const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Dropbox-API-Arg": JSON.stringify({
-                        path: `/ToxDetect Backup/${fileName}`,
-                        mode: "add",
-                        autorename: true,
-                        mute: false
-                    }),
-                    "Content-Type": "application/octet-stream"
-                },
-                body: fileData
-            });
+    document.getElementById("generateButton").addEventListener("click", function () {
+      const { Document, Packer, Paragraph, TextRun } = window.docx;
+      const doc = new Document({
+        sections: [{
+          children: [
+            new Paragraph({ children: [new TextRun("Bienvenue sur ToxDetect. Nous sommes là pour vous aider à structurer les faits")] }),
+            new Paragraph({ children: [new TextRun("Décrivez les faits dans l'ordre chronologique (du plus ancien au plus récent).")] }),
+            new Paragraph({ children: [new TextRun("Soyez précis : Commencez toujours par la date, puis décrivez les faits, les lieux et les personnes impliquées.")] }),
+            new Paragraph({ children: [new TextRun("Numérotez vos pièces justificatives : (ex. : Pièce n°1, Pièce n°2, etc.).")] }),
+            new Paragraph({ children: [new TextRun("Restez factuel : évitez les interprétations personnelles et concentrez-vous sur les événements.")] }),
+            new Paragraph({ children: [new TextRun("Mentionnez les preuves... (documents, SMS, mails...)")] }),
+            new Paragraph({ children: [new TextRun("N’oubliez pas de signer votre déclaration.")] }),
+          ]
+        }]
+      });
 
-            if (response.ok) {
-                alert("Journal enregistré avec succès sur Dropbox!");
-                document.getElementById("journalEntry").value = ""; 
-            } else {
-                alert("Échec de l'enregistrement sur Dropbox.");
-            }
-        } catch (error) {
-            alert("Erreur lors de l'enregistrement : " + error.message);
-        }
-    };
-}
+      Packer.toBlob(doc).then((blob) => {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "rapport.docx";
+        link.click();
+      });
+    });
 
-document.getElementById("save-journal").addEventListener("click", saveJournalToDropbox);
+    const DROPBOX_APP_KEY = "0z41GO683A6XB20";
 
-async function saveFileToDropbox() {
-    const token = localStorage.getItem("dropbox_token");
-    const fileInput = document.getElementById("fileUpload");
-    if (!fileInput.files.length) {
-        alert("Veuillez sélectionner un fichier avant d'enregistrer.");
-        return;
+    function startDropboxOAuth() {
+      const redirectUri = window.location.href;
+      const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+      window.location.href = authUrl;
     }
 
-    const file = fileInput.files[0];
-    const date = new Date();
-    const timestamp = date.toISOString().replace(/[:.]/g, "-").replace("T", "_").split("Z")[0];
-    const fileName = `toxdetect Backup_${timestamp}_${file.name}`;
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onload = async function() {
-        const fileData = reader.result;
-        try {
-            const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Dropbox-API-Arg": JSON.stringify({
-                        path: `/ToxDetect Backup/${fileName}`,
-                        mode: "add",
-                        autorename: true,
-                        mute: false
-                    }),
-                    "Content-Type": "application/octet-stream"
-                },
-                body: fileData
-            });
-
-            if (response.ok) {
-                alert("Fichier enregistré avec succès sur Dropbox!");
-                fileInput.value = ""; 
-            } else {
-                alert("Échec de l'enregistrement sur Dropbox.");
-            }
-        } catch (error) {
-            alert("Erreur lors de l'enregistrement : " + error.message);
-        }
+    // Récupérer le token OAuth dans l’URL
+    window.onload = () => {
+      if (window.location.hash.includes("access_token")) {
+        const params = new URLSearchParams(window.location.hash.substr(1));
+        const token = params.get("access_token");
+        localStorage.setItem("dropbox_token", token);
+        alert("Connecté à Dropbox !");
+      }
     };
-}
 
-document.getElementById("save-file").addEventListener("click", saveFileToDropbox);
-</script>
+    document.getElementById("save-journal").addEventListener("click", async () => {
+      const token = localStorage.getItem("dropbox_token");
+      const text = document.getElementById("journalEntry").value;
+      if (!token) return alert("Connectez-vous à Dropbox d'abord.");
+      if (!text.trim()) return alert("Votre journal est vide.");
 
+      const fileName = `Journal_${new Date().toISOString().replace(/[:.]/g, "-")}.txt`;
+      const blob = new Blob([text], { type: "text/plain" });
+      const reader = new FileReader();
+
+      reader.onload = async function () {
+        try {
+          const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Dropbox-API-Arg": JSON.stringify({
+                path: `/ToxDetect Backup/${fileName}`,
+                mode: "add",
+                autorename: true
+              }),
+              "Content-Type": "application/octet-stream"
+            },
+            body: reader.result
+          });
+
+          if (response.ok) {
+            alert("Journal enregistré sur Dropbox !");
+            document.getElementById("journalEntry").value = "";
+          } else {
+            alert("Échec Dropbox.");
+          }
+        } catch (e) {
+          alert("Erreur : " + e.message);
+        }
+      };
+
+      reader.readAsArrayBuffer(blob);
+    });
+
+    document.getElementById("save-file").addEventListener("click", async () => {
+      const token = localStorage.getItem("dropbox_token");
+      const input = document.getElementById("fileUpload");
+      if (!token) return alert("Connectez-vous à Dropbox d'abord.");
+      if (!input.files.length) return alert("Aucun fichier sélectionné.");
+
+      const file = input.files[0];
+      const fileName = `Fichier_${new Date().toISOString().replace(/[:.]/g, "-")}_${file.name}`;
+      const reader = new FileReader();
+
+      reader.onload = async function () {
+        try {
+          const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Dropbox-API-Arg": JSON.stringify({
+                path: `/ToxDetect Backup/${fileName}`,
+                mode: "add",
+                autorename: true
+              }),
+              "Content-Type": "application/octet-stream"
+            },
+            body: reader.result
+          });
+
+          if (response.ok) {
+            alert("Fichier envoyé sur Dropbox !");
+            input.value = "";
+            displaySelectedFiles();
+          } else {
+            alert("Erreur Dropbox");
+          }
+        } catch (err) {
+          alert("Erreur : " + err.message);
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+  </script>
 </body>
 </html>
+
