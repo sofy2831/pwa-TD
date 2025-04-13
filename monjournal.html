@@ -166,7 +166,32 @@
    Mentionnez les preuves (documents, SMS, mail, écrits, témoignages, etc.).</p>
 
 <button id="generateButton">Générer un document Word</button>
+ <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
+    <script>
+        document.getElementById("generateButton").addEventListener("click", function() {
+            const { Document, Packer, Paragraph, TextRun } = window.docx;
+            const doc = new Document({
+                sections: [{
+                    children: [
+                        new Paragraph({ children: [new TextRun("Bienvenue sur ToxDetect.")] }),
+                        new Paragraph({ children: [new TextRun("Récit des faits.")] }),
+                        new Paragraph({ children: [new TextRun("Date de l’événement : (Pièce n°...)")] }),
+                        new Paragraph({ children: [new TextRun("Signature :")] }),
+                    ],
+                }],
+            });
 
+            Packer.toBlob(doc).then((blob) => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "rapport.docx";
+                link.click();
+            });
+        });
+    </script>
+
+
+    
 <br>
 <button id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
 
