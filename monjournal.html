@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Journal</title>
+    <title>Mon Journal de bord</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,7 +41,7 @@
         }
 
         #save-journal {
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -128,7 +128,7 @@
 </head>
 <body>
 
-<h1>Mon Journal</h1>
+<h1>Mon Journal de bord</h1>
 
 <div class="container">
     <textarea id="journalEntry" placeholder="Écrivez votre journal ici..."></textarea>
@@ -173,10 +173,12 @@
             const doc = new Document({
                 sections: [{
                     children: [
-                        new Paragraph({ children: [new TextRun("Bienvenue sur ToxDetect.")] }),
-                        new Paragraph({ children: [new TextRun("Récit des faits.")] }),
-                        new Paragraph({ children: [new TextRun("Date de l’événement : (Pièce n°...)")] }),
+                        new Paragraph({ children: [new TextRun("Bienvenue sur ToxDetect. Nous sommes là pour vous aider à structurer les faits")] }),
+                        new Paragraph({ children: [new TextRun("Décrivez les faits dans l'ordre chronologique (du plus ancien au plus récent).")] }),
+                        new Paragraph({ children: [new TextRun("Soyez précis : Commencez toujours par la date : Décrivez les faits, lieux et personnes impliquées.......n'oubliez pas de numéroter vos pièces (Pièce n°...)")] }),
+                        new Paragraph({ children: [new TextRun("Restez factuel : évitez les interprétations et concentrez-vous sur les événements.")] }),
                         new Paragraph({ children: [new TextRun("Signature :")] }),
+                        new Paragraph({ children: [new TextRun("Mentionnez les preuves (documents, SMS, mail, écrits, témoignages, etc.). Rappelez les pièces 1,2,3 etc... :")] }),
                     ],
                 }],
             });
