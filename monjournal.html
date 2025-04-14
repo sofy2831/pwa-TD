@@ -82,6 +82,20 @@
       margin-top: 10px;
       font-size: 14px;
     }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-top: 10px;
+      background-color: #28a745;
+      color: white;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .badge-not-connected {
+      background-color: #dc3545;
+    }
   </style>
 </head>
 <body>
@@ -92,6 +106,9 @@
     <textarea id="journalEntry" placeholder="Écrivez votre journal ici..."></textarea>
     <button id="save-journal">Enregistrer mon journal</button>
     <button onclick="startDropboxOAuth()">Accéder à mes fichiers Dropbox</button>
+    
+    <!-- Badge de statut de connexion à Dropbox -->
+    <div id="dropboxStatus" class="badge badge-not-connected">Non connecté à Dropbox</div>
   </div>
 
   <h2>Fichiers à télécharger</h2>
@@ -112,6 +129,12 @@
   <div class="container">
     <button id="generateButton">Générer un document Word</button>
     <button id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
+
+    <!-- 🔐 Nouveau bouton de déconnexion -->
+    <button id="logoutButton" style="background-color: #dc3545;">Se déconnecter de Dropbox</button>
+
+    <!-- 📂 Nouveau bouton pour accéder à Dropbox -->
+    <button onclick="window.open('https://www.dropbox.com/home', '_blank')">Accéder à ma Dropbox</button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
@@ -147,13 +170,11 @@
       });
     });
 
-    
     const APP_KEY = "0z41GO683A6XB20"; // clé correcte
-
 
     function startDropboxOAuth() {
       const redirectUri = window.location.href;
-      const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+      const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       window.location.href = authUrl;
     }
 
@@ -164,8 +185,33 @@
         const token = params.get("access_token");
         localStorage.setItem("dropbox_token", token);
         alert("Connecté à Dropbox !");
+        updateDropboxStatus();
+      } else {
+        updateDropboxStatus();
       }
     };
+
+    // Met à jour le badge selon l'état de connexion Dropbox
+    function updateDropboxStatus() {
+      const token = localStorage.getItem("dropbox_token");
+      const statusElement = document.getElementById("dropboxStatus");
+
+      if (token) {
+        statusElement.textContent = "Connecté à Dropbox";
+        statusElement.classList.remove("badge-not-connected");
+        statusElement.classList.add("badge");
+      } else {
+        statusElement.textContent = "Non connecté à Dropbox";
+        statusElement.classList.add("badge-not-connected");
+      }
+    }
+
+    // Fonction de déconnexion de Dropbox
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      localStorage.removeItem("dropbox_token");
+      alert("Vous avez été déconnecté de Dropbox.");
+      updateDropboxStatus();
+    });
 
     document.getElementById("save-journal").addEventListener("click", async () => {
       const token = localStorage.getItem("dropbox_token");
