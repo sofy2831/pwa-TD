@@ -25,6 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             banner.innerText = `🎉 Il vous reste ${7 - diffDays} jour(s) d’essai gratuit. `;
             banner.style.display = "block";
+
+            // Masquer le message après 5 secondes
+            setTimeout(() => {
+                banner.style.display = "none";
+            }, 5000); // 5 secondes
         }
     }
 
@@ -40,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", (event) => {
             event.preventDefault();
             if (trialExpired) {
-                alert("Votre essai est terminé. Merci d’acheter l’application pour continuer.");
+                alert("Essai terminé. Continuez avec un paiement unique de 3,99 €.");
                 window.location.href = "abon.html";
                 return;
             }
