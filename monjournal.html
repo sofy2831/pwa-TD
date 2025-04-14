@@ -56,12 +56,13 @@
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 8px;
+      padding: 12px;
       font-size: 15px;
       border-radius: 4px;
       cursor: pointer;
       margin-top: 8px;
       width: 100%;
+      box-sizing: border-box;
     }
 
     button:hover {
@@ -151,19 +152,37 @@
       .badge {
         font-size: 15px;
       }
-.section-title {
-  text-align: center;
-  margin-top: 30px;
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: #444;
-}
 
-.section-wrapper {
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto 20px auto;
-}
+      /* Uniformisation des boutons */
+      button {
+        width: 100%;
+        height: 50px; /* Hauteur uniforme */
+      }
+
+      /* Spécifique aux boutons vidéo, audio et autres */
+      .media-container button,
+      #generateButton,
+      #backButton,
+      #logoutButton,
+      #save-file {
+        width: 100%;
+        height: 50px; /* Hauteur uniforme pour tous les boutons */
+      }
+    }
+
+    .section-title {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: #444;
+    }
+
+    .section-wrapper {
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto 20px auto;
+    }
   </style>
 </head>
 <body>
@@ -178,11 +197,8 @@
     <div id="dropboxStatus" class="badge badge-not-connected">Non connecté à Dropbox</div>
   </div>
 
-  
   <h2 class="section-title">Fichiers à télécharger</h2>
   <div class="container">
-    
-  
     <label for="fileUpload">Téléverser des fichiers :</label>
     <input type="file" id="fileUpload" accept="image/*,application/pdf" multiple onchange="displaySelectedFiles()" />
     <p id="selectedFiles"></p>
@@ -192,20 +208,17 @@
   <div class="media-container">
     <button onclick="window.location.href='videos.html'">Vidéo</button>
     <button onclick="window.location.href='audios.html'">Audio</button>
-     
   </div>
 
+  <button id="generateButton">Générer un document Word</button>
   
-    <button id="generateButton">Générer un document Word</button>
-  
-    <button id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
+  <button id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
 
-    <!-- 🔐 Nouveau bouton de déconnexion -->
-    <button id="logoutButton" style="background-color: #dc3545;">Se déconnecter de Dropbox</button>
+  <!-- 🔐 Nouveau bouton de déconnexion -->
+  <button id="logoutButton" style="background-color: #dc3545;">Se déconnecter de Dropbox</button>
 
-    <!-- 📂 Nouveau bouton pour accéder à Dropbox -->
-    <button onclick="window.open('https://www.dropbox.com/home', '_blank')">Accéder à ma Dropbox</button>
-  </div>
+  <!-- 📂 Nouveau bouton pour accéder à Dropbox -->
+  <button onclick="window.open('https://www.dropbox.com/home', '_blank')">Accéder à ma Dropbox</button>
 
   <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
   <script>
@@ -216,7 +229,7 @@
       output.textContent = files || "Aucun fichier sélectionné.";
     }
 
-       document.getElementById("generateButton").addEventListener("click", function () {
+    document.getElementById("generateButton").addEventListener("click", function () {
       const { Document, Packer, Paragraph, TextRun } = window.docx;
       const doc = new Document({
         sections: [{
