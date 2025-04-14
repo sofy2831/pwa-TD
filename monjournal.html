@@ -23,20 +23,20 @@
       font-size: 23px;
       text-align: center;
       color: #222;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     h2 {
       font-size: 20px;
       color: #444;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .container, .file-upload {
       width: 90%;
       max-width: 800px;
-      margin: 20px auto;
-      padding: 15px;
+      margin: 15px auto;
+      padding: 12px;
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -44,8 +44,8 @@
 
     textarea {
       width: 100%;
-      height: 150px;
-      padding: 10px;
+      height: 120px;
+      padding: 8px;
       font-size: 15px;
       border: 1px solid #ddd;
       border-radius: 4px;
@@ -56,11 +56,11 @@
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 10px;
+      padding: 8px;
       font-size: 15px;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 8px;
       width: 100%;
     }
 
@@ -71,8 +71,8 @@
     .media-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin: 20px auto;
+      gap: 8px;
+      margin: 15px auto;
       width: 90%;
       max-width: 800px;
     }
@@ -89,14 +89,14 @@
     }
 
     #selectedFiles {
-      margin-top: 10px;
+      margin-top: 8px;
       font-size: 15px;
     }
 
     .badge {
       display: inline-block;
-      padding: 5px 10px;
-      margin-top: 10px;
+      padding: 4px 8px;
+      margin-top: 8px;
       background-color: #28a745;
       color: white;
       border-radius: 20px;
@@ -109,23 +109,48 @@
 
     .file-upload label {
       font-size: 15px;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       display: inline-block;
     }
 
     .file-upload input {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-size: 15px;
     }
 
     .container button, .file-upload button {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .file-upload p {
       font-size: 15px;
-      margin-top: 5px;
+      margin-top: 4px;
+    }
+
+    /* Améliorations pour les petits écrans */
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 20px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      textarea {
+        height: 100px;
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 6px;
+      }
+
+      .badge {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -136,8 +161,7 @@
   <div class="container">
     <textarea id="journalEntry" placeholder="Écrivez votre journal ici..."></textarea>
     <button id="save-journal">Enregistrer mon journal</button>
-   
-    
+
     <!-- Badge de statut de connexion à Dropbox -->
     <div id="dropboxStatus" class="badge badge-not-connected">Non connecté à Dropbox</div>
   </div>
@@ -177,7 +201,7 @@
       output.textContent = files || "Aucun fichier sélectionné.";
     }
 
-    document.getElementById("generateButton").addEventListener("click", function () {
+       document.getElementById("generateButton").addEventListener("click", function () {
       const { Document, Packer, Paragraph, TextRun } = window.docx;
       const doc = new Document({
         sections: [{
