@@ -4,15 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const trialKey = "toxDetectTrialStart";
     const now = new Date();
     const storedDate = localStorage.getItem(trialKey);
+    const banner = document.getElementById("trial-banner");
+    const premiumLink = document.querySelector(".premium-link");
 
     let trialExpired = false;
-    const banner = document.getElementById("trial-banner");
 
     if (!storedDate) {
-        // Première ouverture, on initialise la date d’essai
         localStorage.setItem(trialKey, now.toISOString());
         banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
         banner.style.display = "block";
+        setTimeout(() => banner.style.display = "none", 3000);
     } else {
         const startDate = new Date(storedDate);
         const diffTime = now - startDate;
@@ -22,9 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
             trialExpired = true;
             banner.innerText = "⛔ Votre essai gratuit est terminé. Veuillez acheter l’application pour continuer.";
             banner.style.display = "block";
+
+            premiumLink.textContent = "✨ Accès Illimité — 3,99€";
+            premiumLink.style.display = "inline-block";
+
+            const infoMsg = document.createElement('p');
+            infoMsg.textContent = "Pour continuer à utiliser votre journal en illimité, un paiement unique de 3,99 € est nécessaire.";
+            infoMsg.style.color = "#333";
+            infoMsg.style.fontSize = "14px";
+            infoMsg.style.marginTop = "10px";
+            infoMsg.style.maxWidth = "300px";
+            infoMsg.style.marginLeft = "auto";
+            infoMsg.style.marginRight = "auto";
+            document.querySelector('.container').after(infoMsg);
         } else {
-            banner.innerText = `🎉 Il vous reste ${7 - diffDays} jour(s) d’essai gratuit. À la fin de la période d’essai, un paiement unique de 3,99 € vous permettra de continuer à utiliser l’application sans limites.`;
+            const remaining = 7 - diffDays;
+            banner.innerText = `🎉 Il vous reste ${remaining} jour${remaining > 1 ? 's' : ''} d’essai gratuit. À la fin de la période d’essai, un paiement unique de 3,99 € vous permettra de continuer à utiliser l’application sans limites.`;
             banner.style.display = "block";
+            setTimeout(() => banner.style.display = "none", 3000);
         }
     }
 
