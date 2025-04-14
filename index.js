@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
             banner.innerText = "⛔ Votre essai gratuit est terminé. Veuillez acheter l’application pour continuer.";
             banner.style.display = "block";
         } else {
-            banner.innerText = `🎉 Il vous reste ${7 - diffDays} jour(s) d’essai gratuit. À la fin de la période d’essai, un paiement unique de 3,99 € vous permettra de continuer à utiliser l’application sans limites.`;
+            banner.innerText = `🎉 Il vous reste ${7 - diffDays} jour(s) d’essai gratuit. `;
             banner.style.display = "block";
         }
     }
