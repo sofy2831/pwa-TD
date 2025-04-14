@@ -7,6 +7,8 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
@@ -14,19 +16,27 @@
       background-color: #f4f4f9;
       margin: 0;
       padding: 0;
+      color: #333;
     }
 
-    h1, h2 {
+    h1 {
+      font-size: 23px;
       text-align: center;
-      color: black;
-      margin: 20px 0 10px;
+      color: #222;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      font-size: 20px;
+      color: #444;
+      margin-bottom: 10px;
     }
 
     .container, .file-upload {
       width: 90%;
       max-width: 800px;
-      margin: auto;
-      padding: 20px;
+      margin: 20px auto;
+      padding: 15px;
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -34,9 +44,9 @@
 
     textarea {
       width: 100%;
-      height: 200px;
+      height: 150px;
       padding: 10px;
-      font-size: 16px;
+      font-size: 15px;
       border: 1px solid #ddd;
       border-radius: 4px;
       resize: none;
@@ -46,8 +56,8 @@
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 12px;
-      font-size: 16px;
+      padding: 10px;
+      font-size: 15px;
       border-radius: 4px;
       cursor: pointer;
       margin-top: 10px;
@@ -80,7 +90,7 @@
 
     #selectedFiles {
       margin-top: 10px;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     .badge {
@@ -95,6 +105,27 @@
 
     .badge-not-connected {
       background-color: #dc3545;
+    }
+
+    .file-upload label {
+      font-size: 15px;
+      margin-bottom: 5px;
+      display: inline-block;
+    }
+
+    .file-upload input {
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .container button, .file-upload button {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .file-upload p {
+      font-size: 15px;
+      margin-top: 5px;
     }
   </style>
 </head>
