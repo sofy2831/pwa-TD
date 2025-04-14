@@ -133,5 +133,132 @@
       }
     };
   </script>
+  <script>
+  const APP_KEY = "0z41GO683A6XB20";
+  const REDIRECT_URI = "https://sofy2831.github.io/toxdetect/auth.html";
+
+  // Vérification de l’essai
+  const trialKey = "toxDetectTrialStart";
+  const now = new Date();
+  const storedDate = localStorage.getItem(trialKey);
+
+  if (storedDate) {
+    const startDate = new Date(storedDate);
+    const diffTime = now - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays >= 7) {
+      alert("⛔ Votre période d’essai est terminée. Veuillez acheter l’application.");
+      window.location.href = "abon.html";
+    }
+  } else {
+    // Si aucune date enregistrée, on redirige aussi (par sécurité)
+    alert("⛔ Accès non autorisé. Veuillez lancer l'application depuis la page d'accueil.");
+    window.location.href = "abon.html";
+  }
+
+  function loginWithDropbox() {
+    const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = authUrl;
+  }
+
+  function getDropboxAccessToken() {
+    const token = localStorage.getItem("dropbox_token");
+    const statusElement = document.getElementById("dropbox-status");
+    const logoutButton = document.getElementById("logout-button");
+
+    if (token) {
+      statusElement.innerHTML = "✅ Connecté à Dropbox";
+      logoutButton.style.display = "block";
+      window.location.href = "monjournal.html";
+    } else {
+      statusElement.innerHTML = "❌ Non connecté à Dropbox";
+    }
+  }
+
+  function logoutFromDropbox() {
+    localStorage.removeItem("dropbox_token");
+    alert("Vous avez été déconnecté de Dropbox.");
+    location.reload();
+  }
+
+  window.onload = function() {
+    getDropboxAccessToken();
+
+    const hash = window.location.hash;
+    if (hash) {
+      const params = new URLSearchParams(hash.substring(1));
+      const accessToken = params.get('access_token');
+      if (accessToken) {
+        localStorage.setItem("dropbox_token", accessToken);
+        window.location.hash = '';
+        window.location.href = "monjournal.html";
+      }
+    }
+  };
+</script>
+
+  const APP_KEY = "0z41GO683A6XB20";
+  const REDIRECT_URI = "https://sofy2831.github.io/toxdetect/auth.html";
+
+  // Vérification de l’essai
+  const trialKey = "toxDetectTrialStart";
+  const now = new Date();
+  const storedDate = localStorage.getItem(trialKey);
+
+  if (storedDate) {
+    const startDate = new Date(storedDate);
+    const diffTime = now - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays >= 7) {
+      alert("⛔ Votre période d’essai est terminée. Veuillez acheter l’application.");
+      window.location.href = "abon.html";
+    }
+  } else {
+    // Si aucune date enregistrée, on redirige aussi (par sécurité)
+    alert("⛔ Accès non autorisé. Veuillez lancer l'application depuis la page d'accueil.");
+    window.location.href = "abon.html";
+  }
+
+  function loginWithDropbox() {
+    const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = authUrl;
+  }
+
+  function getDropboxAccessToken() {
+    const token = localStorage.getItem("dropbox_token");
+    const statusElement = document.getElementById("dropbox-status");
+    const logoutButton = document.getElementById("logout-button");
+
+    if (token) {
+      statusElement.innerHTML = "✅ Connecté à Dropbox";
+      logoutButton.style.display = "block";
+      window.location.href = "monjournal.html";
+    } else {
+      statusElement.innerHTML = "❌ Non connecté à Dropbox";
+    }
+  }
+
+  function logoutFromDropbox() {
+    localStorage.removeItem("dropbox_token");
+    alert("Vous avez été déconnecté de Dropbox.");
+    location.reload();
+  }
+
+  window.onload = function() {
+    getDropboxAccessToken();
+
+    const hash = window.location.hash;
+    if (hash) {
+      const params = new URLSearchParams(hash.substring(1));
+      const accessToken = params.get('access_token');
+      if (accessToken) {
+        localStorage.setItem("dropbox_token", accessToken);
+        window.location.hash = '';
+        window.location.href = "monjournal.html";
+      }
+    }
+  };
+</script>
+
 </body>
 </html>
