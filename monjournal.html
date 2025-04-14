@@ -192,7 +192,7 @@
   <div class="media-container">
     <button onclick="window.location.href='videos.html'">Vidéo</button>
     <button onclick="window.location.href='audios.html'">Audio</button>
-     <button onclick="generateWordDocument()">Générer un document Word</button>
+     <button onclick="generateButton()">Générer un document Word</button>
   </div>
 
   
@@ -216,7 +216,7 @@
       output.textContent = files || "Aucun fichier sélectionné.";
     }
 
-       document.getElementById("generateWordDocument").addEventListener("click", function () {
+       document.getElementById("generateButton").addEventListener("click", function () {
       const { Document, Packer, Paragraph, TextRun } = window.docx;
       const doc = new Document({
         sections: [{
