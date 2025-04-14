@@ -1,20 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Page d'accueil chargée.");
 
-    // Ajout de l'écouteur pour le bouton "Journal"
-    const journalButton = document.getElementById("journal-btn");
-    if (journalButton) {
-        journalButton.addEventListener("click", (event) => {
-            // Prévenir l'action par défaut
-            event.preventDefault();
-            
-            // Rediriger vers drop.html pour la connexion Dropbox
-            window.location.href = "drop.html";  // Redirection vers la page de connexion à Dropbox
-        });
-    }
-
-    // Le reste du code reste inchangé
-});
+   
    
     const trialKey = "toxDetectTrialStart";
     const now = new Date();
@@ -50,10 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Masquer le bouton Journal si essai terminé
     const journalButton = document.getElementById("journal-btn");
-    if (trialExpired && journalButton) {
-        journalButton.style.display = "none";
+     if (journalButton) {
+        journalButton.addEventListener("click", (event) => {
+            // Prévenir l'action par défaut
+            event.preventDefault();
+            
+            // Rediriger vers drop.html pour la connexion Dropbox
+            window.location.href = "drop.html";  // Redirection vers la page de connexion à Dropbox
+        });
     }
 
+    
     // Gestion des boutons
     const buttons = document.querySelectorAll("button");
     buttons.forEach(button => {
