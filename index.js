@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (diffDays >= 7) {
             trialExpired = true;
-            banner.innerText = "⛔ Votre essai gratuit est terminé. Veuillez acheter l’application pour continuer.";
+            banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
             banner.style.display = "block";
         } else {
             banner.innerText = `🎉 Il vous reste ${7 - diffDays} jour(s) d’essai gratuit. `;
