@@ -13,20 +13,15 @@
       padding: 0;
       text-align: center;
     }
-
     h1 {
       font-size: 23px;
-      color: #000; /* Titre en noir */
       margin: 20px;
     }
-
     .container {
-      width: 100%;
       max-width: 800px;
-      margin: 0 auto;
+      margin: auto;
       padding: 15px;
     }
-
     .btn {
       padding: 10px 15px;
       background-color: #007BFF;
@@ -36,87 +31,73 @@
       cursor: pointer;
       text-decoration: none;
       margin-top: 10px;
-      display: inline-block;
-      font-family: 'Arial', sans-serif;
-      font-size: 15px; /* Bouton en 15px */
+      font-size: 15px;
     }
-
     .btn:hover {
       background-color: #0056b3;
     }
-
-    .back-btn {
-      background-color: #007BFF;
-      margin-top: 10px;
-      font-family: 'Arial', sans-serif;
-      font-size: 15px; /* Retour à l'accueil en 15px */
-    }
-
-    #dropbox-message {
+    #dropbox-message, #dropbox-status {
       font-size: 15px;
-      color: #000; /* Message en noir et en 15px */
       margin-top: 20px;
-    }
-
-    #dropbox-status {
-      font-size: 15px;
-      margin-top: 20px; /* Non connecté en 15px */
-    }
-
-    /* Suppression du calendrier */
-    .calendar {
-      display: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Connexion à Dropbox</h1>
-
-    <!-- Connexion Dropbox -->
-    <p id="dropbox-message">ℹ️ Connectez-vous pour accéder à votre journal de bord personnel, où vos écrits, vidéos et enregistrements sont sauvegardés.</p>
+    <p id="dropbox-message">ℹ️ Connectez-vous pour accéder à votre journal de bord personnel.</p>
     <button id="connect-dropbox" class="btn" onclick="loginWithDropbox()">Connexion</button>
     <p id="dropbox-status">❌ Non connecté à Dropbox</p>
     <button id="logout-button" class="btn" onclick="logoutFromDropbox()" style="display: none;">Déconnexion</button>
-
-    <!-- Retour à l'accueil -->
-    <a href="index.html" class="btn back-btn">Retour à l'accueil</a>
+    <a href="index.html" class="btn">Retour à l'accueil</a>
   </div>
 
   <script>
-    const APP_KEY = "0z41GO683A6XB20"; // Clé de l'application Dropbox
-    const REDIRECT_URI = "https://sofy2831.github.io/toxdetect/auth.html"; // URL de redirection
+    const APP_KEY = "0z41GO683A6XB20";
+    const REDIRECT_URI = "https://sofy2831.github.io/toxdetect/auth.html";
 
-    // Fonction pour se connecter à Dropbox
+    // Vérification période d'essai
+    const trialKey = "toxDetectTrialStart";
+    const now = new Date();
+    const storedDate = localStorage.getItem(trialKey);
+    if (storedDate) {
+      const startDate = new Date(storedDate);
+      const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+      if (diffDays >= 7) {
+        alert("⛔ Votre période d’essai est terminée. Veuillez acheter l’application.");
+        window.location.href = "abon.html";
+      }
+    } else {
+      alert("⛔ Accès non autorisé. Veuillez lancer l'application depuis la page d'accueil.");
+      window.location.href = "abon.html";
+    }
+
+    // Connexion Dropbox
     function loginWithDropbox() {
       const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
       window.location.href = authUrl;
     }
 
-    // Fonction pour récupérer le token Dropbox
     function getDropboxAccessToken() {
       const token = localStorage.getItem("dropbox_token");
-      const statusElement = document.getElementById("dropbox-status");
-      const logoutButton = document.getElementById("logout-button");
+      const status = document.getElementById("dropbox-status");
+      const logoutBtn = document.getElementById("logout-button");
 
       if (token) {
-        statusElement.innerHTML = "✅ Connecté à Dropbox";
-        logoutButton.style.display = "block";
-        // Rediriger vers la page monjournal.html après connexion
+        status.innerHTML = "✅ Connecté à Dropbox";
+        logoutBtn.style.display = "block";
         window.location.href = "monjournal.html";
       } else {
-        statusElement.innerHTML = "❌ Non connecté à Dropbox";
+        status.innerHTML = "❌ Non connecté à Dropbox";
       }
     }
 
-    // Fonction pour se déconnecter de Dropbox
     function logoutFromDropbox() {
       localStorage.removeItem("dropbox_token");
       alert("Vous avez été déconnecté de Dropbox.");
       location.reload();
     }
 
-    // Récupérer le token au chargement de la page
     window.onload = function() {
       getDropboxAccessToken();
 
@@ -127,138 +108,10 @@
         if (accessToken) {
           localStorage.setItem("dropbox_token", accessToken);
           window.location.hash = '';
-          // Une fois le token sauvegardé, on redirige vers la page monjournal.html
           window.location.href = "monjournal.html";
         }
       }
     };
   </script>
-  <script>
-  const APP_KEY = "0z41GO683A6XB20";
-  const REDIRECT_URI = "https://sofy2831.github.io/toxdetect/auth.html";
-
-  // Vérification de l’essai
-  const trialKey = "toxDetectTrialStart";
-  const now = new Date();
-  const storedDate = localStorage.getItem(trialKey);
-
-  if (storedDate) {
-    const startDate = new Date(storedDate);
-    const diffTime = now - startDate;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays >= 7) {
-      alert("⛔ Votre période d’essai est terminée. Veuillez acheter l’application.");
-      window.location.href = "abon.html";
-    }
-  } else {
-    // Si aucune date enregistrée, on redirige aussi (par sécurité)
-    alert("⛔ Accès non autorisé. Veuillez lancer l'application depuis la page d'accueil.");
-    window.location.href = "abon.html";
-  }
-
-  function loginWithDropbox() {
-    const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
-    window.location.href = authUrl;
-  }
-
-  function getDropboxAccessToken() {
-    const token = localStorage.getItem("dropbox_token");
-    const statusElement = document.getElementById("dropbox-status");
-    const logoutButton = document.getElementById("logout-button");
-
-    if (token) {
-      statusElement.innerHTML = "✅ Connecté à Dropbox";
-      logoutButton.style.display = "block";
-      window.location.href = "monjournal.html";
-    } else {
-      statusElement.innerHTML = "❌ Non connecté à Dropbox";
-    }
-  }
-
-  function logoutFromDropbox() {
-    localStorage.removeItem("dropbox_token");
-    alert("Vous avez été déconnecté de Dropbox.");
-    location.reload();
-  }
-
-  window.onload = function() {
-    getDropboxAccessToken();
-
-    const hash = window.location.hash;
-    if (hash) {
-      const params = new URLSearchParams(hash.substring(1));
-      const accessToken = params.get('access_token');
-      if (accessToken) {
-        localStorage.setItem("dropbox_token", accessToken);
-        window.location.hash = '';
-        window.location.href = "monjournal.html";
-      }
-    }
-  };
-</script>
-
-  const APP_KEY = "0z41GO683A6XB20";
-  const REDIRECT_URI = "https://sofy2831.github.io/toxdetect/auth.html";
-
-  // Vérification de l’essai
-  const trialKey = "toxDetectTrialStart";
-  const now = new Date();
-  const storedDate = localStorage.getItem(trialKey);
-
-  if (storedDate) {
-    const startDate = new Date(storedDate);
-    const diffTime = now - startDate;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays >= 7) {
-      alert("⛔ Votre période d’essai est terminée. Veuillez acheter l’application.");
-      window.location.href = "abon.html";
-    }
-  } else {
-    // Si aucune date enregistrée, on redirige aussi (par sécurité)
-    alert("⛔ Accès non autorisé. Veuillez lancer l'application depuis la page d'accueil.");
-    window.location.href = "abon.html";
-  }
-
-  function loginWithDropbox() {
-    const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
-    window.location.href = authUrl;
-  }
-
-  function getDropboxAccessToken() {
-    const token = localStorage.getItem("dropbox_token");
-    const statusElement = document.getElementById("dropbox-status");
-    const logoutButton = document.getElementById("logout-button");
-
-    if (token) {
-      statusElement.innerHTML = "✅ Connecté à Dropbox";
-      logoutButton.style.display = "block";
-      window.location.href = "monjournal.html";
-    } else {
-      statusElement.innerHTML = "❌ Non connecté à Dropbox";
-    }
-  }
-
-  function logoutFromDropbox() {
-    localStorage.removeItem("dropbox_token");
-    alert("Vous avez été déconnecté de Dropbox.");
-    location.reload();
-  }
-
-  window.onload = function() {
-    getDropboxAccessToken();
-
-    const hash = window.location.hash;
-    if (hash) {
-      const params = new URLSearchParams(hash.substring(1));
-      const accessToken = params.get('access_token');
-      if (accessToken) {
-        localStorage.setItem("dropbox_token", accessToken);
-        window.location.hash = '';
-        window.location.href = "monjournal.html";
-      }
-    }
-  };
-</script>
-
 </body>
 </html>
