@@ -151,7 +151,19 @@
       .badge {
         font-size: 12px;
       }
-    }
+.section-title {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #444;
+}
+
+.section-wrapper {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+}
   </style>
 </head>
 <body>
@@ -166,8 +178,10 @@
     <div id="dropboxStatus" class="badge badge-not-connected">Non connecté à Dropbox</div>
   </div>
 
-  <h2>Fichiers à télécharger</h2>
+  <div class="section-wrapper">
+  <h2 class="section-title">Fichiers à télécharger</h2>
   <div class="file-upload">
+  
     <label for="fileUpload">Téléverser des fichiers :</label>
     <input type="file" id="fileUpload" accept="image/*,application/pdf" multiple onchange="displaySelectedFiles()" />
     <p id="selectedFiles"></p>
