@@ -15,14 +15,14 @@
       font-family: Arial, sans-serif;
       background-color: #f4f4f9;
       color: #333;
-      line-height: 1.5;
-      padding-bottom: 60px;
+      line-height: 1;
+      padding-bottom: 50px;
     }
 
     h1 {
       font-size: 23px;
       text-align: center;
-      padding: 10px 0;
+      padding: 5px 0;
       color: #222;
     }
 
@@ -30,7 +30,7 @@
       width: 90%;
       max-width: 600px;
       margin: 0 auto 24px auto;
-      padding: 20px;
+      padding: 10px;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.05);
@@ -39,14 +39,14 @@
     .section h2 {
       font-size: 18px;
       color: #444;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       border-bottom: 1px solid #eee;
       padding-bottom: 5px;
     }
 
     textarea {
       width: 100%;
-      height: 140px;
+      height: 110px;
       padding: 8px;
       font-size: 15px;
       border: 1px solid #ccc;
@@ -55,7 +55,7 @@
     }
 
     input[type="file"] {
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .button {
@@ -64,10 +64,10 @@
       background-color: #007bff;
       color: #fff;
       border: none;
-      padding: 12px;
+      padding: 8px;
       font-size: 15px;
       border-radius: 5px;
-      margin-top: 12px;
+      margin-top: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -131,7 +131,7 @@
   <h1>Mon Journal de bord</h1>
 
   <div class="section">
-    <h2>Rédiger une entrée</h2>
+    <h2>Rédiger une note</h2>
     <textarea id="journalEntry" placeholder="Écrivez votre journal ici..."></textarea>
     <button class="button" id="save-journal">Enregistrer mon journal</button>
     <div id="dropboxStatus" class="badge not-connected">Non connecté à Dropbox</div>
@@ -155,9 +155,11 @@
   <div class="section">
     <h2>Outils</h2>
     <button class="button" id="generateButton">Générer un document Word</button>
-    <button class="button" id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
     <button class="button danger" id="logoutButton">Se déconnecter de Dropbox</button>
     <button class="button" onclick="window.open('https://www.dropbox.com/home', '_blank')">Accéder à ma Dropbox</button>
+    <button class="button" id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
+   
+    
   </div>
 
    <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
