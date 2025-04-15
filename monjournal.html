@@ -134,7 +134,9 @@
     <h2>Rédiger une note</h2>
     <textarea id="journalEntry" placeholder="Écrivez votre journal ici..."></textarea>
     <button class="button" id="save-journal">Enregistrer mon journal</button>
-    <div id="dropboxStatus" class="badge not-connected">Non connecté à Dropbox</div>
+    <span id="dropboxStatus" class="badge connected">Connecté à Dropbox</span>
+
+    
   </div>
 
   <div class="section">
@@ -218,15 +220,20 @@
       const token = localStorage.getItem("dropbox_token");
       const statusElement = document.getElementById("dropboxStatus");
 
+       // Supprimer les deux classes de statut avant de mettre à jour
+  statusElement.classList.remove("connected", "not-connected");
+
       if (token) {
         statusElement.textContent = "Connecté à Dropbox";
-        statusElement.classList.remove("badge.connected");
-        statusElement.classList.add("badge");
+        statusElement.classList.add("connected");
       } else {
         statusElement.textContent = "Non connecté à Dropbox";
-        statusElement.classList.add("badge-not-connected");
+        statusElement.classList.add("not-connected");
       }
-    }
+      // Toujours ajouter la classe de base
+  statusElement.classList.add("badge");
+}
+
 
     document.getElementById("logoutButton").addEventListener("click", () => {
       localStorage.removeItem("dropbox_token");
