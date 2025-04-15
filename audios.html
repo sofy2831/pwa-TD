@@ -42,11 +42,11 @@
     .hidden {
       display: none;
     }
- #microIcon {
+    #microIcon {
       font-size: 50px;
       color: red;
       margin: 20px;
-    
+    }
   </style>
 </head>
 <body>
@@ -56,26 +56,25 @@
   <div id="icons" class="hidden">
     <i class="fas fa-microphone" style="color: red;"></i>
   </div>
-  <br>
+  <div id="microIcon" class="hidden">🎤</div>
+
   <button id="startBtn">Démarrer l'enregistrement</button>
   <button id="stopBtn" class="hidden">Arrêter</button>
   <button id="pauseResumeBtn" class="hidden">Pause</button>
   <button id="closeBtn">Fermer</button>
-<div id="microIcon" class="hidden">🎤</div>
-  
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script>
     let mediaRecorder;
     let audioStream;
     let chunks = [];
-    const ACCESS_TOKEN = 'sl.u.AFileMU6MtfVdwYu5_fhb5LDwIIM22YIOAgGDax3eaSd-FPm2kEl_GuorDjMVFPHv9SPSk-u7B5URMMklkcy-Dwgl246o4V4s-ASrcf1KnqZhAVgdtUM2JG6YUfkmtrtjrTp76QtBElSHObqJZ1Gz1bUpl7dQKkDm626Y8fSVveDou6bl6o4IwbtUE5e5GahqDVSMVMiB2xb01opL6KPSR9DlloxQwJ7W4Vqm65MfOI6CjHO3txXpcxe254Nyz88g-OKdNbyT97fVpTe6e8wniwzeCXUyuQvWwB5Xv-E0xspY_QRchVrJ_7MTvfFNSrYGo8R0JBJKIJZFPKp254G0Wxqv_G8rdgdmzuK8R192tAOscJHRPRq-BwtwK2wZgxNVz6pLhMJLbl4UyFH8Jo6dXpS5UAbsHTzeeoXhqYhy86e_ycnUVtH82HYYa3xEG7APLSmOoI4rZU-_zPe1bXAzNeObGUTLRTIWne3uj9XMwsbzEyTZKwkyXZeuOjyZO1qP80BNX9ua8cKeqRvgmOcExy9VW0gK3nKMxVnAqzF0rjM9Z9OtCXsdk5BIE1rxwCHWFdXUIu_DDxWFhj5jUYmLSDbAAxeOTKUkSD3LjM2FVUXcM299PPlode0-pb-P3tKy_E2JcCCyNsQEQ6JM3tqegOgC_amdB0pedj6oWLLaPZFhFwLNSrKL6_4uv6M3z6IIsptviC_xz8pc8BBLRqUvjPW50bVzEgpAsAuSCVbWjndLSUK8xQdqPqTT_mmHHpDw8URF6FAQJz9hWVDeO0sWUvMV07_NZtps114XisN2EbE__YOb07Jza3-FmMaqIjiSQsBB8YjOJN0w3rGqZWp3q-80nvxAGU9s0V_z7xpnjm7rbanHZnx7XK9uasdA5TUE_J3hP2jP4Ixk1TyE1kwMc1GYyvW1H5XLfRZefQ68fSf6ACVXRUYax81u41mM6fi6mXzty7EPEsxneXFQ0G0bIRgF1uHUCLZm-k2MSCJdXUehmoWqhbr8ahZzD6kicbSya0Jv_wixC_U4rr6VoNUOpfIlSdw78QeKjzhxNL2rd7Pjr1qbSHqjJQmi9KZngzdDCBlK_zUNZbgtlWd7JGWPopj0BwF6Txim9WP6spjDnsXP0aeckg4uXOzDFag6-7sdjo_GgC8nLCjLmNU-j8xhM4nahEDjquWadoSNjseN37tc9TcMuLAimNNDtFvSumVZcSvJg-xIZ0-Zya12r0vCsb7OzD44EQ0Ey-feoPHb7E_QVfE_aiLvzOF4yK7umyHOmg';
+    const ACCESS_TOKEN = 'sl.u.AFileMU6MtfVdwYu5_fhb5LDwIIM22YIOAgGDax3eaSd-FPm2kEl_GuorDjMVFPHv9SPSk-u7B5URMMklkcy-Dwgl246o4V4s-ASrcf1KnqZhAVgdtUM2JG6YUfkmtrtjrTp76QtBElSHObqJZ1Gz1bUpl7dQKkDm626Y8fSVveDou6bl6o4IwbtUE5e5GahqDVSMVMiB2xb01opL6KPSR9DlloxQwJ7W4Vqm65MfOI6CjHO3txXpcxe254Nyz88g-OKdNbyT97fVpTe6e8wniwzeCXUyuQvWwB5Xv-E0xspY_QRchVrJ_7MTvfFNSrYGo8R0JBJKIJZFPKp254G0Wxqv_G8rdgdmzuK8R192tAOscJHRPRq-BwtwK2wZgxNVz6pLhMJLbl4UyFH8Jo6dXpS5UAbsHTzeeoXhqYhy86e_ycnUVtH82HYYa3xEG7APLSmOoI4rZU-_zPe1bXAzNeObGUTLRTIWne3uj9XMwsbzEyTZKwkyXZeuOjyZO1qP80BNX9ua8cKeqRvgmOcExy9VW0gK3nKMxVnAqzF0rjM9Z9OtCXsdk5BIE1rxwCHWFdXUIu_DDxWFhj5jUYmLSDbAAxeOTKUkSD3LjM2FVUXcM299PPlode0-pb-P3tKy_E2JcCCyNsQEQ6JM3tqegOgC_amdB0pedj6oWLLaPZFhFwLNSrKL6_4uv6M3z6IIsptviC_xz8pc8BBLRqUvjPW50bVzEgpAsAuSCVbWjndLSUK8xQdqPqTT_mmHHpDw8URF6FAQJz9hWVDeO0sWUvMV07_NZtps114XisN2EbE__YOb07Jza3-FmMaqIjiSQsBB8YjOJN0w3rGqZWp3q-80nvxAGU9s0V_z7xpnjm7rbanHZnx7XK9uasdA5TUE_J3hP2jP4Ixk1TyE1kwMc1GYyvW1H5XLfRZefQ68fSf6ACVXRUYax81u41mM6fi6mXzty7EPEsxneXFQ0G0bIRgF1uHUCLZm-k2MSCJdXUehmoWqhbr8ahZzD6kicbSya0Jv_wixC_U4rr6VoNUOpfIlSdw78QeKjzhxNL2rd7Pjr1qbSHqjJQmi9KZngzdDCBlK_zUNZbgtlWd7JGWPopj0BwF6Txim9WP6spjDnsXP0aeckg4uXOzDFag6-7sdjo_GgC8nLCjLmNU-j8xhM4nahEDjquWadoSNjseN37tc9TcMuLAimNNDtFvSumVZcSvJg-xIZ0-Zya12r0vCsb7OzD44EQ0Ey-feoPHb7E_QVfE_aiLvzOF4yK7umyHOmg'; // ⚠️ Ne laisse pas ton vrai token ici
 
     document.getElementById('startBtn').addEventListener('click', startRecording);
     document.getElementById('stopBtn').addEventListener('click', stopRecording);
     document.getElementById('pauseResumeBtn').addEventListener('click', togglePauseResume);
     document.getElementById('closeBtn').addEventListener('click', () => window.location.href = 'monjournal.html');
-    
+
     async function startRecording() {
       try {
         audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -89,9 +88,10 @@
 
         document.getElementById('status').classList.remove('hidden');
         document.getElementById('icons').classList.remove('hidden');
+        document.getElementById('microIcon').classList.remove('hidden');
         document.getElementById('startBtn').style.display = 'none';
-        document.getElementById('stopBtn').style.display = 'inline-block';
-        document.getElementById('pauseResumeBtn').style.display = 'inline-block';
+        document.getElementById('stopBtn').classList.remove('hidden');
+        document.getElementById('pauseResumeBtn').classList.remove('hidden');
       } catch (err) {
         console.error("Erreur micro :", err);
         alert("Impossible d'accéder au micro. Vérifie les permissions.");
@@ -116,14 +116,15 @@
     function saveAudio() {
       const blob = new Blob(chunks, { type: 'audio/mpeg' });
       const fileSize = blob.size;
-            const maxFileSize = 100 * 1024 * 1024; // 100 Mo
-            if (fileSize > maxFileSize) {
-                alert("Le fichier audio est trop gros.");
-                return;
-            }
+      const maxFileSize = 100 * 1024 * 1024; // 100 Mo
+
+      if (fileSize > maxFileSize) {
+        alert("Le fichier audio est trop gros.");
+        return;
+      }
 
       const fileName = `audio_urgence_${new Date().toISOString().replace(/:/g, '-')}.mp3`;
-      const savePath = `/ToxDetect backup/${fileName}`;
+      const savePath = `/ToxDetect Backup/${fileName}`;
 
       // Lecture locale
       const audioURL = URL.createObjectURL(blob);
