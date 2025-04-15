@@ -42,6 +42,11 @@
     .hidden {
       display: none;
     }
+ #microIcon {
+      font-size: 50px;
+      color: red;
+      margin: 20px;
+    
   </style>
 </head>
 <body>
@@ -56,7 +61,8 @@
   <button id="stopBtn" class="hidden">Arrêter</button>
   <button id="pauseResumeBtn" class="hidden">Pause</button>
   <button id="closeBtn">Fermer</button>
-
+<div id="microIcon" class="hidden">🎤</div>
+  
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
   <script>
@@ -69,7 +75,7 @@
     document.getElementById('stopBtn').addEventListener('click', stopRecording);
     document.getElementById('pauseResumeBtn').addEventListener('click', togglePauseResume);
     document.getElementById('closeBtn').addEventListener('click', () => window.location.href = 'monjournal.html');
-
+    
     async function startRecording() {
       try {
         audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
