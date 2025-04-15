@@ -14,171 +14,115 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
       color: #333;
+      line-height: 1.5;
+      padding-bottom: 60px;
     }
 
     h1 {
-      font-size: 23px;
+      font-size: 24px;
       text-align: center;
+      padding: 20px 0;
       color: #222;
-      margin-bottom: 15px;
     }
 
-    h2 {
-      font-size: 18px;
-      color: #444;
-      margin-bottom: 12px;
-    }
-
-    .container, .file-upload {
+    .section {
       width: 90%;
-      max-width: 500px;
-      margin: 15px auto;
-      padding: 16px;
-      background-color: white;
-      border-radius: 5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto 24px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .section h2 {
+      font-size: 19px;
+      color: #444;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
     }
 
     textarea {
       width: 100%;
-      height: 130px;
-      padding: 10px;
+      height: 140px;
+      padding: 12px;
       font-size: 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       resize: none;
     }
 
-    button {
+    input[type="file"] {
+      margin-top: 10px;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
       background-color: #007bff;
-      color: white;
+      color: #fff;
       border: none;
       padding: 12px;
       font-size: 15px;
-      border-radius: 4px;
+      border-radius: 5px;
+      margin-top: 12px;
       cursor: pointer;
-      margin-top: 10px;
-      width: 100%;
-      box-sizing: border-box;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover {
+    .button:hover {
       background-color: #0056b3;
     }
 
-    .media-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 15px auto;
-      width: 90%;
-      max-width: 500px;
+    .danger {
+      background-color: #dc3545;
     }
 
-    @media(min-width: 600px) {
-      .media-container {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-
-      .media-container button {
-        width: 48%;
-      }
-    }
-
-    #selectedFiles {
-      margin-top: 10px;
-      font-size: 15px;
+    .danger:hover {
+      background-color: #b52b34;
     }
 
     .badge {
       display: inline-block;
+      margin-top: 12px;
       padding: 6px 12px;
-      margin-top: 10px;
-      background-color: #28a745;
-      color: white;
       border-radius: 20px;
-      font-size: 16px;
+      font-size: 14px;
+      color: #fff;
     }
 
-    .badge-not-connected {
+    .badge.connected {
+      background-color: #28a745;
+    }
+
+    .badge.not-connected {
       background-color: #dc3545;
     }
 
-    .file-upload label {
-      font-size: 15px;
-      margin-bottom: 6px;
-      display: inline-block;
+    .media-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
     }
 
-    .file-upload input {
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-
-    .container button, .file-upload button {
-      width: 100%;
-      margin-top: 5px;
-    }
-
-    .file-upload p {
-      font-size: 15px;
-      margin-top: 5px;
+    .media-buttons .button {
+      flex: 1;
     }
 
     @media (max-width: 500px) {
       h1 {
-        font-size: 23px;
+        font-size: 22px;
       }
 
-      h2 {
-        font-size: 18px;
+      .section h2 {
+        font-size: 17px;
       }
 
-      textarea {
-        height: 120px;
-        font-size: 15px;
+      .media-buttons {
+        flex-direction: column;
       }
-
-      button {
-        font-size: 15px;
-        padding: 10px;
-      }
-
-      .badge {
-        font-size: 15px;
-      }
-
-      button {
-        width: 90%;
-        height: 50px;
-      }
-
-      .media-container button,
-      #generateButton,
-      #backButton,
-      #logoutButton,
-      #save-file {
-        width: 90%;
-        height: 50px;
-      }
-    }
-
-    .section-title {
-      text-align: center;
-      margin-top: 30px;
-      margin-bottom: 12px;
-      font-size: 18px;
-      color: #444;
-    }
-
-    .section-wrapper {
-      width: 90%;
-      max-width: 800px;
-      margin: 0 auto 20px auto;
     }
   </style>
 </head>
@@ -186,35 +130,37 @@
 
   <h1>Mon Journal de bord</h1>
 
-  <div class="container">
+  <div class="section">
+    <h2>Rédiger une entrée</h2>
     <textarea id="journalEntry" placeholder="Écrivez votre journal ici..."></textarea>
-    <button id="save-journal">Enregistrer mon journal</button>
-
-    <div id="dropboxStatus" class="badge badge-not-connected">Non connecté à Dropbox</div>
+    <button class="button" id="save-journal">Enregistrer mon journal</button>
+    <div id="dropboxStatus" class="badge not-connected">Non connecté à Dropbox</div>
   </div>
 
-  <h2 class="section-title">Fichiers à télécharger</h2>
-  <div class="container">
-    <label for="fileUpload">Téléverser des fichiers :</label>
+  <div class="section">
+    <h2>Ajouter des fichiers</h2>
     <input type="file" id="fileUpload" accept="image/*,application/pdf" multiple onchange="displaySelectedFiles()" />
-    <p id="selectedFiles"></p>
-    <button id="save-file">Enregistrer mon fichier</button>
+    <p id="selectedFiles">Aucun fichier sélectionné.</p>
+    <button class="button" id="save-file">Enregistrer mon fichier</button>
   </div>
 
-  <div class="media-container">
-    <button onclick="window.location.href='videos.html'">Vidéo</button>
-    <button onclick="window.location.href='audios.html'">Audio</button>
+  <div class="section">
+    <h2>Accès multimédia</h2>
+    <div class="media-buttons">
+      <button class="button" onclick="window.location.href='videos.html'">Vidéo</button>
+      <button class="button" onclick="window.location.href='audios.html'">Audio</button>
+    </div>
   </div>
 
-  <button id="generateButton">Générer un document Word</button>
-  
-  <button id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
+  <div class="section">
+    <h2>Outils</h2>
+    <button class="button" id="generateButton">Générer un document Word</button>
+    <button class="button" id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
+    <button class="button danger" id="logoutButton">Se déconnecter de Dropbox</button>
+    <button class="button" onclick="window.open('https://www.dropbox.com/home', '_blank')">Accéder à ma Dropbox</button>
+  </div>
 
-  <button id="logoutButton" style="background-color: #dc3545;">Se déconnecter de Dropbox</button>
-
-  <button onclick="window.open('https://www.dropbox.com/home', '_blank')">Accéder à ma Dropbox</button>
-
-  <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
   <script>
     function displaySelectedFiles() {
       const input = document.getElementById("fileUpload");
