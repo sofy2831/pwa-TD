@@ -126,12 +126,7 @@
       const fileName = `audio_urgence_${new Date().toISOString().replace(/:/g, '-')}.mp3`;
   const savePath = `/ToxDetect Backup/${fileName}`;
 
-  const reader = new FileReader();
-  reader.onload = function () {
-    const arrayBuffer = reader.result;
-    uploadToDropbox(arrayBuffer, savePath); // fonction que tu as définie ailleurs
-  };
-  reader.readAsArrayBuffer(blob);
+  
 }
 
       // Lecture locale
