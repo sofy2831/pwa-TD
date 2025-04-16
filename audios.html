@@ -91,13 +91,7 @@
 
   <h1>🎙️ Enregistrement Audio</h1>
 
-  <div class="section">
-    <h2>Connectivité Dropbox</h2>
-    <span id="dropboxStatus" class="badge">Connexion...</span>
-    <button class="button danger" id="logoutButton">Se déconnecter de Dropbox</button>
-  </div>
-
-  <div class="section">
+    <div class="section">
     <h2>Enregistrer un message audio</h2>
     <button class="button" id="startRecording">🎤 Commencer l'enregistrement</button>
     <button class="button danger" id="stopRecording" disabled>🛑 Arrêter l'enregistrement</button>
@@ -110,39 +104,7 @@
     let mediaRecorder;
     let audioChunks = [];
 
-    function updateDropboxStatus() {
-      const token = localStorage.getItem("dropbox_token");
-      const status = document.getElementById("dropboxStatus");
-      status.classList.remove("connected", "not-connected");
-
-      if (token) {
-        status.textContent = "Connecté à Dropbox";
-        status.classList.add("connected");
-      } else {
-        status.textContent = "Non connecté à Dropbox";
-        status.classList.add("not-connected");
-      }
-
-      status.classList.add("badge");
-    }
-
-    window.onload = () => {
-      if (window.location.hash.includes("access_token")) {
-        const params = new URLSearchParams(window.location.hash.substr(1));
-        const token = params.get("access_token");
-        localStorage.setItem("dropbox_token", token);
-        alert("Connecté à Dropbox !");
-      }
-      updateDropboxStatus();
-    };
-
-    document.getElementById("logoutButton").addEventListener("click", () => {
-      localStorage.removeItem("dropbox_token");
-      alert("Vous avez été déconnecté.");
-      updateDropboxStatus();
-    });
-
-    document.getElementById("startRecording").addEventListener("click", async () => {
+        document.getElementById("startRecording").addEventListener("click", async () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
