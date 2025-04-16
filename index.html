@@ -186,9 +186,7 @@
       const alertBanner = document.getElementById("trial-banner");
       const premiumLink = document.querySelector(".premium-link");
 
-      if (isTrialExpired()) {
-        alertBanner.textContent = "⛔ Votre essai est terminé. Accédez à l'offre illimitée.";
-        alertBanner.style.display = "block";
+      
 
         journalBtn.disabled = true;
         journalBtn.style.backgroundColor = "#ccc";
