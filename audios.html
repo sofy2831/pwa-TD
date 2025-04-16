@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Audio</title>
+  <title>Enregistrement Audio</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,14 +15,13 @@
       font-family: Arial, sans-serif;
       background-color: #f4f4f9;
       color: #333;
-      line-height: 1;
       padding-bottom: 50px;
     }
 
     h1 {
       font-size: 23px;
       text-align: center;
-      padding: 5px 0;
+      padding: 15px 0;
       color: #222;
     }
 
@@ -30,7 +29,7 @@
       width: 90%;
       max-width: 600px;
       margin: 0 auto 20px auto;
-      padding: 10px;
+      padding: 15px;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.05);
@@ -39,23 +38,9 @@
     .section h2 {
       font-size: 18px;
       color: #444;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       border-bottom: 1px solid #eee;
       padding-bottom: 5px;
-    }
-
-    textarea {
-      width: 100%;
-      height: 90px;
-      padding: 8px;
-      font-size: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      resize: none;
-    }
-
-    input[type="file"] {
-      margin-top: 12px;
     }
 
     .button {
@@ -64,10 +49,10 @@
       background-color: #007bff;
       color: #fff;
       border: none;
-      padding: 8px;
+      padding: 10px;
       font-size: 15px;
       border-radius: 5px;
-      margin-top: 5px;
+      margin-top: 10px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -100,60 +85,45 @@
     .badge.not-connected {
       background-color: #dc3545;
     }
-
-    .media-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .media-buttons .button {
-      flex: 1;
-    }
-
-    @media (max-width: 500px) {
-      h1 {
-        font-size: 22px;
-      }
-
-      .section h2 {
-        font-size: 17px;
-      }
-
-      .media-buttons {
-        flex-direction: column;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <h1>Audio</h1>
+  <h1>🎙️ Enregistrement Audio</h1>
 
-   <div class="section">
+  <div class="section">
+    <h2>Connectivité Dropbox</h2>
+    <span id="dropboxStatus" class="badge">Connexion...</span>
+    <button class="button danger" id="logoutButton">Se déconnecter de Dropbox</button>
+  </div>
+
+  <div class="section">
     <h2>Enregistrer un message audio</h2>
     <button class="button" id="startRecording">🎤 Commencer l'enregistrement</button>
     <button class="button danger" id="stopRecording" disabled>🛑 Arrêter l'enregistrement</button>
     <audio id="audioPreview" controls style="margin-top:10px; display:none;"></audio>
     <button class="button" id="uploadAudio" disabled>📤 Envoyer sur Dropbox</button>
   </div>
-  
-
-  <div class="section">
-   
-    <button class="button" id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
-       
-  </div>
-
 
   <script>
-     
     const APP_KEY = "0z41GO683A6XB20";
+    let mediaRecorder;
+    let audioChunks = [];
 
-    function startDropboxOAuth() {
-      const redirectUri = window.location.href;
-      const authUrl = `https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=${APP_KEY}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-      window.location.href = authUrl;
+    function updateDropboxStatus() {
+      const token = localStorage.getItem("dropbox_token");
+      const status = document.getElementById("dropboxStatus");
+      status.classList.remove("connected", "not-connected");
+
+      if (token) {
+        status.textContent = "Connecté à Dropbox";
+        status.classList.add("connected");
+      } else {
+        status.textContent = "Non connecté à Dropbox";
+        status.classList.add("not-connected");
+      }
+
+      status.classList.add("badge");
     }
 
     window.onload = () => {
@@ -162,21 +132,55 @@
         const token = params.get("access_token");
         localStorage.setItem("dropbox_token", token);
         alert("Connecté à Dropbox !");
-        updateDropboxStatus();
-      } else {
-        updateDropboxStatus();
       }
+      updateDropboxStatus();
     };
 
-    function updateDropboxStatus() {
-      const token = localStorage.getItem("dropbox_token");
-      const statusElement = document.getElementById("dropboxStatus");
-   
-   
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      localStorage.removeItem("dropbox_token");
+      alert("Vous avez été déconnecté.");
+      updateDropboxStatus();
     });
 
-     
-      reader.onload = async function () {
+    document.getElementById("startRecording").addEventListener("click", async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = event => {
+        audioChunks.push(event.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(audioChunks, { type: "audio/webm" });
+        const audioUrl = URL.createObjectURL(blob);
+        const audio = document.getElementById("audioPreview");
+        audio.src = audioUrl;
+        audio.style.display = "block";
+
+        document.getElementById("uploadAudio").disabled = false;
+        document.getElementById("uploadAudio").onclick = () => uploadToDropbox(blob);
+      };
+
+      mediaRecorder.start();
+      document.getElementById("startRecording").disabled = true;
+      document.getElementById("stopRecording").disabled = false;
+    });
+
+    document.getElementById("stopRecording").addEventListener("click", () => {
+      mediaRecorder.stop();
+      document.getElementById("startRecording").disabled = false;
+      document.getElementById("stopRecording").disabled = true;
+    });
+
+    async function uploadToDropbox(blob) {
+      const token = localStorage.getItem("dropbox_token");
+      if (!token) return alert("Connectez-vous à Dropbox d'abord.");
+
+      const fileName = `Audio_${new Date().toISOString().replace(/[:.]/g, "-")}.webm`;
+      const reader = new FileReader();
+
+      reader.onload = async () => {
         try {
           const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
             method: "POST",
@@ -193,138 +197,18 @@
           });
 
           if (response.ok) {
-            alert("Journal enregistré sur Dropbox !");
-            document.getElementById("journalEntry").value = "";
+            alert("Fichier audio envoyé sur Dropbox !");
+            document.getElementById("uploadAudio").disabled = true;
           } else {
-            alert("Échec Dropbox.");
+            alert("Erreur Dropbox.");
           }
-        } catch (e) {
-          alert("Erreur : " + e.message);
+        } catch (err) {
+          alert("Erreur : " + err.message);
         }
       };
 
       reader.readAsArrayBuffer(blob);
-    });
-
-    document.getElementById("save-file").addEventListener("click", async () => {
-      const token = localStorage.getItem("dropbox_token");
-      const input = document.getElementById("fileUpload");
-      const files = input.files;
-
-      if (!token) return alert("Connectez-vous à Dropbox d'abord.");
-      if (files.length === 0) return alert("Aucun fichier sélectionné.");
-
-      for (const file of files) {
-        const blob = file;
-        const reader = new FileReader();
-
-        reader.onload = async function () {
-          try {
-            const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
-              method: "POST",
-              headers: {
-                "Authorization": `Bearer ${token}`,
-                "Dropbox-API-Arg": JSON.stringify({
-                  path: `/ToxDetect Backup/${file.name}`,
-                  mode: "add",
-                  autorename: true
-                }),
-                "Content-Type": "application/octet-stream"
-              },
-              body: reader.result
-            });
-
-            if (response.ok) {
-              alert(`Fichier ${file.name} sauvegardé sur Dropbox !`);
-            } else {
-              alert(`Échec de l'enregistrement du fichier ${file.name}.`);
-            }
-          } catch (e) {
-            alert("Erreur : " + e.message);
-          }
-        };
-
-        reader.readAsArrayBuffer(blob);
-      }
-    });
-
-    let mediaRecorder;
-let audioChunks = [];
-let audioBlob;
-
-document.getElementById("startRecording").addEventListener("click", async () => {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream);
-    audioChunks = [];
-
-    mediaRecorder.ondataavailable = event => {
-      if (event.data.size > 0) audioChunks.push(event.data);
-    };
-
-    mediaRecorder.onstop = () => {
-      audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = document.getElementById("audioPreview");
-      audio.src = audioUrl;
-      audio.style.display = "block";
-      document.getElementById("uploadAudio").disabled = false;
-    };
-
-    mediaRecorder.start();
-    document.getElementById("startRecording").disabled = true;
-    document.getElementById("stopRecording").disabled = false;
-  } catch (err) {
-    alert("Erreur d'accès au micro : " + err.message);
-  }
-});
-
-document.getElementById("stopRecording").addEventListener("click", () => {
-  mediaRecorder.stop();
-  document.getElementById("startRecording").disabled = false;
-  document.getElementById("stopRecording").disabled = true;
-});
-
-document.getElementById("uploadAudio").addEventListener("click", async () => {
-  const token = localStorage.getItem("dropbox_token");
-  if (!token) return alert("Connectez-vous à Dropbox d'abord.");
-  if (!audioBlob) return alert("Aucun enregistrement trouvé.");
-
-  const fileName = `Audio_${new Date().toISOString().replace(/[:.]/g, "-")}.webm`;
-  const reader = new FileReader();
-
-  reader.onload = async function () {
-    try {
-      const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Dropbox-API-Arg": JSON.stringify({
-            path: `/ToxDetect Backup/${fileName}`,
-            mode: "add",
-            autorename: true
-          }),
-          "Content-Type": "application/octet-stream"
-        },
-        body: reader.result
-      });
-
-      if (response.ok) {
-        alert("Audio enregistré sur Dropbox !");
-        document.getElementById("uploadAudio").disabled = true;
-        document.getElementById("audioPreview").style.display = "none";
-      } else {
-        alert("Échec de l'envoi audio.");
-      }
-    } catch (e) {
-      alert("Erreur : " + e.message);
     }
-  };
-
-  reader.readAsArrayBuffer(audioBlob);
-});
-
-
   </script>
 </body>
 </html>
