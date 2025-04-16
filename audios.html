@@ -69,21 +69,36 @@
       background-color: #b52b34;
     }
 
-    .badge {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 12px;
+    #progressBarContainer {
+      width: 100%;
+      background-color: #e0e0e0;
       border-radius: 20px;
-      font-size: 14px;
-      color: #fff;
+      overflow: hidden;
+      height: 12px;
+      margin-bottom: 10px;
+      display: none;
     }
 
-    .badge.connected {
+    #progressBar {
+      height: 100%;
       background-color: #28a745;
+      width: 0%;
+      transition: width 0.2s;
     }
 
-    .badge.not-connected {
-      background-color: #dc3545;
+    .back-button {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-button a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .back-button a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -91,76 +106,91 @@
 
   <h1>🎙️ Enregistrement Audio</h1>
 
-    <div class="section">
+  <div class="section">
     <h2>Enregistrer un message audio</h2>
+
+    <div id="progressBarContainer">
+      <div id="progressBar"></div>
+    </div>
+
     <button class="button" id="startRecording">🎤 Commencer l'enregistrement</button>
-    <button class="button secondary" id="pauseRecording" disabled>⏸️ Pause</button>
     <button class="button danger" id="stopRecording" disabled>🛑 Arrêter l'enregistrement</button>
     <audio id="audioPreview" controls style="margin-top:10px; display:none;"></audio>
-    <button class="button" id="uploadAudio" disabled>📤 Envoyer sur Dropbox</button>
+    <button class="button" id="uploadAudio" disabled style="display:none;">📤 Envoyer sur Dropbox</button>
+  </div>
+
+  <div class="back-button">
+    <a href="monjournal.htm">⬅️ Retour</a>
   </div>
 
   <script>
     const APP_KEY = "0z41GO683A6XB20";
     let mediaRecorder;
     let audioChunks = [];
-    let isPaused = false;
+    let progressInterval;
+    let progress = 0;
 
-        document.getElementById("startRecording").addEventListener("click", async () => {
+    const progressBarContainer = document.getElementById("progressBarContainer");
+    const progressBar = document.getElementById("progressBar");
+
+    document.getElementById("startRecording").addEventListener("click", async () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
 
-          document.body.classList.add("scrolling-active");
-
       mediaRecorder.ondataavailable = event => {
-       if (event.data.size > 0) audioChunks.push(event.data);
-      };  
+        audioChunks.push(event.data);
+      };
 
-      mediaRecorder.onstop = () => {
+      mediaRecorder.onstop = async () => {
         const blob = new Blob(audioChunks, { type: "audio/webm" });
         const audioUrl = URL.createObjectURL(blob);
         const audio = document.getElementById("audioPreview");
         audio.src = audioUrl;
         audio.style.display = "block";
 
-        document.getElementById("uploadAudio").disabled = false;
-        document.getElementById("uploadAudio").onclick = () => uploadToDropbox(blob);
+        // upload automatically
+        await uploadToDropbox(blob);
+
+        // Reset progress bar
+        clearInterval(progressInterval);
+        progressBar.style.width = "0%";
+        progressBarContainer.style.display = "none";
+
+        document.getElementById("uploadAudio").disabled = true;
+        document.getElementById("uploadAudio").style.display = "none";
       };
 
       mediaRecorder.start();
-      isPaused = false;    
+
+      // Activate buttons
       document.getElementById("startRecording").disabled = true;
       document.getElementById("stopRecording").disabled = false;
-       document.getElementById("pauseRecording").disabled = false;
-      document.getElementById("pauseRecording").textContent = "⏸️ Pause";   
+
+      // Show and animate progress bar
+      progressBarContainer.style.display = "block";
+      progress = 0;
+      progressBar.style.width = "0%";
+      progressInterval = setInterval(() => {
+        if (progress < 100) {
+          progress += 1;
+          progressBar.style.width = progress + "%";
+        }
+      }, 200); // animate over ~20 seconds (adjust as needed)
     });
 
- document.getElementById("pauseRecording").addEventListener("click", () => {
-      if (!mediaRecorder) return;
-
-      if (!isPaused) {
-        mediaRecorder.pause();
-        isPaused = true;
-        document.getElementById("pauseRecording").textContent = "▶️ Reprendre";
-      } else {
-        mediaRecorder.resume();
-        isPaused = false;
-        document.getElementById("pauseRecording").textContent = "⏸️ Pause";
-      }
-    });
-    
     document.getElementById("stopRecording").addEventListener("click", () => {
       mediaRecorder.stop();
       document.getElementById("startRecording").disabled = false;
       document.getElementById("stopRecording").disabled = true;
-      document.getElementById("pauseRecording").disabled = true;
-      document.body.classList.remove("scrolling-active");
     });
 
     async function uploadToDropbox(blob) {
       const token = localStorage.getItem("dropbox_token");
-      if (!token) return alert("Connectez-vous à Dropbox d'abord.");
+      if (!token) {
+        alert("Connectez-vous à Dropbox d'abord.");
+        return;
+      }
 
       const fileName = `Audio_${new Date().toISOString().replace(/[:.]/g, "-")}.webm`;
       const reader = new FileReader();
@@ -183,7 +213,6 @@
 
           if (response.ok) {
             alert("Fichier audio envoyé sur Dropbox !");
-            document.getElementById("uploadAudio").disabled = true;
           } else {
             alert("Erreur Dropbox.");
           }
