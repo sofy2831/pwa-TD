@@ -19,10 +19,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
         if (diffDays >= 7) {
-            trialExpired = true;
-            banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
-            banner.style.display = "block";
-        } else {
+    trialExpired = true;
+    banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
+    banner.style.display = "block";
+
+    const payButtonContainer = document.getElementById("payment-button");
+    if (payButtonContainer) {
+        payButtonContainer.style.display = "block";
+    }
+
+    const payButton = document.getElementById("pay-now");
+    if (payButton) {
+        payButton.addEventListener("click", () => {
+            window.location.href = "abon.html";
+        });
+    }
+}
+
+        } 
+        
+        else {
             banner.innerText = `🎉 Il vous reste ${7 - diffDays} jour(s) d’essai gratuit.`;
             banner.style.display = "block";
 
