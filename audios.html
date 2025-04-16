@@ -47,6 +47,27 @@
       color: red;
       margin: 20px;
     }
+#audioControls {
+            display: none;
+            margin-top: 20px;
+        }
+        #progressContainer {
+            width: 80%;
+            background-color: #ccc;
+            margin: 20px auto;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+        }
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background-color: #007BFF;
+            transition: width 0.1s linear;
+        }
+
+    
   </style>
 </head>
 <body>
@@ -56,9 +77,17 @@
   <div id="icons" class="hidden">
     <i class="fas fa-microphone" style="color: red;"></i>
   </div>
-  <div id="microIcon" class="hidden">🎤</div>
+ 
 
   <button id="startBtn">Démarrer l'enregistrement</button>
+    <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
+    <div id="audioControls">
+        <audio id="audioPlayer" controls></audio>
+        <br>
+
+  
   <button id="stopBtn" class="hidden">Arrêter</button>
   <button id="pauseResumeBtn" class="hidden">Pause</button>
   <button id="closeBtn">Fermer</button>
@@ -97,6 +126,12 @@
         alert("Impossible d'accéder au micro. Vérifie les permissions.");
       }
     }
+        function updateProgressBar() {
+            recordingTime += 0.1; 
+            let progressBar = document.getElementById('progressBar');
+            let progress = Math.min((recordingTime / 60) * 100, 100);
+            progressBar.style.width = progress + '%';
+        }
 
     function stopRecording() {
       mediaRecorder.stop();
@@ -114,7 +149,7 @@
     }
 
     function saveAudio() {
-      const blob = new Blob(chunks, { type: 'audio/mpeg' });
+      const blob = new Blob(chunks, { type: 'audio/mp4' });
       const fileSize = blob.size;
       const maxFileSize = 100 * 1024 * 1024; // 100 Mo
 
@@ -123,7 +158,7 @@
         return;
       }
 
-      const fileName = `audio_urgence_${new Date().toISOString().replace(/:/g, '-')}.mp3`;
+      const fileName = `audio_urgence_${new Date().toISOString().replace(/:/g, '-')}.m4a`;
       const savePath = `/ToxDetect Backup/${fileName}`;
 
       // Lecture locale
