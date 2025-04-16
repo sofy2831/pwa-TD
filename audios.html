@@ -87,11 +87,29 @@
 
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script>
+
+// Détection des formats audio supportés
+function getSupportedAudioType() {
+    const audio = document.createElement('audio');
+    if (MediaRecorder.isTypeSupported('audio/webm') && audio.canPlayType('audio/webm') !== '') {
+      return { mimeType: 'audio/webm', extension: 'webm' };
+    } else if (MediaRecorder.isTypeSupported('audio/ogg') && audio.canPlayType('audio/ogg') !== '') {
+      return { mimeType: 'audio/ogg', extension: 'ogg' };
+    } else if (MediaRecorder.isTypeSupported('audio/mp4') && audio.canPlayType('audio/mp4') !== '') {
+      return { mimeType: 'audio/mp4', extension: 'mp4' };
+    } else {
+      alert("Votre navigateur ne supporte pas les formats d'enregistrement audio requis.");
+      throw new Error("Format audio non supporté.");
+    }
+  }
+
     let mediaRecorder;
     let audioStream;
     let chunks = [];
     let recordingTime = 0;
     let progressInterval;
+    let selectedAudioFormat;
+
     const ACCESS_TOKEN = 'sl.u.AFileMU6MtfVdwYu5_fhb5LDwIIM22YIOAgGDax3eaSd-FPm2kEl_GuorDjMVFPHv9SPSk-u7B5URMMklkcy-Dwgl246o4V4s-ASrcf1KnqZhAVgdtUM2JG6YUfkmtrtjrTp76QtBElSHObqJZ1Gz1bUpl7dQKkDm626Y8fSVveDou6bl6o4IwbtUE5e5GahqDVSMVMiB2xb01opL6KPSR9DlloxQwJ7W4Vqm65MfOI6CjHO3txXpcxe254Nyz88g-OKdNbyT97fVpTe6e8wniwzeCXUyuQvWwB5Xv-E0xspY_QRchVrJ_7MTvfFNSrYGo8R0JBJKIJZFPKp254G0Wxqv_G8rdgdmzuK8R192tAOscJHRPRq-BwtwK2wZgxNVz6pLhMJLbl4UyFH8Jo6dXpS5UAbsHTzeeoXhqYhy86e_ycnUVtH82HYYa3xEG7APLSmOoI4rZU-_zPe1bXAzNeObGUTLRTIWne3uj9XMwsbzEyTZKwkyXZeuOjyZO1qP80BNX9ua8cKeqRvgmOcExy9VW0gK3nKMxVnAqzF0rjM9Z9OtCXsdk5BIE1rxwCHWFdXUIu_DDxWFhj5jUYmLSDbAAxeOTKUkSD3LjM2FVUXcM299PPlode0-pb-P3tKy_E2JcCCyNsQEQ6JM3tqegOgC_amdB0pedj6oWLLaPZFhFwLNSrKL6_4uv6M3z6IIsptviC_xz8pc8BBLRqUvjPW50bVzEgpAsAuSCVbWjndLSUK8xQdqPqTT_mmHHpDw8URF6FAQJz9hWVDeO0sWUvMV07_NZtps114XisN2EbE__YOb07Jza3-FmMaqIjiSQsBB8YjOJN0w3rGqZWp3q-80nvxAGU9s0V_z7xpnjm7rbanHZnx7XK9uasdA5TUE_J3hP2jP4Ixk1TyE1kwMc1GYyvW1H5XLfRZefQ68fSf6ACVXRUYax81u41mM6fi6mXzty7EPEsxneXFQ0G0bIRgF1uHUCLZm-k2MSCJdXUehmoWqhbr8ahZzD6kicbSya0Jv_wixC_U4rr6VoNUOpfIlSdw78QeKjzhxNL2rd7Pjr1qbSHqjJQmi9KZngzdDCBlK_zUNZbgtlWd7JGWPopj0BwF6Txim9WP6spjDnsXP0aeckg4uXOzDFag6-7sdjo_GgC8nLCjLmNU-j8xhM4nahEDjquWadoSNjseN37tc9TcMuLAimNNDtFvSumVZcSvJg-xIZ0-Zya12r0vCsb7OzD44EQ0Ey-feoPHb7E_QVfE_aiLvzOF4yK7umyHOmg'; // ⚠️ Remplace ceci en toute sécurité
 
     document.getElementById('startBtn').addEventListener('click', startRecording);
@@ -102,9 +120,11 @@
     async function startRecording() {
       try {
         audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(audioStream);
-        chunks = [];
 
+        selectedAudioFormat = getSupportedAudioType(); // Détection dynamique
+        mediaRecorder = new MediaRecorder(audioStream, { mimeType: selectedAudioFormat.mimeType });
+
+        chunks = [];
         mediaRecorder.ondataavailable = e => chunks.push(e.data);
         mediaRecorder.onstop = saveAudio;
 
@@ -153,7 +173,7 @@
     }
 
     function saveAudio() {
-      const blob = new Blob(chunks, { type: 'audio/webm' });
+      const blob = new Blob(chunks, { type: selectedAudioFormat.mimeType });
       const fileSize = blob.size;
       const maxFileSize = 100 * 1024 * 1024;
 
@@ -162,8 +182,9 @@
         return;
       }
 
-      const fileName = `audio_urgence_${new Date().toISOString().replace(/:/g, '-')}.webm`;
+      const fileName = `audio_urgence_${new Date().toISOString().replace(/:/g, '-')}.${selectedAudioFormat.extension}`;
       const savePath = `/ToxDetect Backup/${fileName}`;
+
 
       const audioURL = URL.createObjectURL(blob);
       const audioPlayer = document.getElementById('audioPlayer');
