@@ -166,7 +166,7 @@
   <script>
     // Simule la vérification de l'essai — ici 7 jours après l'activation
     function isTrialExpired() {
-      const trialStart = localStorage.getItem('trialStart');
+      const trialStart = localStorage.getItem('toxDetectTrialStart');
       if (!trialStart) return false; // Si pas de date, on considère actif
 
       const startDate = new Date(trialStart);
