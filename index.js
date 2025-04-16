@@ -1,82 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Page d'accueil chargée.");
+  console.log("Page d'accueil chargée.");
 
-    const trialKey = "toxDetectTrialStart";
-    const now = new Date();
-    const storedDate = localStorage.getItem(trialKey);
+  const trialKey = "toxDetectTrialStart";
+  const banner = document.getElementById("trial-banner");
+  const payButtonContainer = document.getElementById("payment-button");
+  const payButton = document.getElementById("pay-now");
+  const journalButton = document.getElementById("journal-btn");
+  const buttons = document.querySelectorAll("button");
+  const now = new Date();
 
-    let trialExpired = false;
-    const banner = document.getElementById("trial-banner");
+  // Initialisation de la date d'essai si absente
+  let trialStart = localStorage.getItem(trialKey);
+  if (!trialStart) {
+    localStorage.setItem(trialKey, now.toISOString());
+    banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
+    banner.style.display = "block";
+    setTimeout(() => banner.style.display = "none", 3000);
+    return; // Pas besoin d'aller plus loin
+  }
 
-    if (!storedDate) {
-        // Première ouverture, on initialise la date d’essai
-        localStorage.setItem(trialKey, now.toISOString());
-        banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
-        banner.style.display = "block";
-    } else {
-        const startDate = new Date(storedDate);
-        const diffTime = now - startDate;
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  // Vérification expiration essai
+  const startDate = new Date(trialStart);
+  const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  const trialExpired = diffDays >= 7;
 
-        if (diffDays >= 7) {
-    trialExpired = true;
+  if (trialExpired) {
     banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
     banner.style.display = "block";
-
-    const payButtonContainer = document.getElementById("payment-button");
-    if (payButtonContainer) {
-        payButtonContainer.style.display = "block";
+    if (payButtonContainer) payButtonContainer.style.display = "block";
+    if (journalButton) {
+      journalButton.disabled = true;
+      journalButton.style.backgroundColor = "#ccc";
+      journalButton.style.cursor = "not-allowed";
+      journalButton.title = "Essai expiré — accès restreint";
     }
-
-    const payButton = document.getElementById("pay-now");
-    if (payButton) {
-        payButton.addEventListener("click", () => {
-            window.location.href = "abon.html";
-        });
+  } else {
+    // Accès journal actif
+    if (journalButton) {
+      journalButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.location.href = "drop.html";
+      });
     }
-}
+  }
 
-     
-
-            // Masquer le message après 3 secondes
-            setTimeout(() => {
-                banner.style.display = "none";
-            }, 3000);
-        }
-    }
-
-    // Gestion du bouton Journal
-    const journalButton = document.getElementById("journal-btn");
-    if (trialExpired && journalButton) {
-        journalButton.style.display = "none";
-    } else if (journalButton) {
-        journalButton.addEventListener("click", (event) => {
-            event.preventDefault();
-            window.location.href = "drop.html"; // Connexion Dropbox
-        });
-    }
-
-    // Gestion des autres boutons
-    const buttons = document.querySelectorAll("button");
-    buttons.forEach(button => {
-        button.addEventListener("click", (event) => {
-            event.preventDefault();
-
-            if (trialExpired) {
-                alert("Essai terminé. Continuez avec un paiement unique de 3,99 €.");
-                window.location.href = "abon.html";
-                return;
-            }
-
-            event.target.style.transform = "scale(0.95)";
-            setTimeout(() => {
-                event.target.style.transform = "scale(1)";
-                const link = event.target.getAttribute("onclick")?.split("'")[1];
-                if (link) {
-                    window.location.href = link;
-                }
-            }, 150);
-        });
+  // Bouton de paiement
+  if (payButton) {
+    payButton.addEventListener("click", () => {
+      window.location.href = "abon.html";
     });
-});
+  }
 
+  // Gestion de tous les boutons sauf ceux déjà traités
+  buttons.forEach(button => {
+    if (button.id === "journal-btn" || button.id === "pay-now") return;
+
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      if (trialExpired) {
+        alert("Essai terminé. Continuez avec un paiement unique de 3,99 €.");
+        window.location.href = "abon.html";
+        return;
+      }
+
+      // Animation
+      event.target.style.transform = "scale(0.95)";
+      setTimeout(() => {
+        event.target.style.transform = "scale(1)";
+        const link = event.target.getAttribute("onclick")?.split("'")[1];
+        if (link) {
+          window.location.href = link;
+        }
+      }, 150);
+    });
+  });
+});
