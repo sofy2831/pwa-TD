@@ -36,11 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }
 
-        } 
-        
-        else {
-            banner.innerText = `🎉 Il vous reste ${7 - diffDays} jour(s) d’essai gratuit.`;
-            banner.style.display = "block";
+     
 
             // Masquer le message après 3 secondes
             setTimeout(() => {
