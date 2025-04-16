@@ -94,6 +94,7 @@
     <div class="section">
     <h2>Enregistrer un message audio</h2>
     <button class="button" id="startRecording">🎤 Commencer l'enregistrement</button>
+    <button class="button secondary" id="pauseRecording" disabled>⏸️ Pause</button>
     <button class="button danger" id="stopRecording" disabled>🛑 Arrêter l'enregistrement</button>
     <audio id="audioPreview" controls style="margin-top:10px; display:none;"></audio>
     <button class="button" id="uploadAudio" disabled>📤 Envoyer sur Dropbox</button>
@@ -103,15 +104,18 @@
     const APP_KEY = "0z41GO683A6XB20";
     let mediaRecorder;
     let audioChunks = [];
+    let isPaused = false;
 
         document.getElementById("startRecording").addEventListener("click", async () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
 
+          document.body.classList.add("scrolling-active");
+
       mediaRecorder.ondataavailable = event => {
-        audioChunks.push(event.data);
-      };
+       if (event.data.size > 0) audioChunks.push(event.data);
+      };  
 
       mediaRecorder.onstop = () => {
         const blob = new Blob(audioChunks, { type: "audio/webm" });
@@ -125,14 +129,33 @@
       };
 
       mediaRecorder.start();
+      isPaused = false;    
       document.getElementById("startRecording").disabled = true;
       document.getElementById("stopRecording").disabled = false;
+       document.getElementById("pauseRecording").disabled = false;
+      document.getElementById("pauseRecording").textContent = "⏸️ Pause";   
     });
 
+ document.getElementById("pauseRecording").addEventListener("click", () => {
+      if (!mediaRecorder) return;
+
+      if (!isPaused) {
+        mediaRecorder.pause();
+        isPaused = true;
+        document.getElementById("pauseRecording").textContent = "▶️ Reprendre";
+      } else {
+        mediaRecorder.resume();
+        isPaused = false;
+        document.getElementById("pauseRecording").textContent = "⏸️ Pause";
+      }
+    });
+    
     document.getElementById("stopRecording").addEventListener("click", () => {
       mediaRecorder.stop();
       document.getElementById("startRecording").disabled = false;
       document.getElementById("stopRecording").disabled = true;
+      document.getElementById("pauseRecording").disabled = true;
+      document.body.classList.remove("scrolling-active");
     });
 
     async function uploadToDropbox(blob) {
