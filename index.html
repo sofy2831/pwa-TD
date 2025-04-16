@@ -69,7 +69,7 @@
       margin-bottom: 20px;
     }
 
-    button, .premium-link {
+    button {
       width: 200px;
       height: 44px;
       font-size: 15px;
@@ -79,23 +79,10 @@
       color: white;
       border-radius: 6px;
       transition: background-color 0.3s, transform 0.2s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    button:hover, .premium-link:hover {
+    button:hover {
       background-color: #0056b3;
-    }
-
-    .premium-link {
-      background-color: #28a745;
-      display: none;
-    }
-
-    .premium-link:hover {
-      background-color: #218838;
     }
 
     .alert {
@@ -110,6 +97,25 @@
       display: none;
     }
 
+    #payment-button {
+      display: none;
+      margin-top: 10px;
+    }
+
+    #pay-now {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #pay-now:hover {
+      background-color: #0056b3;
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
       .container {
@@ -122,7 +128,7 @@
         padding: 6px;
       }
 
-      button, .premium-link {
+      button {
         width: 100%;
         max-width: 280px;
       }
@@ -146,65 +152,13 @@
   </div>
 
   <div id="trial-banner" class="alert"></div>
-  <a href="abon.html" class="premium-link">✨ Accès Illimité</a>
 
-  <div id="payment-button" style="display: none; margin-top: 10px;">
-  <button id="pay-now" style="
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;">
-    🔓 Payer 3,99 € pour un accès illimité
-  </button>
-</div>
+  <div id="payment-button">
+    <button id="pay-now">🔓 Payer 3,99 € pour un accès illimité</button>
+  </div>
 
-
-  
+  <!-- Service Worker -->
   <script>
-    // Simule la vérification de l'essai — ici 7 jours après l'activation
-    function isTrialExpired() {
-      const trialStart = localStorage.getItem('toxDetectTrialStart');
-      if (!trialStart) return false; // Si pas de date, on considère actif
-
-      const startDate = new Date(trialStart);
-      const now = new Date();
-      const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-      return diffDays >= 7;
-    }
-
-    // Initialisation si jamais non défini
-    if (!localStorage.getItem('trialStart')) {
-      localStorage.setItem('trialStart', new Date().toISOString());
-    }
-
-    // Gestion UI selon l'état de l'essai
-    window.addEventListener("DOMContentLoaded", () => {
-      const journalBtn = document.getElementById("journal-btn");
-      const alertBanner = document.getElementById("trial-banner");
-      const premiumLink = document.querySelector(".premium-link");
-
-      
-
-        journalBtn.disabled = true;
-        journalBtn.style.backgroundColor = "#ccc";
-        journalBtn.style.cursor = "not-allowed";
-        journalBtn.title = "Essai expiré — accès restreint";
-
-        premiumLink.style.display = "inline-flex";
-      } else {
-        journalBtn.addEventListener("click", () => {
-          window.location.href = "drop.html";
-        });
-        premiumLink.style.display = "none";
-      }
-    });
-  </script>
-
-  <script>
-    // Enregistrement du Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('service-worker.js')
@@ -214,6 +168,9 @@
     }
   </script>
 
+  <!-- Script principal -->
   <script src="index.js"></script>
 </body>
 </html>
+
+
