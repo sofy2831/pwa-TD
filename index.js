@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Vérification expiration essai
   const startDate = new Date(trialStart);
   const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-  const trialExpired = diffDays >= 7;
+  const trialExpired = diffDays >= 3;
 
   if (trialExpired) {
     banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
