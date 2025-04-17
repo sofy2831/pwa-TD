@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📷 Prendre une Photo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      padding-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 23px;
+      text-align: center;
+      padding: 15px 0;
+      color: #222;
+    }
+
+    .section {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    .danger {
+      background-color: #dc3545;
+    }
+
+    .danger:hover {
+      background-color: #b52b34;
+    }
+
+    video, canvas {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .back-button {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-button a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .back-button a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📸 Prendre une Photo</h1>
+
+  <div class="section">
+    <video id="video" autoplay></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <button class="button" id="capture">📸 Capturer la photo</button>
+    <button class="button" id="upload" disabled style="display:none;">📤 Envoyer sur Dropbox</button>
+  </div>
+
+  <button class="button" onclick="window.location.href='/pages/dashboard.html'">Retour à l'accueil</button>
+
+  <script>
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const captureBtn = document.getElementById("capture");
+    const uploadBtn = document.getElementById("upload");
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        alert("Erreur d'accès à la caméra : " + err.message);
+      });
+
+    captureBtn.addEventListener("click", () => {
+      canvas.style.display = "block";
+      video.style.display = "none";
+
+      const context = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      uploadBtn.disabled = false;
+      uploadBtn.style.display = "block";
+    });
+
+    uploadBtn.addEventListener("click", async () => {
+      const token = localStorage.getItem("dropbox_token");
+      if (!token) {
+        alert("Connectez-vous à Dropbox d'abord.");
+        return;
+      }
+
+      canvas.toBlob(async (blob) => {
+        const fileName = `Photo_${new Date().toISOString().replace(/[:.]/g, "-")}.png`;
+
+        const reader = new FileReader();
+        reader.onload = async () => {
+          try {
+            const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${token}`,
+                "Dropbox-API-Arg": JSON.stringify({
+                  path: `/ToxDetect Backup/${fileName}`,
+                  mode: "add",
+                  autorename: true
+                }),
+                "Content-Type": "application/octet-stream"
+              },
+              body: reader.result
+            });
+
+            if (response.ok) {
+              alert("✅ Photo envoyée sur Dropbox !");
+            } else {
+              alert("❌ Échec de l'envoi sur Dropbox.");
+            }
+          } catch (err) {
+            alert("Erreur : " + err.message);
+          }
+        };
+        reader.readAsArrayBuffer(blob);
+      }, "image/png");
+    });
+  </script>
+</body>
+</html>
