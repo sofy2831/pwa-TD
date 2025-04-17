@@ -90,12 +90,6 @@
       text-decoration: none;
       transition: background-color 0.3s ease;
     }
-    .back-button a {
-      color: #007bff;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
     .return-button:hover {
       background-color: #5a6268;
     }
@@ -116,7 +110,6 @@
     <button class="button" id="pauseResumeRecording" style="display:none;">⏸️ Pause</button>
     <button class="button danger" id="stopRecording" disabled>🛑 Arrêter</button>
     <video id="videoPreview" controls></video>
-    <button class="button" id="uploadVideo" disabled style="display:none;">📤 Envoyer sur Dropbox</button>
   </div>
 
   <button class="button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
@@ -131,7 +124,6 @@
     const startBtn = document.getElementById("startRecording");
     const pauseBtn = document.getElementById("pauseResumeRecording");
     const stopBtn = document.getElementById("stopRecording");
-    const uploadBtn = document.getElementById("uploadVideo");
     const progressBar = document.getElementById("progressBar");
     const progressBarContainer = document.getElementById("progressBarContainer");
     const videoPreview = document.getElementById("videoPreview");
@@ -178,9 +170,6 @@
         clearInterval(progressInterval);
         progressBar.style.width = "0%";
         progressBarContainer.style.display = "none";
-
-        uploadBtn.disabled = false;
-        uploadBtn.style.display = "block";
 
         uploadToDropbox(blob);
       };
