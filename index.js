@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Page d'accueil chargée.");
 
+  const isDev = true; // ← Active le mode développeur
+
   const trialKey = "toxDetectTrialStart";
   const banner = document.getElementById("trial-banner");
   const payButtonContainer = document.getElementById("payment-button");
@@ -16,16 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
     banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
     banner.style.display = "block";
     setTimeout(() => banner.style.display = "none", 3000);
-    return; // Pas besoin d'aller plus loin
+    return;
   }
 
   // Vérification expiration essai
-const now = new Date();
-const startDate = new Date(trialStart); // Par exemple : '2025-04-10'
-const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-const trialExpired = diffDays >= 7;
+  const startDate = new Date(trialStart);
+  const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  const trialExpired = diffDays >= 7;
 
-  if (trialExpired) {
+  // Si mode dev actif, on override trialExpired
+  const effectiveTrialExpired = isDev ? false : trialExpired;
+
+  if (effectiveTrialExpired) {
     banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
     banner.style.display = "block";
     if (payButtonContainer) payButtonContainer.style.display = "block";
@@ -59,7 +63,7 @@ const trialExpired = diffDays >= 7;
     button.addEventListener("click", (event) => {
       event.preventDefault();
 
-      if (trialExpired) {
+      if (effectiveTrialExpired) {
         alert("Essai terminé. Continuez avec un paiement unique de 3,99 €.");
         window.location.href = "abon.html";
         return;
