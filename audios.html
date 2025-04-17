@@ -104,10 +104,20 @@
       text-decoration: none;
       font-size: 15px;
     }
-
     .back-button a:hover {
       text-decoration: underline;
     }
+    button.retour {
+  width: 200px; /* largeur égale au bouton 'commencer' */
+  height: 44px; /* hauteur égale au bouton 'commencer' */
+  font-size: 15px; /* taille de texte similaire */
+  cursor: pointer;
+  border: none;
+  background-color: #007BFF; /* même couleur que les autres boutons */
+  color: white;
+  border-radius: 6px; /* même bord arrondi */
+  transition: background-color 0.3s, transform 0.2s;
+}
   </style>
 </head>
 <body>
@@ -128,7 +138,7 @@
     <button class="button" id="uploadAudio" disabled style="display:none;">📤 Envoyer sur Dropbox</button>
   </div>
 
- <button class="button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
+ <button class="retour" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
   
   <script>
     const APP_KEY = "0z41GO683A6XB20";
