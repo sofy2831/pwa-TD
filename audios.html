@@ -138,31 +138,6 @@
     const stopBtn = document.getElementById("stopRecording");
     const uploadBtn = document.getElementById("uploadAudio");
 
-    pauseBtn.addEventListener("click", () => {
-  if (!mediaRecorder) return;
-
-  if (isPaused) {
-    mediaRecorder.resume();
-    pauseBtn.textContent = "⏸️ Pause";
-    isPaused = false;
-
-    // Reprendre la barre de progression
-    progressInterval = setInterval(() => {
-      if (progress < 100) {
-        progress += 1;
-        progressBar.style.width = progress + "%";
-      }
-    }, 200);
-  } else {
-    mediaRecorder.pause();
-    pauseBtn.textContent = "▶️ Reprendre";
-    isPaused = true;
-
-    // Mettre la barre de progression en pause
-    clearInterval(progressInterval);
-  }
-});
-    
     startBtn.addEventListener("click", async () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
@@ -179,14 +154,14 @@
         audio.src = audioUrl;
         audio.style.display = "block";
 
-       clearInterval(progressInterval);
+        clearInterval(progressInterval);
         progressBar.style.width = "0%";
         progressBarContainer.style.display = "none";
 
         uploadBtn.disabled = true;
         uploadBtn.style.display = "none";
-    
-       await uploadToDropbox(blob);
+
+        await uploadToDropbox(blob);
       };
       
       mediaRecorder.start();
@@ -196,8 +171,7 @@
       pauseBtn.style.display = "block";
       pauseBtn.disabled = false;
       pauseBtn.textContent = "⏸️ Pause";
-     
-
+      
       // Show and animate progress bar
       progressBarContainer.style.display = "block";
       progress = 0;
@@ -217,14 +191,25 @@
         mediaRecorder.resume();
         pauseBtn.textContent = "⏸️ Pause";
         isPaused = false;
+
+        // Reprendre la barre de progression
+        progressInterval = setInterval(() => {
+          if (progress < 100) {
+            progress += 1;
+            progressBar.style.width = progress + "%";
+          }
+        }, 200);
       } else {
         mediaRecorder.pause();
         pauseBtn.textContent = "▶️ Reprendre";
         isPaused = true;
+
+        // Mettre la barre de progression en pause
+        clearInterval(progressInterval);
       }
     });
-    
-stopBtn.addEventListener("click", () => {
+
+    stopBtn.addEventListener("click", () => {
       if (mediaRecorder && mediaRecorder.state !== "inactive") {
         mediaRecorder.stop();
       }
