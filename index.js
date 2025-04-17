@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Page d'accueil chargée.");
 
-  const isDev = false; // ← Active le mode développeur "true" ou "false" pour l'enlever
+  const isDev = true; // ← Active le mode développeur "true" ou "false" pour l'enlever
 
   const trialKey = "toxDetectTrialStart";
   const banner = document.getElementById("trial-banner");
