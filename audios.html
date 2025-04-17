@@ -87,7 +87,7 @@
     }
 
     .back-button {
-     display: inline-block;
+     display: flex;
     justify-content: center; /* Centrer horizontalement */
     align-items: center;     /* Centrer verticalement */
     width: 100%;             /* Prendre toute la largeur disponible */
@@ -112,7 +112,8 @@
       text-decoration: underline;
     }
     button.retour {
-    width: 600px; /* largeur égale au bouton 'commencer' */
+    width: 100% /* largeur égale au bouton 'commencer' */
+    max-width: 600px;   
     height: 44px; /* hauteur égale au bouton 'commencer' */
     font-size: 15px; /* taille de texte similaire */
     margin-bottom: 10px; /* espace entre les boutons */
