@@ -21,6 +21,7 @@ if (isDev) {
   resetButton.addEventListener("click", () => {
     localStorage.setItem("toxDetectTrialStart", new Date().toISOString());
     alert("Date d’essai réinitialisée ! Recharge la page 🎉");
+    window.location.reload(); // ← Recharge la page automatiquement
   });
 
   document.body.appendChild(resetButton);
