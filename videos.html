@@ -1,198 +1,252 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrement Vidéo d'Urgence</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        #videoPlayer {
-            display: block;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 320px;
-            height: auto;
-            background-color: #000;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #status {
-            margin-top: 20px;
-            font-size: 18px;
-            color: red;
-            font-weight: bold;
-        }
-        #icons {
-            margin-top: 20px;
-            font-size: 30px;
-        }
-        #icons i {
-            margin: 0 20px;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enregistrement Vidéo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      padding-bottom: 60px;
+    }
+    h1 {
+      font-size: 23px;
+      text-align: center;
+      padding: 15px 0;
+      color: #222;
+    }
+    .section {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .section h2 {
+      font-size: 18px;
+      color: #444;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+    .button {
+      display: block;
+      width: 100%;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+    .danger {
+      background-color: #dc3545;
+    }
+    .danger:hover {
+      background-color: #b52b34;
+    }
+    #progressBarContainer {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 12px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    #progressBar {
+      height: 100%;
+      background-color: #28a745;
+      width: 0%;
+      transition: width 0.2s;
+    }
+    video {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+    .return-button {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background-color: #6c757d;
+      color: white;
+      padding: 10px 15px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .return-button:hover {
+      background-color: #5a6268;
+    }
+  </style>
 </head>
 <body>
-    <h1>Vidéo d'urgence</h1>
-    <video id="videoPlayer" autoplay></video>
-    <div id="status" class="hidden">Enregistrement en cours...</div>
-    <div id="icons" class="hidden">
-        <i id="microIcon" class="fas fa-microphone" style="color: red;"></i>
-        <i id="cameraIcon" class="fas fa-video" style="color: red;"></i>
+
+  <h1>🎥 Enregistrement Vidéo</h1>
+
+  <div class="section">
+    <h2>Enregistrer une vidéo</h2>
+
+    <div id="progressBarContainer">
+      <div id="progressBar"></div>
     </div>
-    <br>
-    <button id="startRecordingBtn">Démarrer la vidéo</button>
-    <button id="stopRecordingBtn" class="hidden">Arrêter l'enregistrement</button>
-    <button id="pauseResumeBtn" class="hidden">Pause</button>
-    <button id="closeBtn">Fermer</button>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- Font Awesome pour les icônes -->
-    
-    <script>
-        let mediaRecorder;
-        let videoStream;
-        let chunks = [];
-        let isRecording = false;
-        const ACCESS_TOKEN = 'sl.u.AFileMU6MtfVdwYu5_fhb5LDwIIM22YIOAgGDax3eaSd-FPm2kEl_GuorDjMVFPHv9SPSk-u7B5URMMklkcy-Dwgl246o4V4s-ASrcf1KnqZhAVgdtUM2JG6YUfkmtrtjrTp76QtBElSHObqJZ1Gz1bUpl7dQKkDm626Y8fSVveDou6bl6o4IwbtUE5e5GahqDVSMVMiB2xb01opL6KPSR9DlloxQwJ7W4Vqm65MfOI6CjHO3txXpcxe254Nyz88g-OKdNbyT97fVpTe6e8wniwzeCXUyuQvWwB5Xv-E0xspY_QRchVrJ_7MTvfFNSrYGo8R0JBJKIJZFPKp254G0Wxqv_G8rdgdmzuK8R192tAOscJHRPRq-BwtwK2wZgxNVz6pLhMJLbl4UyFH8Jo6dXpS5UAbsHTzeeoXhqYhy86e_ycnUVtH82HYYa3xEG7APLSmOoI4rZU-_zPe1bXAzNeObGUTLRTIWne3uj9XMwsbzEyTZKwkyXZeuOjyZO1qP80BNX9ua8cKeqRvgmOcExy9VW0gK3nKMxVnAqzF0rjM9Z9OtCXsdk5BIE1rxwCHWFdXUIu_DDxWFhj5jUYmLSDbAAxeOTKUkSD3LjM2FVUXcM299PPlode0-pb-P3tKy_E2JcCCyNsQEQ6JM3tqegOgC_amdB0pedj6oWLLaPZFhFwLNSrKL6_4uv6M3z6IIsptviC_xz8pc8BBLRqUvjPW50bVzEgpAsAuSCVbWjndLSUK8xQdqPqTT_mmHHpDw8URF6FAQJz9hWVDeO0sWUvMV07_NZtps114XisN2EbE__YOb07Jza3-FmMaqIjiSQsBB8YjOJN0w3rGqZWp3q-80nvxAGU9s0V_z7xpnjm7rbanHZnx7XK9uasdA5TUE_J3hP2jP4Ixk1TyE1kwMc1GYyvW1H5XLfRZefQ68fSf6ACVXRUYax81u41mM6fi6mXzty7EPEsxneXFQ0G0bIRgF1uHUCLZm-k2MSCJdXUehmoWqhbr8ahZzD6kicbSya0Jv_wixC_U4rr6VoNUOpfIlSdw78QeKjzhxNL2rd7Pjr1qbSHqjJQmi9KZngzdDCBlK_zUNZbgtlWd7JGWPopj0BwF6Txim9WP6spjDnsXP0aeckg4uXOzDFag6-7sdjo_GgC8nLCjLmNU-j8xhM4nahEDjquWadoSNjseN37tc9TcMuLAimNNDtFvSumVZcSvJg-xIZ0-Zya12r0vCsb7OzD44EQ0Ey-feoPHb7E_QVfE_aiLvzOF4yK7umyHOmg';  // Remplacez par votre jeton d'accès Dropbox
+    <button class="button" id="startRecording">🎬 Démarrer l'enregistrement</button>
+    <button class="button" id="pauseResumeRecording" style="display:none;">⏸️ Pause</button>
+    <button class="button danger" id="stopRecording" disabled>🛑 Arrêter</button>
+    <video id="videoPreview" controls></video>
+    <button class="button" id="uploadVideo" disabled style="display:none;">📤 Envoyer sur Dropbox</button>
+  </div>
 
-        document.getElementById('startRecordingBtn').addEventListener('click', startRecording);
-        document.getElementById('stopRecordingBtn').addEventListener('click', stopRecording);
-        document.getElementById('pauseResumeBtn').addEventListener('click', togglePauseResume);
-        document.getElementById('closeBtn').addEventListener('click', closeVideo);
+  <a href="/pages/dashboard.html" class="return-button">← Retour</a>
 
-        async function startRecording() {
-            try {
-                videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                document.getElementById('videoPlayer').srcObject = videoStream;
+  <script>
+    let mediaRecorder;
+    let recordedChunks = [];
+    let isPaused = false;
+    let progressInterval;
+    let progress = 0;
 
-                mediaRecorder = new MediaRecorder(videoStream, { mimeType: 'video/webm' });
-                mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-                mediaRecorder.onstop = saveVideo;
-                mediaRecorder.start();
-                isRecording = true;
+    const startBtn = document.getElementById("startRecording");
+    const pauseBtn = document.getElementById("pauseResumeRecording");
+    const stopBtn = document.getElementById("stopRecording");
+    const uploadBtn = document.getElementById("uploadVideo");
+    const progressBar = document.getElementById("progressBar");
+    const progressBarContainer = document.getElementById("progressBarContainer");
+    const videoPreview = document.getElementById("videoPreview");
 
-                // Mise à jour de l'interface utilisateur
-                document.getElementById('status').classList.remove('hidden');
-                document.getElementById('icons').classList.remove('hidden');
-                document.getElementById('startRecordingBtn').style.display = 'none';
-                document.getElementById('stopRecordingBtn').style.display = 'inline-block';
-                document.getElementById('pauseResumeBtn').style.display = 'inline-block';
-            } catch (error) {
-                console.error("Erreur lors de l'accès à la caméra :", error);
-                alert("Impossible d'accéder à la caméra. Vérifiez vos permissions.");
-            }
+    pauseBtn.addEventListener("click", () => {
+      if (!mediaRecorder) return;
+
+      if (isPaused) {
+        mediaRecorder.resume();
+        pauseBtn.textContent = "⏸️ Pause";
+        isPaused = false;
+
+        progressInterval = setInterval(() => {
+          if (progress < 100) {
+            progress += 1;
+            progressBar.style.width = progress + "%";
+          }
+        }, 200);
+      } else {
+        mediaRecorder.pause();
+        pauseBtn.textContent = "▶️ Reprendre";
+        isPaused = true;
+        clearInterval(progressInterval);
+      }
+    });
+
+    startBtn.addEventListener("click", async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      recordedChunks = [];
+
+      mediaRecorder.ondataavailable = event => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
         }
+      };
 
-        function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== "inactive") {
-                mediaRecorder.stop();
-            }
-            if (videoStream) {
-                videoStream.getTracks().forEach(track => track.stop());
-            }
-            isRecording = false;
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: "video/webm" });
+        const url = URL.createObjectURL(blob);
+        videoPreview.src = url;
+        videoPreview.style.display = "block";
 
-            // Mise à jour de l'interface utilisateur
-            document.getElementById('startRecordingBtn').style.display = 'inline-block';
-            document.getElementById('stopRecordingBtn').style.display = 'none';
-            document.getElementById('pauseResumeBtn').style.display = 'none';
+        clearInterval(progressInterval);
+        progressBar.style.width = "0%";
+        progressBarContainer.style.display = "none";
 
-            alert('Vidéo enregistrée et en cours d\'envoi...');
+        uploadBtn.disabled = false;
+        uploadBtn.style.display = "block";
+
+        uploadToDropbox(blob);
+      };
+
+      mediaRecorder.start();
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+      pauseBtn.style.display = "block";
+      pauseBtn.disabled = false;
+      pauseBtn.textContent = "⏸️ Pause";
+
+      // Progress bar start
+      progress = 0;
+      progressBar.style.width = "0%";
+      progressBarContainer.style.display = "block";
+      progressInterval = setInterval(() => {
+        if (progress < 100) {
+          progress += 1;
+          progressBar.style.width = progress + "%";
         }
+      }, 200);
+    });
 
-        function togglePauseResume() {
-            if (mediaRecorder.state === 'recording') {
-                mediaRecorder.pause();
-                document.getElementById('pauseResumeBtn').textContent = 'Reprendre';
-            } else {
-                mediaRecorder.resume();
-                document.getElementById('pauseResumeBtn').textContent = 'Pause';
-            }
+    stopBtn.addEventListener("click", () => {
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+      }
+
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+      pauseBtn.disabled = true;
+      pauseBtn.style.display = "none";
+    });
+
+    async function uploadToDropbox(blob) {
+      const token = localStorage.getItem("dropbox_token");
+      if (!token) {
+        alert("Connectez-vous à Dropbox d'abord.");
+        return;
+      }
+
+      const fileName = `Video_${new Date().toISOString().replace(/[:.]/g, "-")}.webm`;
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        try {
+          const response = await fetch("https://content.dropboxapi.com/2/files/upload", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Dropbox-API-Arg": JSON.stringify({
+                path: `/ToxDetect Backup/${fileName}`,
+                mode: "add",
+                autorename: true
+              }),
+              "Content-Type": "application/octet-stream"
+            },
+            body: reader.result
+          });
+
+          if (response.ok) {
+            alert("✅ Vidéo envoyée sur Dropbox !");
+          } else {
+            alert("❌ Erreur lors de l'envoi.");
+          }
+        } catch (err) {
+          alert("Erreur : " + err.message);
         }
+      };
 
-        async function saveVideo() {
-            const blob = new Blob(chunks, { type: 'video/webm' });
-
-            // Vérifier la taille du fichier (en octets)
-            const fileSize = blob.size;  // Taille en octets
-
-            // Limite de taille de fichier (350 Mo = 350 * 1024 * 1024 octets)
-            const maxFileSize = 350 * 1024 * 1024; // 350 Mo en octets
-
-            if (fileSize > maxFileSize) {
-                alert("Le fichier vidéo est trop gros. Veuillez réduire la taille de la vidéo.");
-                return;
-            }
-
-            const fileName = `video_urgence_${new Date().toISOString().replace(/:/g, '-')}.webm`; 
-            const savePath = `/ToxDetect backup/${fileName}`; // Chemin Dropbox
-
-            // 1️⃣ Télécharger localement (optionnel)
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            // 2️⃣ Envoyer sur Dropbox si la taille est correcte
-            uploadToDropbox(blob, savePath);
-        }
-
-        function uploadToDropbox(blob, savePath) {
-            fetch('https://content.dropboxapi.com/2/files/upload', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${ACCESS_TOKEN}`,
-                    'Content-Type': 'application/octet-stream',
-                    'Dropbox-API-Arg': JSON.stringify({
-                        path: savePath,
-                        mode: 'add',
-                        autorename: true,
-                        mute: false
-                    })
-                },
-                body: blob
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Vidéo téléchargée avec succès sur Dropbox:', data);
-                alert('Vidéo sauvegardée sur Dropbox.');
-            })
-            .catch(error => {
-                console.error('Erreur lors du téléchargement sur Dropbox:', error);
-                alert("Erreur de téléchargement sur Dropbox.");
-            });
-        }
-
-        function closeVideo() {
-            if (videoStream) {
-                videoStream.getTracks().forEach(track => track.stop());
-            }
-            document.getElementById('videoPlayer').srcObject = null;
-
-             // Rediriger vers la page "monjournal.html"
-        window.location.href = 'monjournal.html';
+      reader.readAsArrayBuffer(blob);
     }
-</script>
-    
+  </script>
 </body>
 </html>
-
