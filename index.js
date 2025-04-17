@@ -3,6 +3,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const isDev = true; // ← Active le mode développeur "true" ou "false" pour l'enlever
 
+if (isDev) {
+  const resetButton = document.createElement("button");
+  resetButton.textContent = "🔄 Réinitialiser l’essai";
+  resetButton.style.position = "fixed";
+  resetButton.style.top = "10px";
+  resetButton.style.right = "10px";
+  resetButton.style.zIndex = "1000";
+  resetButton.style.padding = "8px 12px";
+  resetButton.style.backgroundColor = "#4caf50";
+  resetButton.style.color = "#fff";
+  resetButton.style.border = "none";
+  resetButton.style.borderRadius = "6px";
+  resetButton.style.cursor = "pointer";
+  resetButton.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+  
+  resetButton.addEventListener("click", () => {
+    localStorage.setItem("toxDetectTrialStart", new Date().toISOString());
+    alert("Date d’essai réinitialisée ! Recharge la page 🎉");
+  });
+
+  document.body.appendChild(resetButton);
+}
+
+  
   const trialKey = "toxDetectTrialStart";
   const banner = document.getElementById("trial-banner");
   const payButtonContainer = document.getElementById("payment-button");
