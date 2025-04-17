@@ -77,11 +77,14 @@
       margin-top: 10px;
       border-radius: 8px;
     }
-    .return-button {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
+
+    /* Conteneur pour centrer le bouton "Retour à l'accueil" */
+    .back-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .retour {
       background-color: #6c757d;
       color: white;
       padding: 10px 15px;
@@ -91,7 +94,7 @@
       text-decoration: none;
       transition: background-color 0.3s ease;
     }
-    .return-button:hover {
+    .retour:hover {
       background-color: #5a6268;
     }
   </style>
@@ -113,7 +116,10 @@
     <video id="videoPreview" controls></video>
   </div>
 
-  <button class="return-button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
+  <!-- Conteneur pour centrer le bouton "Retour à l'accueil" -->
+  <div class="back-button">
+    <button class="retour" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
+  </div>
 
   <script>
     let mediaRecorder;
