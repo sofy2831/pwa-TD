@@ -122,8 +122,6 @@
 
  <button class="button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
   
-  
-
   <script>
     const APP_KEY = "0z41GO683A6XB20";
     let mediaRecorder;
@@ -140,6 +138,31 @@
     const stopBtn = document.getElementById("stopRecording");
     const uploadBtn = document.getElementById("uploadAudio");
 
+    pauseBtn.addEventListener("click", () => {
+  if (!mediaRecorder) return;
+
+  if (isPaused) {
+    mediaRecorder.resume();
+    pauseBtn.textContent = "⏸️ Pause";
+    isPaused = false;
+
+    // Reprendre la barre de progression
+    progressInterval = setInterval(() => {
+      if (progress < 100) {
+        progress += 1;
+        progressBar.style.width = progress + "%";
+      }
+    }, 200);
+  } else {
+    mediaRecorder.pause();
+    pauseBtn.textContent = "▶️ Reprendre";
+    isPaused = true;
+
+    // Mettre la barre de progression en pause
+    clearInterval(progressInterval);
+  }
+});
+    
     startBtn.addEventListener("click", async () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
