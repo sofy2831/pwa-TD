@@ -87,44 +87,31 @@
     }
 
     .back-button {
-     display: flex;
-    justify-content: center; /* Centrer horizontalement */
-    align-items: center;     /* Centrer verticalement */
-    width: 100%;             /* Prendre toute la largeur disponible */
-    margin-top: 20px;        /* Espacement au-dessus du bouton */
-  }
+      display: flex;             /* Utiliser flexbox pour centrer le bouton */
+      justify-content: center;   /* Centrer horizontalement */
+      align-items: center;       /* Centrer verticalement */
+      width: 100%;               /* Prendre toute la largeur de l'écran */
+      margin-top: 20px;          /* Espacement au-dessus du bouton */
+    }
 
-    .back-button a {
-      display: inline-block;
-      margin: 16px auto;
-      padding: 8px 16px;
-      text-align: center;
-      background-color: #007BFF;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 15px;
-      transition: background-color 0.3s, transform 0.2s;
-      color: #007bff;
-      text-decoration: none;
-      font-size: 15px;
-    }
-    .back-button a:hover {
-      text-decoration: underline;
-    }
     button.retour {
-    width: 100% /* largeur égale au bouton 'commencer' */
-    max-width: 600px;   
-    height: 44px; /* hauteur égale au bouton 'commencer' */
-    font-size: 15px; /* taille de texte similaire */
-    margin-bottom: 10px; /* espace entre les boutons */
-    text-align: center;
-    cursor: pointer;
-    border: none;
-    background-color: #007BFF; /* même couleur que les autres boutons */
-    color: white;
-    border-radius: 5px; /* même bord arrondi */
-    transition: background-color 0.3s, transform 0.2s;
-}
+      width: 100%;               /* Faire en sorte que le bouton prenne toute la largeur du conteneur */
+      max-width: 600px;          /* Limiter la largeur à 600px */
+      height: 44px;              /* Hauteur du bouton */
+      font-size: 15px;           /* Taille de texte */
+      margin-bottom: 10px;       /* Espace entre les boutons */
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background-color: #007BFF; /* Couleur du bouton */
+      color: white;
+      border-radius: 5px;        /* Bordure arrondie */
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button.retour:hover {
+      background-color: #0056b3; /* Changer la couleur en hover */
+    }
   </style>
 </head>
 <body>
@@ -145,8 +132,11 @@
     <button class="button" id="uploadAudio" disabled style="display:none;">📤 Envoyer sur Dropbox</button>
   </div>
 
- <button class="retour" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
-  
+  <!-- Conteneur pour centrer le bouton "Retour à l'accueil" -->
+  <div class="back-button">
+    <button class="retour" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
+  </div>
+
   <script>
     const APP_KEY = "0z41GO683A6XB20";
     let mediaRecorder;
@@ -286,3 +276,4 @@
   </script>
 </body>
 </html>
+
