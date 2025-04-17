@@ -80,6 +80,7 @@
       font-size: 16px;
     }
 
+    }
     .back-button a:hover {
       text-decoration: underline;
     }
@@ -95,9 +96,10 @@
 
     <button class="button" id="capture">📸 Capturer la photo</button>
     <button class="button" id="upload" disabled style="display:none;">📤 Envoyer sur Dropbox</button>
+    <button class="button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
   </div>
 
-  <button class="button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
+  
 
   <script>
     const video = document.getElementById("video");
