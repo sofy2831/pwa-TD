@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Page d'accueil chargée.");
 
-  const isDev = true; // ← Active le mode développeur "true" ou "false" pour l'enlever
+  const isDev = false; // ← Active le mode développeur "true" ou "false" pour l'enlever
 
   if (isDev) {
     const resetButton = document.createElement("button");
