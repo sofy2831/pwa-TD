@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
     banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
     banner.style.display = "block";
     setTimeout(() => banner.style.display = "none", 3000);
-    return;
+     trialStart = now.toISOString(); // ← On continue avec cette date
+  
   }
 
   // Vérification expiration essai
