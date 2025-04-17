@@ -80,7 +80,8 @@
     .return-button {
       position: fixed;
       bottom: 10px;
-      left: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       background-color: #6c757d;
       color: white;
       padding: 10px 15px;
@@ -112,7 +113,7 @@
     <video id="videoPreview" controls></video>
   </div>
 
-  <button class="button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
+  <button class="return-button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
 
   <script>
     let mediaRecorder;
