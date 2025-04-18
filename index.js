@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const journalButton = document.getElementById("journal-btn");
   const buttons = document.querySelectorAll("button");
   const now = new Date();
+  
+  // Lien vers le formulaire Google Forms
+  const googleFormLink = "https://forms.gle/6uM7zr5rP8DVsXJk8";
 
   // Récupérer la date d'essai
   let trialStart = localStorage.getItem(trialKey);
@@ -65,6 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
       journalButton.title = "Essai expiré — accès restreint";
     }
   } else {
+    // Si l'utilisateur a utilisé l'application pendant 5 jours, afficher un message avec le lien vers le questionnaire
+    if (diffDays === 5) {
+      setTimeout(() => {
+        alert("Il ne vous reste plus que 2 jours pour compléter notre enquête de satisfaction. Cliquez ici : " + googleFormLink);
+        window.open(googleFormLink, "_blank");
+      }, 1000); // délai de 1 seconde pour que l'utilisateur ait le temps de voir le message
+    }
+
     // Accès journal actif
     if (journalButton) {
       journalButton.addEventListener("click", (event) => {
