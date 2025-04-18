@@ -75,11 +75,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Vérifier les 5 jours d'essai pour afficher le formulaire
     if (diffDays >= 5 && !localStorage.getItem("surveyShown")) {
-      window.open('https://forms.gle/6uM7zr5rP8DVsXJk8', '_blank');
+      window.open('https://forms.gle/NwCSJRtabZgWdF5Z8', '_blank');
       localStorage.setItem("surveyShown", "true"); // Assurez-vous qu'il ne s'affiche qu'une seule fois
     }
   }
-
   // Bouton de paiement
   if (payButton) {
     payButton.addEventListener("click", () => {
