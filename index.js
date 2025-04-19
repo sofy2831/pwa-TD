@@ -1,31 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Page d'accueil chargée.");
-
-  const isDev = false; // ← Active le mode développeur "true" ou "false" pour l'enlever
-
-  if (isDev) {
-    const resetButton = document.createElement("button");
-    resetButton.textContent = "🔄 Réinitialiser l’essai";
-    resetButton.style.position = "fixed";
-    resetButton.style.top = "10px";
-    resetButton.style.left = "10px";
-    resetButton.style.zIndex = "1000";
-    resetButton.style.padding = "8px 12px";
-    resetButton.style.backgroundColor = "#4caf50";
-    resetButton.style.color = "#fff";
-    resetButton.style.border = "none";
-    resetButton.style.borderRadius = "6px";
-    resetButton.style.cursor = "pointer";
-    resetButton.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
-    
-    resetButton.addEventListener("click", () => {
-      localStorage.setItem("toxDetectTrialStart", new Date().toISOString());
-      alert("Date d’essai réinitialisée ! Recharge la page 🎉");
-    });
-
-    document.body.appendChild(resetButton);
-  }
-
+  const isDev = false;// ← Active le mode développeur "true" ou "false" pour l'enlever
   const trialKey = "toxDetectTrialStart";
   const banner = document.getElementById("trial-banner");
   const payButtonContainer = document.getElementById("payment-button");
@@ -34,54 +8,79 @@ document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll("button");
   const now = new Date();
 
-  // Affichage systématique de la bannière
-  banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
-  banner.style.display = "block";
-  setTimeout(() => banner.style.display = "none", 5000);
-
-  // Vérification expiration essai
   let trialStart = localStorage.getItem(trialKey);
-  const startDate = trialStart ? new Date(trialStart) : null;
-  const diffDays = startDate ? Math.floor((now - startDate) / (1000 * 60 * 60 * 24)) : 0;
-  const trialExpired = diffDays >= 7;
 
-  // Si mode dev actif, on override trialExpired
-  const effectiveTrialExpired = isDev ? false : trialExpired;
-
-  if (effectiveTrialExpired) {
-    banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
+  // Si aucune date d’essai, on initialise
+  if (!trialStart) {
+    localStorage.setItem(trialKey, now.toISOString());
+    localStorage.setItem("trialBannerShown", "true");
+    trialStart = now.toISOString();
+    banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
     banner.style.display = "block";
     setTimeout(() => banner.style.display = "none", 5000);
-    if (payButtonContainer) payButtonContainer.style.display = "block";
-    if (journalButton) {
+  } else {
+    // Bannière déjà affichée ? Non ? Alors on la montre une fois
+    const alreadyShown = localStorage.getItem("trialBannerShown");
+    if (!alreadyShown) {
+      banner.innerText = "🎉 Vous bénéficiez d’un essai gratuit de 7 jours.";
+      banner.style.display = "block";
+      setTimeout(() => banner.style.display = "none", 5000);
+      localStorage.setItem("trialBannerShown", "true");
+    }
+  }
+
+  const startDate = new Date(trialStart);
+  const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  const trialExpired = diffDays >= 7;
+  const effectiveTrialExpired = isDev ? false : trialExpired;
+
+  // Gérer l’état du bouton Journal
+  if (journalButton) {
+    if (effectiveTrialExpired) {
       journalButton.disabled = true;
       journalButton.style.backgroundColor = "#ccc";
       journalButton.style.cursor = "not-allowed";
       journalButton.title = "Essai expiré — accès restreint";
+    } else {
+      journalButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.location.href = "drop.html";
+      });
     }
   }
 
-  // Bouton de paiement
+  // Affichage paiement
+  if (effectiveTrialExpired) {
+    banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
+    banner.style.display = "block";
+    if (payButtonContainer) payButtonContainer.style.display = "block";
+  }
+
+  // Lien vers page de paiement
   if (payButton) {
     payButton.addEventListener("click", () => {
       window.location.href = "abon.html";
     });
   }
 
-  // Gestion de tous les boutons sauf ceux déjà traités
+  // Sondage après 5 jours
+  if (diffDays >= 5 && !localStorage.getItem("surveyShown")) {
+    window.open('https://forms.gle/NwCSJRtabZgWdF5Z8', '_blank');
+    localStorage.setItem("surveyShown", "true");
+  }
+
+  // Gestion des autres boutons
   buttons.forEach(button => {
-    if (button.id === "journal-btn" || button.id === "pay-now") return;
+    if (["journal-btn", "pay-now"].includes(button.id)) return;
 
     button.addEventListener("click", (event) => {
       event.preventDefault();
-
       if (effectiveTrialExpired) {
         alert("Essai terminé. Continuez avec un paiement unique de 3,99 €.");
         window.location.href = "abon.html";
         return;
       }
 
-      // Animation
       event.target.style.transform = "scale(0.95)";
       setTimeout(() => {
         event.target.style.transform = "scale(1)";
@@ -93,3 +92,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+ 
