@@ -121,6 +121,7 @@
     <button class="button" id="pauseResumeRecording" style="display:none;">⏸️ Pause</button>
     <button class="button danger" id="stopRecording" disabled>🛑 Arrêter</button>
     <video id="videoPreview" controls></video>
+    <video id="livePreview" autoplay muted playsinline style="display: none;"></video>
   </div>
 
   <!-- Conteneur pour centrer le bouton "Retour à l'accueil" -->
@@ -136,11 +137,13 @@
     let progress = 0;
 
     const startBtn = document.getElementById("startRecording");
-    const pauseBtn = document.getElementById("pauseResumeRecording");
+   const pauseBtn = document.getElementById("pauseResumeRecording");
     const stopBtn = document.getElementById("stopRecording");
     const progressBar = document.getElementById("progressBar");
     const progressBarContainer = document.getElementById("progressBarContainer");
     const videoPreview = document.getElementById("videoPreview");
+    const livePreview = document.getElementById("livePreview");
+
 
     pauseBtn.addEventListener("click", () => {
       if (!mediaRecorder) return;
@@ -170,6 +173,8 @@
         audio: true
       });
       mediaRecorder = new MediaRecorder(stream);
+       livePreview.srcObject = stream;
+       livePreview.style.display = "block";
       recordedChunks = [];
 
       mediaRecorder.ondataavailable = event => {
@@ -183,6 +188,9 @@
         const url = URL.createObjectURL(blob);
         videoPreview.src = url;
         videoPreview.style.display = "block";
+        livePreview.style.display = "none";
+        livePreview.srcObject = null;
+
 
         clearInterval(progressInterval);
         progressBar.style.width = "0%";
