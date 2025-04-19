@@ -97,20 +97,18 @@
     <button class="button" id="backButton" onclick="window.location.href='monjournal.html'">Retour à l'accueil</button>
   </div>
 
-  
-
   <script>
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");
     const captureBtn = document.getElementById("capture");
     const uploadBtn = document.getElementById("upload");
 
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
       .then(stream => {
         video.srcObject = stream;
       })
       .catch(err => {
-        alert("Erreur d'accès à la caméra : " + err.message);
+        alert("Erreur d'accès à la caméra arrière : " + err.message);
       });
 
     captureBtn.addEventListener("click", () => {
