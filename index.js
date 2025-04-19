@@ -34,21 +34,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll("button");
   const now = new Date();
 
-  // Récupérer la date d'essai
-  let trialStart = localStorage.getItem(trialKey);
-
-  // Si la date n'existe pas, on initialise l'essai
-  if (!trialStart) {
-    localStorage.setItem(trialKey, now.toISOString());
-    trialStart = now.toISOString(); // On met la date actuelle
-    banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
-    banner.style.display = "block";
-    setTimeout(() => banner.style.display = "none", 5000);
-  }
+  // Affichage systématique de la bannière
+  banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
+  banner.style.display = "block";
+  setTimeout(() => banner.style.display = "none", 5000);
 
   // Vérification expiration essai
-  const startDate = new Date(trialStart);
-  const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  let trialStart = localStorage.getItem(trialKey);
+  const startDate = trialStart ? new Date(trialStart) : null;
+  const diffDays = startDate ? Math.floor((now - startDate) / (1000 * 60 * 60 * 24)) : 0;
   const trialExpired = diffDays >= 7;
 
   // Si mode dev actif, on override trialExpired
@@ -57,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (effectiveTrialExpired) {
     banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
     banner.style.display = "block";
+    setTimeout(() => banner.style.display = "none", 5000);
     if (payButtonContainer) payButtonContainer.style.display = "block";
     if (journalButton) {
       journalButton.disabled = true;
@@ -64,21 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
       journalButton.style.cursor = "not-allowed";
       journalButton.title = "Essai expiré — accès restreint";
     }
-  } else {
-    // Accès journal actif
-    if (journalButton) {
-      journalButton.addEventListener("click", (event) => {
-        event.preventDefault();
-        window.location.href = "drop.html";
-      });
-    }
-
-    // Vérifier les 5 jours d'essai pour afficher le formulaire
-    if (diffDays >= 5 && !localStorage.getItem("surveyShown")) {
-      window.open('https://forms.gle/NwCSJRtabZgWdF5Z8', '_blank');
-      localStorage.setItem("surveyShown", "true"); // Assurez-vous qu'il ne s'affiche qu'une seule fois
-    }
   }
+
   // Bouton de paiement
   if (payButton) {
     payButton.addEventListener("click", () => {
