@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const isDev = false;// ← Active le mode développeur "true" ou "false" pour l'enlever
+  const isDev = false; // Active le mode développeur : true en dev ou false non dev
   const trialKey = "toxDetectTrialStart";
   const banner = document.getElementById("trial-banner");
   const payButtonContainer = document.getElementById("payment-button");
@@ -13,28 +13,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // Si aucune date d’essai, on initialise
   if (!trialStart) {
     localStorage.setItem(trialKey, now.toISOString());
-    localStorage.setItem("trialBannerShown", "true");
     trialStart = now.toISOString();
-    banner.innerText = "🎉 Bienvenue ! Vous bénéficiez d’un essai gratuit de 7 jours.";
-    banner.style.display = "block";
-    setTimeout(() => banner.style.display = "none", 5000);
-  } else {
-    // Bannière déjà affichée ? Non ? Alors on la montre une fois
-    const alreadyShown = localStorage.getItem("trialBannerShown");
-    if (!alreadyShown) {
-      banner.innerText = "🎉 Vous bénéficiez d’un essai gratuit de 7 jours.";
-      banner.style.display = "block";
-      setTimeout(() => banner.style.display = "none", 5000);
-      localStorage.setItem("trialBannerShown", "true");
-    }
   }
 
   const startDate = new Date(trialStart);
   const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  const daysLeft = 7 - diffDays;
   const trialExpired = diffDays >= 7;
   const effectiveTrialExpired = isDev ? false : trialExpired;
 
-  // Gérer l’état du bouton Journal
+  // --- AFFICHAGE BANNIÈRE ---
+  if (banner) {
+    if (trialExpired) {
+      banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
+    } else {
+      banner.innerText = `🎉 Il vous reste ${daysLeft} jour${daysLeft > 1 ? "s" : ""} d’essai gratuit.`;
+    }
+    banner.style.display = "block";
+    setTimeout(() => (banner.style.display = "none"), 5000);
+  }
+
+  // --- GESTION DU BOUTON JOURNAL ---
   if (journalButton) {
     if (effectiveTrialExpired) {
       journalButton.disabled = true;
@@ -49,28 +48,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Affichage paiement
-  if (effectiveTrialExpired) {
-    banner.innerText = "⛔ Essai terminé. Continuez avec un paiement unique de 3,99 €.";
-    banner.style.display = "block";
-    if (payButtonContainer) payButtonContainer.style.display = "block";
+  // --- AFFICHAGE DU BOUTON DE PAIEMENT SI ESSAI EXPIRÉ ---
+  if (payButtonContainer && effectiveTrialExpired) {
+    payButtonContainer.style.display = "block";
   }
 
-  // Lien vers page de paiement
   if (payButton) {
     payButton.addEventListener("click", () => {
       window.location.href = "abon.html";
     });
   }
 
-  // Sondage après 5 jours
+  // --- SONDAGE APRÈS 5 JOURS ---
   if (diffDays >= 5 && !localStorage.getItem("surveyShown")) {
-    window.open('https://forms.gle/NwCSJRtabZgWdF5Z8', '_blank');
+    window.open("https://forms.gle/NwCSJRtabZgWdF5Z8", "_blank");
     localStorage.setItem("surveyShown", "true");
   }
 
-  // Gestion des autres boutons
-  buttons.forEach(button => {
+  // --- GESTION DES AUTRES BOUTONS ---
+  buttons.forEach((button) => {
     if (["journal-btn", "pay-now"].includes(button.id)) return;
 
     button.addEventListener("click", (event) => {
@@ -92,5 +88,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
- 
