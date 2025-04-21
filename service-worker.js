@@ -3,7 +3,6 @@ const CACHE_URLS = [
     '/',
     '/index.html',
     '/index.js',
-    '/styles.css', 
     '/abon.html',
     '/audio.html', 
     '/auth.html',
