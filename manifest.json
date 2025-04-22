@@ -1,16 +1,18 @@
 {
   "name": "ToxDetect",
   "short_name": "ToxDetect",
-  "id": "/", 
+  "id": "/",
   "description": "Une application pour identifier les comportements toxiques dans les relations.",
   "start_url": "/pwa-TD/",
   "scope": "/pwa-TD/",
   "display": "standalone",
-  "display_override": ["standalone", "window-controls-overlay"],
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
-
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -23,7 +25,6 @@
       "type": "image/png"
     }
   ],
-
   "screenshots": [
     {
       "src": "screenshots/homepage.png",
@@ -31,9 +32,11 @@
       "type": "image/png"
     }
   ],
-
-  "categories": ["education", "health", "self-improvement"],
-
+  "categories": [
+    "education",
+    "health",
+    "self-improvement"
+  ],
   "launch_handler": {
     "client_mode": "navigate-existing"
   }
