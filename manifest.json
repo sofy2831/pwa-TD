@@ -13,6 +13,9 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
+  "dir": "ltr",  // Direction du texte : 'ltr' pour left-to-right ou 'rtl' si nécessaire
+  "lang": "fr-FR",  // Langue principale de l'application
+
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -40,7 +43,28 @@
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
-  "iarc_rating_id": "",
+  "iarc_rating_id": "",  // ID de classification de contenu IARC (laisser vide si non concerné)
+
+  "prefer_related_applications": false,  // Défini si l'application PWA propose des alternatives natives
+
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.example.toxdetect"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/example-toxdetect/id1234567890"
+    }
+  ],
+
+  "scope_extensions": [
+    {
+      "origin": "https://example.com",
+      "path": "/pwa-TD/"
+    }
+  ],
+
   "shortcuts": [
     {
       "name": "Page d'accueil",
