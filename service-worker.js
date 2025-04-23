@@ -53,24 +53,32 @@ self.addEventListener('activate', (event) => {
 
 // Gestion des fetch et fallback offline
 self.addEventListener('fetch', (event) => {
+if (event.request.method !== 'GET') return;
+    
     if (event.request.mode === 'navigate') {
         event.respondWith(
-            fetch(event.request).catch(() => {
-                return caches.match('/offline.html');
-            })
-        );
+            fetch(event.request).catch(() => caches.match('/offline.html'))
+    );
     } else {
         event.respondWith(
             caches.match(event.request).then((response) => {
-                return response || fetch(event.request).then((fetchResponse) => {
+                return (
+                    response || 
+                    fetch(event.request).then((fetchResponse) => {
                     return caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, fetchResponse.clone());
                         return fetchResponse;
                     });
-                });
-            })
+}).catch(() => {
+            // Fallback image par exemple
+            if (event.request.destination === 'image') {
+              return caches.match('/icons/icon-192x192.png');
+            }
+          })
         );
-    }
+      })
+    );
+  }
 });
 
 // Background Sync : récupération des actions offline
