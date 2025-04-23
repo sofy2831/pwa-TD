@@ -96,5 +96,10 @@
       "text": "text",
       "url": "url"
     }
+  },
+  "edge_side_panel": {
+    "enabled": true,
+    "title": "Document",
+    "url": "/pwa-TD/journal_document.html"
   }
 }
