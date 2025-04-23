@@ -79,7 +79,7 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// Exemple de Background Sync (optionnel)
+// Exemple de Background Sync (synchronisation en arrière-plan)
 self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-todos') {
     event.waitUntil(syncTodos());
@@ -87,9 +87,42 @@ self.addEventListener('sync', (event) => {
 });
 
 async function syncTodos() {
-  console.log('Background Sync actif : synchronisation des données offline...');
-  // Synchronisation à développer ici
+  console.log('Synchronisation en arrière-plan : récupération des données offline...');
+  const data = await getDataFromLocalStorage(); // Fonction qui récupérerait les données sauvegardées offline
+
+  if (data && data.length > 0) {
+    try {
+      const response = await fetch('/sync-endpoint', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (response.ok) {
+        console.log('Données synchronisées avec succès.');
+        clearLocalData(); // Une fois la synchronisation réussie, vider les données locales
+      }
+    } catch (error) {
+      console.error('Erreur de synchronisation', error);
+    }
+  }
 }
+
+// Fonction exemple pour récupérer les données offline
+async function getDataFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('offlineData') || '[]');
+}
+
+// Fonction pour vider les données une fois synchronisées
+function clearLocalData() {
+  localStorage.removeItem('offlineData');
+}
+
+// Inscrire une tâche périodique dans le service worker pour la synchronisation
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'sync-periodic') {
+    event.waitUntil(syncTodos());  // Utilise la même fonction de synchronisation
+  }
+});
 
 // Optionnel : skip waiting depuis la page
 self.addEventListener('message', (event) => {
