@@ -29,7 +29,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHE_URLS))
   );
-  self.skipWaiting(); // Activation immédiate
+  self.skipWaiting();
 });
 
 // Activation du service worker et suppression des anciens caches
@@ -79,16 +79,18 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// Exemple de Background Sync (synchronisation en arrière-plan)
+// Background Sync pour les entrées de journal
 self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-todos') {
     event.waitUntil(syncTodos());
   }
 });
 
+// Synchronisation des données offline depuis IndexedDB
 async function syncTodos() {
-  console.log('Synchronisation en arrière-plan : récupération des données offline...');
-  const data = await getDataFromLocalStorage(); // Fonction qui récupérerait les données sauvegardées offline
+  console.log('Synchronisation en arrière-plan : récupération des journaux offline...');
+
+  const data = await getJournalEntriesFromIndexedDB();
 
   if (data && data.length > 0) {
     try {
@@ -98,8 +100,8 @@ async function syncTodos() {
         headers: { 'Content-Type': 'application/json' },
       });
       if (response.ok) {
-        console.log('Données synchronisées avec succès.');
-        clearLocalData(); // Une fois la synchronisation réussie, vider les données locales
+        console.log('Journaux synchronisés avec succès.');
+        clearJournalEntriesFromIndexedDB();
       }
     } catch (error) {
       console.error('Erreur de synchronisation', error);
@@ -107,20 +109,58 @@ async function syncTodos() {
   }
 }
 
-// Fonction exemple pour récupérer les données offline
-async function getDataFromLocalStorage() {
-  return JSON.parse(localStorage.getItem('offlineData') || '[]');
+// Lecture des entrées depuis IndexedDB
+function getJournalEntriesFromIndexedDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("toxDetectDB", 1);
+
+    request.onerror = (event) => {
+      console.error("Erreur d'ouverture IndexedDB : ", event.target.errorCode);
+      resolve([]);
+    };
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      const transaction = db.transaction(["journalEntries"], "readonly");
+      const store = transaction.objectStore("journalEntries");
+      const getAllRequest = store.getAll();
+
+      getAllRequest.onsuccess = () => {
+        resolve(getAllRequest.result);
+      };
+
+      getAllRequest.onerror = (event) => {
+        console.error("Erreur de lecture : ", event.target.error);
+        reject(event.target.error);
+      };
+    };
+  });
 }
 
-// Fonction pour vider les données une fois synchronisées
-function clearLocalData() {
-  localStorage.removeItem('offlineData');
+// Suppression des entrées après synchro
+function clearJournalEntriesFromIndexedDB() {
+  const request = indexedDB.open("toxDetectDB", 1);
+
+  request.onsuccess = (event) => {
+    const db = event.target.result;
+    const transaction = db.transaction(["journalEntries"], "readwrite");
+    const store = transaction.objectStore("journalEntries");
+    const clearRequest = store.clear();
+
+    clearRequest.onsuccess = () => {
+      console.log("Entrées de journal effacées après synchro.");
+    };
+
+    clearRequest.onerror = (event) => {
+      console.error("Erreur lors du clear : ", event.target.error);
+    };
+  };
 }
 
-// Inscrire une tâche périodique dans le service worker pour la synchronisation
+// Périodic Sync (si supporté)
 self.addEventListener('periodicsync', (event) => {
   if (event.tag === 'sync-periodic') {
-    event.waitUntil(syncTodos());  // Utilise la même fonction de synchronisation
+    event.waitUntil(syncTodos());
   }
 });
 
