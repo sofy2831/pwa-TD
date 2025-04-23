@@ -17,6 +17,7 @@ const CACHE_URLS = [
   '/photo.html',
   '/quiz.html',
   '/quiz.js',
+  '/share.html',
   '/video.html',
   '/manifest.json',
   '/icons/icon-192x192.png',
