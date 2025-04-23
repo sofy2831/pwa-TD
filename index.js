@@ -22,6 +22,59 @@ document.addEventListener("DOMContentLoaded", () => {
   const trialExpired = diffDays >= 7;
   const effectiveTrialExpired = isDev ? false : trialExpired;
 
+  // --- INITIALISATION INDEXEDDB ---
+  let db;
+  const request = indexedDB.open("toxDetectDB", 1);
+
+  request.onerror = (event) => {
+    console.error("Erreur à l'ouverture d'IndexedDB :", event.target.errorCode);
+  };
+
+  request.onsuccess = (event) => {
+    db = event.target.result;
+    console.log("Base IndexedDB ouverte avec succès");
+  };
+
+  request.onupgradeneeded = (event) => {
+    db = event.target.result;
+    if (!db.objectStoreNames.contains("journalEntries")) {
+      db.createObjectStore("journalEntries", { keyPath: "id", autoIncrement: true });
+      console.log("Object store journalEntries créé.");
+    }
+  };
+
+  function addJournalEntry(content) {
+    const transaction = db.transaction(["journalEntries"], "readwrite");
+    const store = transaction.objectStore("journalEntries");
+    const entry = {
+      content: content,
+      date: new Date().toISOString(),
+    };
+    const request = store.add(entry);
+
+    request.onsuccess = () => {
+      console.log("Entrée ajoutée dans IndexedDB");
+    };
+
+    request.onerror = (event) => {
+      console.error("Erreur lors de l'ajout :", event.target.error);
+    };
+  }
+
+  function getAllJournalEntries(callback) {
+    const transaction = db.transaction(["journalEntries"], "readonly");
+    const store = transaction.objectStore("journalEntries");
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+      callback(request.result);
+    };
+
+    request.onerror = (event) => {
+      console.error("Erreur lors de la lecture :", event.target.error);
+    };
+  }
+
   // --- AFFICHAGE BANNIÈRE ---
   if (banner) {
     if (trialExpired) {
@@ -43,6 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       journalButton.addEventListener("click", (event) => {
         event.preventDefault();
+        const note = prompt("Rédigez votre note :");
+        if (note) {
+          addJournalEntry(note);
+        }
         window.location.href = "drop.html";
       });
     }
