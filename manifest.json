@@ -46,4 +46,21 @@
       "matches": ["https://sofy2831.github.io/pwa-TD/*"]
     }
   ]
+  "shortcuts": [
+  {
+    "name": "Accueil",
+    "short_name": "Accueil",
+    "description": "Revenir à la page d'accueil",
+    "url": "/pwa-TD/",
+    "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+  },
+  {
+    "name": "Infos toxiques",
+    "short_name": "Toxiques",
+    "description": "Consulter les comportements toxiques",
+    "url": "/pwa-TD/toxiques.html",
+    "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+  }
+]
+
 }
