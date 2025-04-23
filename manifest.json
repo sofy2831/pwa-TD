@@ -13,8 +13,8 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
-  "dir": "ltr",  // Direction du texte : 'ltr' pour left-to-right ou 'rtl' si nécessaire
-  "lang": "fr-FR",  // Langue principale de l'application
+  "dir": "ltr",  
+  "lang": "fr-FR",  
 
   "icons": [
     {
