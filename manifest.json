@@ -43,7 +43,7 @@
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
-  "iarc_rating_id": "",  // ID de classification de contenu IARC (laisser vide si non concerné)
+  "iarc_rating_id": "",  
 
   "prefer_related_applications": false,  // Défini si l'application PWA propose des alternatives natives
 
