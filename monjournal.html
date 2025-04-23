@@ -123,7 +123,25 @@
       .media-buttons {
         flex-direction: column;
       }
-    }
+.side-panel {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  overflow-x: hidden;
+  transition: 0.3s;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+  z-index: 999;
+  padding-top: 60px;
+  border-right: 1px solid #ddd;
+}
+
+.side-panel.open {
+  width: 260px;
+}
+
   </style>
 </head>
 <body>
@@ -400,8 +418,19 @@ document.getElementById("uploadAudio").addEventListener("click", async () => {
 
   reader.readAsArrayBuffer(audioBlob);
 });
-
-
   </script>
+  <!-- Bouton pour ouvrir le panneau -->
+<button id="openSidePanel" class="button" style="position: fixed; top: 20px; left: 20px; z-index: 1000;">☰ Menu</button>
+
+<!-- Panneau latéral -->
+<div id="sidePanel" class="side-panel">
+  <button id="closeSidePanel" class="button danger" style="margin: 10px;">Fermer</button>
+  <h2 style="padding: 10px;">Options rapides</h2>
+  <button class="button" onclick="window.location.href='videos.html'">📹 Mes vidéos</button>
+  <button class="button" onclick="window.location.href='audios.html'">🎵 Mes audios</button>
+  <button class="button" onclick="window.location.href='photo.html'">📷 Mes photos</button>
+  <button class="button" onclick="window.location.href='index.html'">🏠 Accueil</button>
+</div>
+
 </body>
 </html>
