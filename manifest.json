@@ -45,7 +45,7 @@
   },
   "iarc_rating_id": "",  
 
-  "prefer_related_applications": false,  // Défini si l'application PWA propose des alternatives natives
+  "prefer_related_applications": false,  
 
   "related_applications": [
     {
