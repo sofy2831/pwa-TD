@@ -13,6 +13,7 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
+  "dir": "ltr",
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -39,5 +40,10 @@
   ],
   "launch_handler": {
     "client_mode": "navigate-existing"
-  }
+  },
+  "handle_links": [
+    {
+      "matches": ["https://sofy2831.github.io/pwa-TD/*"]
+    }
+  ]
 }
