@@ -13,7 +13,6 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
-  "dir": "ltr",
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -41,26 +40,19 @@
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
-  "handle_links": [
+  "iarc_rating_id": "",
+  "shortcuts": [
     {
-      "matches": ["https://sofy2831.github.io/pwa-TD/*"]
+      "name": "Page d'accueil",
+      "short_name": "Accueil",
+      "description": "Accéder à la page d'accueil de l'application",
+      "url": "/pwa-TD/"
+    },
+    {
+      "name": "Faire un test",
+      "short_name": "Test",
+      "description": "Lancer un test de situation toxique",
+      "url": "/pwa-TD/test.html"
     }
   ]
-  "shortcuts": [
-  {
-    "name": "Accueil",
-    "short_name": "Accueil",
-    "description": "Revenir à la page d'accueil",
-    "url": "/pwa-TD/",
-    "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
-  },
-  {
-    "name": "Infos toxiques",
-    "short_name": "Toxiques",
-    "description": "Consulter les comportements toxiques",
-    "url": "/pwa-TD/toxiques.html",
-    "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
-  }
-]
-
 }
