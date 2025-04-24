@@ -44,9 +44,7 @@
     "client_mode": "navigate-existing"
   },
   "iarc_rating_id": "",
-
   "prefer_related_applications": false,
-
   "related_applications": [
     {
       "platform": "play",
@@ -57,14 +55,12 @@
       "url": "https://apps.apple.com/app/example-toxdetect/id1234567890"
     }
   ],
-
   "scope_extensions": [
     {
       "origin": "https://example.com",
       "path": "/pwa-TD/"
     }
   ],
-
   "shortcuts": [
     {
       "name": "Page d'accueil",
@@ -79,14 +75,27 @@
       "url": "/pwa-TD/test.html"
     }
   ],
-
   "handle_links": [
     {
       "matches": ["https://toxdetect.com/*", "https://www.toxdetect.com/*"],
       "action": "navigate"
     }
   ],
-
+  "file_handlers": [
+    {
+      "action": "/pwa-TD/handle-file",
+      "accept": [
+        "image/png",
+        "text/plain"
+      ]
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "myapp",
+      "url": "/pwa-TD/protocol-handler?url=%s"
+    }
+  ],
   "share_target": {
     "action": "/pwa-TD/share.html",
     "method": "POST",
