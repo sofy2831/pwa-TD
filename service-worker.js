@@ -51,33 +51,60 @@ self.addEventListener('activate', (event) => {
 
 // Interception des fetch avec fallback sur index.html pour les navigations
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
 
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => caches.match('/index.html'))
-    );
+  // Gestion des requêtes de fichiers
+  if (url.pathname.startsWith('/pwa-TD/handle-file')) {
+    event.respondWith(handleFileRequest(event.request));
+  } else if (url.protocol === 'myapp:') {
+    // Gestion des protocoles personnalisés (ex : myapp://)
+    event.respondWith(handleProtocolRequest(event.request));
+  } else if (event.request.method !== 'GET') {
+    return;
   } else {
-    event.respondWith(
-      caches.match(event.request).then((response) => {
-        return (
-          response ||
-          fetch(event.request).then((fetchResponse) => {
-            return caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, fetchResponse.clone());
-              return fetchResponse;
-            });
-          }).catch(() => {
-            if (event.request.destination === 'image') {
-              return caches.match('/icons/icon-192x192.png');
-            }
-          })
-        );
-      })
-    );
+    // Requête classique (fallback)
+    if (event.request.mode === 'navigate') {
+      event.respondWith(
+        fetch(event.request)
+          .catch(() => caches.match('/index.html'))
+      );
+    } else {
+      event.respondWith(
+        caches.match(event.request).then((response) => {
+          return (
+            response ||
+            fetch(event.request).then((fetchResponse) => {
+              return caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, fetchResponse.clone());
+                return fetchResponse;
+              });
+            }).catch(() => {
+              if (event.request.destination === 'image') {
+                return caches.match('/icons/icon-192x192.png');
+              }
+            })
+          );
+        })
+      );
+    }
   }
 });
+
+// Gestion des requêtes de fichiers (file handlers)
+async function handleFileRequest(request) {
+  const fileType = request.headers.get('accept'); // Exemple de lecture des types acceptés
+  // Logique pour gérer le fichier en fonction de son type
+  return new Response(`Fichier accepté de type : ${fileType}`);
+}
+
+// Gestion des protocoles personnalisés (protocol handlers)
+async function handleProtocolRequest(request) {
+  const url = new URL(request.url);
+  const targetUrl = url.searchParams.get('url');
+  
+  // Logique pour gérer le protocole personnalisé (myapp://)
+  return new Response(`Protocole personnalisé reçu avec l'URL : ${targetUrl}`);
+}
 
 // Background Sync pour les entrées de journal
 self.addEventListener('sync', (event) => {
