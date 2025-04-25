@@ -15,7 +15,6 @@
   "theme_color": "#007BFF",
   "dir": "ltr",
   "lang": "fr-FR",
-
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -96,13 +95,10 @@
       "url": "/pwa-TD/protocol-handler?url=%s"
     }
   ],
- "scope": "/",
   "serviceworker": {
     "src": "/service-worker.js",
     "scope": "/"
-  }
-},
-  
+  },
   "share_target": {
     "action": "/pwa-TD/share.html",
     "method": "POST",
