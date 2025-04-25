@@ -123,11 +123,7 @@
       .media-buttons {
         flex-direction: column;
       }
-
-      
-      }
-
-         }
+    }
   </style>
 </head>
 <body>
@@ -145,6 +141,7 @@
     <h2>Ajouter des fichiers</h2>
     <input type="file" id="fileUpload" accept="image/*,application/pdf" multiple onchange="displaySelectedFiles()" />
     <button class="button" id="save-file">Enregistrer mon fichier</button>
+    <div id="selectedFiles" style="margin-top: 10px; font-size: 14px; color: #555;">Aucun fichier sélectionné.</div>
   </div>
 
   <div class="section">
@@ -164,7 +161,6 @@
     <button class="button" id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
   </div>
 
-   
   <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
   <script>
     function displaySelectedFiles() {
@@ -268,7 +264,7 @@
           document.getElementById("journalEntry").value = "";
         } else {
           const errorData = await response.json();
-      console.error("Erreur Dropbox :", errorData);
+          console.error("Erreur Dropbox :", errorData);
           alert("Échec de l'enregistrement du journal.");
         }
       } catch (e) {
@@ -284,4 +280,3 @@
   </script>
 </body>
 </html>
-
