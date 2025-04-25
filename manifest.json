@@ -96,6 +96,13 @@
       "url": "/pwa-TD/protocol-handler?url=%s"
     }
   ],
+ "scope": "/",
+  "serviceworker": {
+    "src": "/service-worker.js",
+    "scope": "/"
+  }
+},
+  
   "share_target": {
     "action": "/pwa-TD/share.html",
     "method": "POST",
