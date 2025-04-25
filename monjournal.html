@@ -124,45 +124,10 @@
         flex-direction: column;
       }
 
-      .side-panel {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #ffffff;
-        overflow-x: hidden;
-        transition: 0.3s;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-        z-index: 999;
-        padding-top: 60px;
-        border-right: 1px solid #ddd;
+      
       }
 
-      .side-panel.open {
-        width: 260px;
-      }
-
-      .side-panel .close-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 30px;
-        color: #333;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-      }
-
-      .side-panel ul {
-        padding: 10px 20px;
-        list-style: none;
-      }
-
-      .side-panel ul li {
-        margin: 10px 0;
-      }
-    }
+         }
   </style>
 </head>
 <body>
@@ -199,20 +164,7 @@
     <button class="button" id="backButton" onclick="window.location.href='index.html'">Retour à l'accueil</button>
   </div>
 
-  <!-- Panneau latéral -->
-  <div id="sidePanel" class="side-panel">
-    <button class="close-btn" onclick="toggleSidePanel()">×</button>
-    <ul>
-      <li><a href="profile.html">Mon Profil</a></li>
-      <li><a href="settings.html">Paramètres</a></li>
-      <li><a href="help.html">Aide</a></li>
-      <li><a href="logout.html">Se déconnecter</a></li>
-    </ul>
-  </div>
-
-  <!-- Bouton pour ouvrir le panneau latéral -->
-  <button class="button" onclick="toggleSidePanel()">Ouvrir le Panneau Latéral</button>
-
+   
   <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
   <script>
     function displaySelectedFiles() {
@@ -313,10 +265,14 @@
 
         if (response.ok) {
           alert("Journal enregistré sur Dropbox !");
+          document.getElementById("journalEntry").value = "";
         } else {
+          const errorData = await response.json();
+      console.error("Erreur Dropbox :", errorData);
           alert("Échec de l'enregistrement du journal.");
         }
       } catch (e) {
+        console.error("Erreur :", error);
         alert("Erreur : " + e.message);
       }
     });
