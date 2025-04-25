@@ -83,7 +83,7 @@
   "file_handlers": [
     {
       "action": "/pwa-TD/handle-file"
-      }
+    }
   ],
   "protocol_handlers": [
     {
