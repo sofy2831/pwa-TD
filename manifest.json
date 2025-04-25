@@ -91,7 +91,7 @@
   ],
   "protocol_handlers": [
     {
-      "protocol": "myapp",
+      "protocol": "web+myapp",
       "url": "/pwa-TD/protocol-handler?url=%s"
     }
   ],
