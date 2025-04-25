@@ -96,11 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       journalButton.addEventListener("click", (event) => {
         event.preventDefault();
-        const note = prompt("Rédigez votre note :");
-        if (note) {
-          addJournalEntry(note);
-        }
-        window.location.href = "drop.html";
+                window.location.href = "drop.html";
       });
     }
   }
