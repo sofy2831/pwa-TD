@@ -61,32 +61,33 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(handleProtocolRequest(event.request));
   } else {
     if (event.request.method !== 'GET') {
-    return;
-  } else {
-    // Requête classique (fallback)
-    if (event.request.mode === 'navigate') {
-      event.respondWith(
-        fetch(event.request)
-          .catch(() => caches.match('/index.html'))
-      );
+      return;
     } else {
-      event.respondWith(
-        caches.match(event.request).then((response) => {
-          return (
-            response ||
-            fetch(event.request).then((fetchResponse) => {
-              return caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, fetchResponse.clone());
-                return fetchResponse;
-              });
-            }).catch(() => {
-              if (event.request.destination === 'image') {
-                return caches.match('/icons/icon-192x192.png');
-              }
-            })
-          );
-        })
-      );
+      // Requête classique (fallback)
+      if (event.request.mode === 'navigate') {
+        event.respondWith(
+          fetch(event.request)
+            .catch(() => caches.match('/index.html'))
+        );
+      } else {
+        event.respondWith(
+          caches.match(event.request).then((response) => {
+            return (
+              response ||
+              fetch(event.request).then((fetchResponse) => {
+                return caches.open(CACHE_NAME).then((cache) => {
+                  cache.put(event.request, fetchResponse.clone());
+                  return fetchResponse;
+                });
+              }).catch(() => {
+                if (event.request.destination === 'image') {
+                  return caches.match('/icons/icon-192x192.png');
+                }
+              })
+            );
+          })
+        );
+      }
     }
   }
 });
