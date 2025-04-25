@@ -59,7 +59,8 @@ self.addEventListener('fetch', (event) => {
   } else if (url.protocol === 'myapp:') {
     // Gestion des protocoles personnalisés (ex : myapp://)
     event.respondWith(handleProtocolRequest(event.request));
-  } else if (event.request.method !== 'GET') {
+  } else {
+    if (event.request.method !== 'GET') {
     return;
   } else {
     // Requête classique (fallback)
