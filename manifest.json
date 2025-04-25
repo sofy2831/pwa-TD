@@ -83,10 +83,7 @@
   "file_handlers": [
     {
       "action": "/pwa-TD/handle-file",
-      "accept": [
-        "image/png",
-        "text/plain"
-      ]
+      
     }
   ],
   "protocol_handlers": [
